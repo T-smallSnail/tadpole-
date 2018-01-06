@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempDeptDao">
+
+	<sql id="tempDeptColumns">
+		a.id AS "id",
+		a.code AS "orgNo",
+		a.deptname AS "name",
+		a.parentdeptid AS "pdeptNo",
+		a.parentdeptname AS "pdeptName",
+		a.oforgid AS "parentNo",
+		a.oforgname AS "parentName",
+		a.hr_orgno As "HROrgNo",
+		a.iscost AS "isCost",
+		a.cost_pno AS "costPNo",
+		a.isprofit AS "isGain",
+		a.gain_pno AS "gainPNo",
+		a.org_sts AS "orgSts",
+		a.useable AS "useable",
+		
+		a.Is_bottom_gain as "IsBottomGain",
+		a.Belong_profit_centre as "BelongProfitCentre",
+		a.Belong_Financial_org_cost as "BelongFinancialOrgCost",
+		
+		a.uuid AS "uuid",
+		
+		a.create_date AS "createDate"
+	</sql>
+
+	<sql id="tempDeptJoins">
+	</sql>
+
+	<select id="get" resultType="TempDept">
+		SELECT
+		<include refid="tempDeptColumns" />
+		FROM temp_dept a
+		<include refid="tempDeptJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM sys_org
+	</select>
+	<select id="findList" resultType="TempDept">
+		SELECT
+		<include refid="tempDeptColumns" />
+		FROM temp_dept a
+		<include refid="tempDeptJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="TempDept">
+		SELECT
+		<include refid="tempDeptColumns" />
+		FROM temp_dept a
+		<include refid="tempDeptJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<sql id="temp_dept_SEQ">temp_dept_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_dept(
+		id,
+		code,
+		deptname,
+		parentdeptid,
+		parentdeptname,
+		oforgid,
+		oforgname,
+		hr_orgno,
+		iscost,
+		cost_pno, 
+		isprofit,
+		gain_pno,
+		org_sts, 
+		useable,
+		
+		Is_bottom_gain,
+		Belong_profit_centre,
+		Belong_Financial_org_cost,
+		
+		uuid,
+		
+		create_date
+		) VALUES (
+		<include refid="temp_dept_SEQ" />
+		,
+		#{orgNo},
+		#{name},
+		#{pdeptNo},
+		#{pdeptName},
+		#{parentNo},
+		#{parentName},
+		#{HROrgNo},
+		#{isCost},
+		#{costPNo},
+		#{isGain},
+		#{gainPNo},
+		#{orgSts},
+		#{useable},
+		
+		#{IsBottomGain},
+		#{BelongProfitCentre},
+		#{BelongFinancialOrgCost},
+		
+		#{uuid},
+		
+		#{createDate}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE temp_dept SET
+		code = #{orgNo},
+		deptname =
+		#{name},
+		parentdeptid = #{pdeptNo},
+		parentdeptname = #{pdeptName},
+		oforgid = #{parentNo},
+		oforgname = #{parentName},
+		hr_orgno = #{HROrgNo},
+		iscost = #{isCost},
+		cost_pno = #{costPNo},
+		isprofit = #{isGain},
+		gain_pno = #{isGain},
+		org_sts = #{orgSts},
+		useable = #{useable},
+		
+		Is_bottom_gain = #{IsBottomGain},
+		Belong_profit_centre = #{BelongProfitCentre},
+		Belong_Financial_org_cost = #{BelongFinancialOrgCost},
+		
+		uuid = #{uuid},
+		
+		create_date = #{createDate}
+		WHERE id = #{id}
+	</update>
+	<update id="delete">
+		DELETE FROM temp_dept
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_dept
+		WHERE code = #{orgNo}
+	</update>
+
+</mapper>

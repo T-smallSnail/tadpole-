@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempCustomerInfoDao">
+    
+	<sql id="tempCustomerInfoColumns">
+		a.id AS "id",
+		a.code AS "customerNo",
+		a.customername AS "customerName",
+		a.customerename AS "customerEname",
+		a.simlename AS "simleName",
+		a.customertype AS "customerType",
+		a.status AS "status",
+		a.registeradress AS "registerAdress",
+		a.qualifications AS "qualifications",
+		a.barno AS "barNo",
+		a.language AS "language",
+		a.national AS "national",
+		a.createdate AS "createdateS",
+		a.registertype AS "registerType",
+		a.registermoney AS "registerMoney",
+		a.registermoneytype AS "registerMoneytype",
+		a.businesslicenseno AS "businessLicenseno",
+		a.taxregisterno AS "taxregisterno",
+		a.corporation AS "corporation",
+		a.industrytype AS "industryType",
+		a.orgtype AS "orgType",
+		a.orgregisterdate AS "orgRegisterdate",
+		a.teladress AS "telAdress",
+		a.orctel AS "orcTel",
+		a.orcemail AS "orcEmail",
+		a.orcfax AS "orcFax",
+		a.org_no AS "orgNo",
+		a.uuid AS "uuid"
+	</sql>
+	
+	<sql id="tempCustomerInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="TempCustomerInfo">
+		SELECT 
+			<include refid="tempCustomerInfoColumns"/>
+		FROM temp_customer_info a
+		<include refid="tempCustomerInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_customer_info
+	</select>
+	<select id="findList" resultType="TempCustomerInfo">
+		SELECT 
+			<include refid="tempCustomerInfoColumns"/>
+		FROM temp_customer_info a
+		<include refid="tempCustomerInfoJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TempCustomerInfo">
+		SELECT 
+			<include refid="tempCustomerInfoColumns"/>
+		FROM temp_customer_info a
+		<include refid="tempCustomerInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_customer_info_SEQ">temp_customer_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_customer_info(
+			id,
+			code,
+			customername,
+			customerename,
+			simlename,
+			customertype,
+			status,
+			registeradress,
+			qualifications,
+			barno,
+			language,
+			national,
+			createdate,
+			registertype,
+			registermoney,
+			registermoneytype,
+			businesslicenseno,
+			taxregisterno,
+			corporation,
+			industrytype,
+			orgtype,
+			orgregisterdate,
+			teladress,
+			orctel,
+			orcemail,
+			orcfax,
+			org_no,
+			create_date, 
+			uuid
+		) VALUES (
+		<include refid="temp_customer_info_SEQ"/>,
+			#{customerNo},
+			#{customerName},
+			#{customerEname},
+			#{simleName},
+			#{customerType},
+			#{status},
+			#{registerAdress},
+			#{qualifications},
+			#{barNo},
+			#{language},
+			#{national},
+			#{createdateS},
+			#{registerType},
+			#{registerMoney},
+			#{registerMoneytype},
+			#{businessLicenseno},
+			#{taxRegisterno},
+			#{corporation},
+			#{industryType},
+			#{orgType},
+			#{orgRegisterdate},
+			#{telAdress},
+			#{orcTel},
+			#{orcEmail},
+			#{orcFax},
+			#{orgNo},
+			#{createDate},
+			#{uuid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_customer_info SET 	
+			   code = #{customerNo},
+			   customername = #{customerName},
+			   customerename = #{customerEname},
+			   simlename = #{simleName},
+			   customertype = #{customerType},
+			   status = #{status},
+			   registeradress = #{registerAdress},
+			   qualifications = #{qualifications},
+			   barno = #{barNo},
+			   language = #{language},
+			   national = #{national},
+			   createdate = #{createdateS},
+			   registertype = #{registerType},
+			   registermoney = #{registerMoney},
+			   registermoneytype = #{registerMoneytype},
+			   businesslicenseno = #{businessLicenseno},
+			   taxregisterno = #{taxRegisterno},
+			   corporation = #{corporation},
+			   industrytype = #{industryType},
+			   orgtype = #{orgType},
+			   orgregisterdate = #{orgRegisterdate},
+			   teladress = #{telAdress},
+			   orctel = #{orcTel},
+			   orcemail = #{orcEmail},
+			   orcfax = #{orcFax},
+			   org_no = #{orgNo},
+			   uuid = #{uuid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_customer_info
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_customer_info
+		WHERE code = #{customerNo}
+	</update>
+	
+</mapper>

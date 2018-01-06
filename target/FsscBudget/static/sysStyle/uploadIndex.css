@@ -1,0 +1,52 @@
+@charset "utf-8";
+/*上传样式*/
+
+.form-uploadlnline  label{
+	display: inline-block;
+	text-align: right;
+	width: 25%;
+}
+.form-uploadlnline  .uploadlnline-ele{
+	width: 65%;
+	display: inline-block;
+}
+.uploadlnline-inline .uploadlnline-ele{
+	width: 35%;
+}
+
+
+
+/*附件上传*/
+.uploader{
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	position: relative;
+}
+.uploader .uploader-file{
+	width: 100%;
+	opacity: 0;
+	font-size: 271px;
+	position: relative;
+	z-index: 1111;
+}
+.uploader .uploader-btn{
+	border-radius: 0 4px 4px 0px;
+	position: absolute;
+	right: 0px;
+	border: 1px solid #2ea1f8;
+	padding: 4px 26px;
+	top:0px;
+}
+.uploader .uploader-text{
+	position: absolute;
+	left: 12px;
+	top: 5px;
+	width: 65%;
+	overflow: hidden;
+	text-overflow:ellipsis; 
+	white-space:nowrap;
+}

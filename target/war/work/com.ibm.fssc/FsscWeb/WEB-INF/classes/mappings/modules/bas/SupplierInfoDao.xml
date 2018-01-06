@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.SupplierInfoDao">
+    
+	<sql id="supplierInfoColumns">
+		a.id AS "id",
+		a.supplier_no AS "supplierNo",
+		a.supplier_name AS "supplierName",
+		a.supplier_ename AS "supplierEname",
+		a.simple_name AS "simpleName",
+		a.supplier_type AS "supplierType",
+		a.status AS "status",
+		a.register_adress AS "registerAdress",
+		a.qualifications AS "qualifications",
+		a.bar_no AS "barNo",
+		a.language AS "language",
+		a.national AS "national",
+		a.create_date AS "createDate",
+		a.register_type AS "registerType",
+		a.register_money AS "registerMoney",
+		a.register_moneytype AS "registerMoneytype",
+		a.business_licenseno AS "businessLicenseno",
+		a.tax_registerno AS "taxRegisterno",
+		a.corporation AS "corporation",
+		a.industry_type AS "industryType",
+		a.org_type AS "orgType",
+		a.org_registerdate AS "orgRegisterdate",
+		a.tel_adress AS "telAdress",
+		a.orc_tel AS "orcTel",
+		a.orc_email AS "orcEmail",
+		a.orc_fax AS "orcFax",
+		a.versions AS "versions",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.supplier_old_no AS "oldSupplierNo",
+		a.org_no AS "orgNo" <!--组织机构编码  -->
+	</sql>
+	
+	<sql id="supplierInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="SupplierInfo">
+		SELECT 
+			<include refid="supplierInfoColumns"/>
+		FROM supplier_info a
+		<include refid="supplierInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM supplier_info
+	</select>
+	<select id="findList" resultType="SupplierInfo">
+		SELECT 
+			<include refid="supplierInfoColumns"/>
+		FROM supplier_info a
+		<include refid="supplierInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplierNo != null and supplierNo != ''">
+				AND a.supplier_no like '%'||#{supplierNo}||'%'
+			</if>
+			<if test="supplierName != null and supplierName != ''">
+				AND a.supplier_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{supplierName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{supplierName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{supplierName},'%')</if>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SupplierInfo">
+		SELECT 
+			<include refid="supplierInfoColumns"/>
+		FROM supplier_info a
+		<include refid="supplierInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="supplier_info_SEQ">supplier_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT supplier_info_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO supplier_info(
+			id,
+			supplier_no,
+			supplier_name,
+			supplier_ename,
+			simple_name,
+			supplier_type,
+			status,
+			register_adress,
+			qualifications,
+			bar_no,
+			language,
+			national,
+			create_date,
+			register_type,
+			register_money,
+			register_moneytype,
+			business_licenseno,
+			tax_registerno,
+			corporation,
+			industry_type,
+			org_type,
+			org_registerdate,
+			tel_adress,
+			orc_tel,
+			orc_email,
+			orc_fax,
+			versions,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			supplier_old_no,
+			org_no
+		) VALUES (
+			#{id},
+			#{supplierNo},
+			#{supplierName},
+			#{supplierEname},
+			#{simpleName},
+			#{supplierType},
+			#{status},
+			#{registerAdress},
+			#{qualifications},
+			#{barNo},
+			#{language},
+			#{national},
+			#{createDate},
+			#{registerType},
+			#{registerMoney},
+			#{registerMoneytype},
+			#{businessLicenseno},
+			#{taxRegisterno},
+			#{corporation},
+			#{industryType},
+			#{orgType},
+			#{orgRegisterdate},
+			#{telAdress},
+			#{orcTel},
+			#{orcEmail},
+			#{orcFax},
+			#{versions},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{oldSupplierNo},
+			#{orgNo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE supplier_info SET 	
+			   supplier_no = #{supplierNo},
+			   supplier_name = #{supplierName},
+			   supplier_ename = #{supplierEname},
+			   simple_name = #{simpleName},
+			   supplier_type = #{supplierType},
+			   status = #{status},
+			   register_adress = #{registerAdress},
+			   qualifications = #{qualifications},
+			   bar_no = #{barNo},
+			   language = #{language},
+			   national = #{national},
+			   register_type = #{registerType},
+			   register_money = #{registerMoney},
+			   register_moneytype = #{registerMoneytype},
+			   business_licenseno = #{businessLicenseno},
+			   tax_registerno = #{taxRegisterno},
+			   corporation = #{corporation},
+			   industry_type = #{industryType},
+			   org_type = #{orgType},
+			   org_registerdate = #{orgRegisterdate},
+			   tel_adress = #{telAdress},
+			   orc_tel = #{orcTel},
+			   orc_email = #{orcEmail},
+			   orc_fax = #{orcFax},
+			   versions = #{versions},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks},
+			   supplier_old_no = #{oldSupplierNo},
+			   org_no=#{orgNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE supplier_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="SupplierInfo">
+		SELECT 
+			<include refid="supplierInfoColumns"/>
+		FROM supplier_info a
+		<include refid="supplierInfoJoins"/>
+		WHERE a.supplier_no = #{supplierNo}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE supplier_info SET 	
+			   supplier_no = #{supplierNo},
+			   supplier_name = #{supplierName},
+			   supplier_ename = #{supplierEname},
+			   simple_name = #{simpleName},
+			   supplier_type = #{supplierType},
+			   status = #{status},
+			   register_adress = #{registerAdress},
+			   qualifications = #{qualifications},
+			   bar_no = #{barNo},
+			   language = #{language},
+			   national = #{national},
+			   register_type = #{registerType},
+			   register_money = #{registerMoney},
+			   register_moneytype = #{registerMoneytype},
+			   business_licenseno = #{businessLicenseno},
+			   tax_registerno = #{taxRegisterno},
+			   corporation = #{corporation},
+			   industry_type = #{industryType},
+			   org_type = #{orgType},
+			   org_registerdate = #{orgRegisterdate},
+			   tel_adress = #{telAdress},
+			   orc_tel = #{orcTel},
+			   orc_email = #{orcEmail},
+			   orc_fax = #{orcFax},
+			   create_date = #{createDate},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   supplier_old_no = #{oldSupplierNo},
+			   org_no=#{orgNo},
+			   del_flag=#{delFlag}
+		WHERE supplier_no = #{supplierNo}
+	</update>
+
+	<select id="getSupplierInfoByOrgNo" resultType="SupplierInfo">
+		SELECT
+			a.supplier_no AS "supplierNo",
+			a.supplier_name AS "supplierName"
+		FROM supplier_info a
+		WHERE a.org_no = #{orgNo} and a.del_flag = '0' and ROWNUM = 1
+	</select>
+</mapper>

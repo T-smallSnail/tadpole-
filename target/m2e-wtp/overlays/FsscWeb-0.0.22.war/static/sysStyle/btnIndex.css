@@ -1,0 +1,256 @@
+@charset "utf-8";
+/*按钮样式库SEO*/
+
+/*自定义颜色的基础按钮*/
+/*主引导按键*/
+.btn-main,.btn-main:focus{
+	background-color: #2EA1F8;
+	border:1px solid #2EA1F8;
+	color: #fff;
+	font-size: 1.4rem;
+	outline: none;
+	position: relative;
+	z-index: 111;
+}
+
+.btn-main:hover{
+	background-color: #5EBAFF;
+	border:1px solid #5EBAFF;
+	color: #fff;
+}
+.btn-main:active{
+	background-color: #228DDE;
+	color: #fff;
+	outline: none;
+	border:1px solid #228DDE;
+}
+
+
+/*次要按键*/
+.btn-secondary, .btn-secondary:focus{
+	background-color: #F7F7F7;
+	border: 1px solid #F7F7F7;
+	color: #666666;
+	outline: none;
+	position: relative;
+	z-index: 111;
+}
+
+/*辅引导按键*/
+.btn-auxiliaty,.btn-auxiliaty:focus {
+	background-color: #fff;
+	border: 1px solid #CCCCCC ;
+	color: #666666;
+	outline: none;
+	position: relative;
+	z-index: 111;
+}
+
+.btn-secondary:hover , .btn-auxiliaty:hover{
+	background-color: #fff;
+	border: 1px solid #5EBAFF ;
+	color: #5EBAFF ;
+}
+.btn-secondary:active , .btn-auxiliaty:active{
+	background-color: #fff;
+	border: 1px solid #228DDE ;
+	color: #228DDE ;
+	outline: none;
+	
+}
+
+/*红色按钮*/
+.btn-red,.btn-red:focus{
+	background-color: #EC6868 ;
+	border:1px solid #EC6868;
+	color: #fff;
+	font-size: 1.4rem;
+	outline: none;
+	position: relative;
+	z-index: 111;
+}
+
+.btn-red:hover{
+	background-color: #F37E7E;
+	border:1px solid #F37E7E;
+	color: #fff;
+}
+.btn-red:active{
+	background-color: #e15e5e;
+	color: #fff;
+	outline: none;
+	border:1px solid #e15e5e;
+}
+
+
+/*按钮固定*/
+.toolbar-Onlybtn {
+    position: fixed;
+    width: 95%;
+    bottom: 7px;
+    z-index: 777;
+    text-align: right;
+}
+
+.btn-main-animateDiv{
+	display: inline-block;
+}
+
+
+
+/*固定底部模糊背景的按钮*/
+.footerSEO-fixed ,.toolbar-fixed{
+	position: fixed;
+	bottom: 0px;
+	z-index:1111;
+}
+
+/*带图标的按钮组*/
+
+.btn-group .btn-main{
+	border-right: 2px solid #1483D7;
+}
+.btn-group .btn-main:hover{
+	border-right: 2px solid #1483D7;
+}
+.btn-group .btn-main:last-child{
+	border-right: 2px solid #2EA1F8;
+}
+.btn-group .btn-main i{
+	padding-right: 6px;
+}    
+ 
+
+
+/*工具栏*/
+
+.defined-toolbar{
+	background-color:rgb(240,243,247);
+	height:40px;
+	margin:0 auto;
+	border-radius:4px;
+	border:1px solid #D4D8DF;
+}
+
+.defined-toolbar ul{
+	list-style:none;
+}
+.defined-toolbar ul li{
+	float:left;
+	font-size:1.4rem;
+	line-height:40px;
+    padding-right: 16px;
+    cursor: pointer;
+}
+.defined-toolbar ul li:first-child{
+	padding-left: 10px;
+}
+.defined-toolbar ul li a{
+	color:#666;
+	text-decoration: none;
+}
+.defined-toolbar ul li:last-child{
+	float:right;
+}
+.defined-toolbar ul li i{
+	vertical-align: middle;
+	padding-right: 4px;
+	padding-bottom: 2px;
+}
+
+/*重置工具栏a标签换成input*/
+.reset-attr{
+	border: none;
+	background: none;
+	padding: 0px;
+}
+
+/*鼠标移上去*/
+.defined-toolbar ul li:hover a ,.defined-toolbar ul li:hover .reset-attr{
+	color:#5EBAFF;
+}
+.defined-toolbar ul li:hover .defined-printer{
+	background: url(../sysImages/icon-lightBluePrinter.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-view{
+	background: url(../sysImages/icon-lightBlueView.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-report{
+	background: url(../sysImages/icon-lightBlueReport.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-add{
+	background: url(../sysImages/icon-lightBlueAdd.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-delete{
+	background: url(../sysImages/icon-lightBlueDelete.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-edit{
+	background: url(../sysImages/icon-lightBlueEdit.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-copy{
+	background: url(../sysImages/icon-lightBlueCopy.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-check{
+	background: url(../sysImages/icon-lightBlueCheck.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-attachment{
+	background: url(../sysImages/icon-lightBlueAttachment.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-refresh{
+	background: url(../sysImages/icon-lightBlueRefresh.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-save{
+	background: url(../sysImages/icon-lightBlueSave.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-cancel{
+	background: url(../sysImages/icon-lightBlueCancel.png) no-repeat;
+}
+.defined-toolbar ul li:hover .defined-help{
+	background: url(../sysImages/icon-lightBlueHelp.png) no-repeat;
+}
+
+/*点击*/
+.defined-toolbar ul li a:active ,.defined-toolbar ul li:active .reset-attr{
+	color: #228DDE;
+}
+.defined-toolbar ul li:active .defined-printer,.defined-toolbar ul li a:active .defined-printer,.defined-toolbar ul li .defined-printer:active{
+	background: url(../sysImages/icon-bluePrinter.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-view,.defined-toolbar ul li a:active .defined-view,.defined-toolbar ul li .defined-view:active {
+	background: url(../sysImages/icon-blueView.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-report,.defined-toolbar ul li a:active .defined-report,.defined-toolbar ul li .defined-report:active{
+	background: url(../sysImages/icon-blueReport.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-add,.defined-toolbar ul li a:active .defined-add,.defined-toolbar ul li .defined-add:active{
+	background: url(../sysImages/icon-blueAdd.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-delete,.defined-toolbar ul li a:active .defined-delete,.defined-toolbar ul li .defined-delete:active{
+	background: url(../sysImages/icon-blueDelete.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-edit,.defined-toolbar ul li a:active .defined-edit,.defined-toolbar ul li .defined-edit:active{
+	background: url(../sysImages/icon-blueEdit.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-copy,.defined-toolbar ul li a:active .defined-copy,.defined-toolbar ul li .defined-copy:active{
+	background: url(../sysImages/icon-blueCopy.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-check,.defined-toolbar ul li a:active .defined-check,.defined-toolbar ul li .defined-check:active{
+	background: url(../sysImages/icon-blueCheck.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-attachment,.defined-toolbar ul li a:active .defined-attachment,.defined-toolbar ul li .defined-attachment:active{
+	background: url(../sysImages/icon-blueAttachment.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-refresh,.defined-toolbar ul li a:active .defined-refresh,.defined-toolbar ul li .defined-refresh:active{
+	background: url(../sysImages/icon-blueRefresh.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-save,.defined-toolbar ul li a:active .defined-save,.defined-toolbar ul li .defined-save:active{
+	background: url(../sysImages/icon-blueSave.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-cancel,.defined-toolbar ul li a:active .defined-cancel,.defined-toolbar ul li .defined-cancel:active{
+	background: url(../sysImages/icon-blueCancel.png) no-repeat;
+}
+.defined-toolbar ul li:active .defined-help,.defined-toolbar ul li a:active .defined-help,.defined-toolbar ul li .defined-help:active{
+	background: url(../sysImages/icon-blueHelp.png) no-repeat;
+}
+
+

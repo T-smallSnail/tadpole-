@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempBankAccountDao">
+    
+	<sql id="tempBankAccountColumns">
+		a.id AS "id",
+		a.code AS "account",
+		a.accountno AS "accountNo",
+		a.accountname AS "accountName",
+		a.accountunit AS "accountUnit",
+		a.moneytype AS "moneyType",
+		a.bankaccount AS "bankaccount",
+		a.bankname AS "bankAccount",
+		a.country AS "country",
+		a.province AS "province",
+		a.banktype AS "bankType",
+		a.accountproperty AS "accountProperty",
+		a.accounttype AS "accountType",
+		a.accountnature AS "accountNature",
+		a.autoparentaccount AS "parentAccount",
+		a.selfparentaccount AS "selfParentAccount",
+		a.isgrentfd AS "isGrentfd",
+		a.accountstatus AS "accountStatus",
+		a.isDirect AS "isDirect",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="tempBankAccountJoins">
+	</sql>
+    
+	<select id="get" resultType="TempBankAccount">
+		SELECT 
+			<include refid="tempBankAccountColumns"/>
+		FROM temp_bank_account a
+		<include refid="tempBankAccountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_bank_account
+	</select>
+	<select id="findList" resultType="TempBankAccount">
+		SELECT 
+			<include refid="tempBankAccountColumns"/>
+		FROM temp_bank_account a
+		<include refid="tempBankAccountJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TempBankAccount">
+		SELECT 
+			<include refid="tempBankAccountColumns"/>
+		FROM temp_bank_account a
+		<include refid="tempBankAccountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_bank_account_SEQ">temp_bank_account_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_bank_account(
+			id,
+			code,
+			accountno,
+			accountname,
+			accountunit,
+			moneytype,
+			bankaccount,
+			bankname,
+			country,
+			province,
+			banktype,
+			accountproperty,
+			accounttype,
+			accountnature,
+			autoparentaccount,
+			selfparentaccount,
+			isgrentfd,
+			accountstatus,
+			isDirect,
+			create_date
+		) VALUES (
+		<include refid="temp_bank_account_SEQ"/>,
+			#{account},
+			#{accountNo},
+			#{accountName},
+			#{accountUnit},
+			#{moneyType},
+			#{bankAccount},
+			#{bankName},
+			#{country},
+			#{province},
+			#{bankType},
+			#{accountProperty},
+			#{accountType},
+			#{accountNature},
+			#{parentAccount},
+			#{selfParentAccount},
+			#{isGrentfd},
+			#{accountStatus},
+			#{isDirect},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_bank_account SET 	
+			   code = #{code},
+			   accountno = #{accountNo},
+			   accountname = #{accountName},
+			   accountunit = #{accountUnit},
+			   moneytype = #{moneyType},
+			   bankaccount = #{bankAccount},
+			   bankname = #{bankName},
+			   country = #{country},
+			   province = #{province},
+			   banktype = #{bankType},
+			   accountproperty = #{accountProperty},
+			   accounttype = #{accountType},
+			   accountnature = #{accountNature},
+			   autoparentaccount = #{parentAccount},
+			   selfparentaccount = #{selfParentAccount},
+			   isgrentfd = #{isGrentfd},
+			   accountstatus = #{accountStatus},
+			   isDirect = #{isDirect}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_bank_account
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_bank_account
+		WHERE accountno = #{account}
+	</update>
+	
+</mapper>

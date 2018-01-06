@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.TargetInfoDao">
+    
+	<sql id="targetInfoColumns">
+		a.id AS "id",
+		a.target_no AS "targetNo",
+		a.target_type AS "targetType",
+		a.target_name AS "targetName",
+		a.unit AS "unit",
+		a.decimals AS "decimals",
+		a.duty_company AS "dutyCompany",
+		a.share_company AS "shareCompany",
+		a.source AS "source",
+		a.reportno AS "reportno",
+		a.reportname AS "reportname",
+		a.is_powerplant AS "isPowerplant",
+		a.is_crew AS "isCrew",
+		a.is_must AS "isMust",
+		a.sign AS "sign",
+		a.sort AS "sort",
+		a.begin_date AS "beginDate",
+		a.end_date AS "endDate",
+		a.is_used AS "isUsed",
+		a.remark AS "remark",
+		a.versions AS "versions",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="targetInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="TargetInfo">
+		SELECT 
+			<include refid="targetInfoColumns"/>
+		FROM target_info a
+		<include refid="targetInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM target_info
+	</select>
+	<select id="findList" resultType="TargetInfo">
+		SELECT 
+			<include refid="targetInfoColumns"/>
+		FROM target_info a
+		<include refid="targetInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="targetNo != null and targetNo != ''">
+				AND a.target_no = #{targetNo}
+			</if>
+			<if test="targetType != null and targetType != ''">
+				AND a.target_type = #{targetType}
+			</if>
+			<if test="targetName != null and targetName != ''">
+				AND a.target_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{targetName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{targetName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{targetName},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TargetInfo">
+		SELECT 
+			<include refid="targetInfoColumns"/>
+		FROM target_info a
+		<include refid="targetInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="target_info_SEQ">target_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT target_info_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO target_info(
+			id,
+			target_no,
+			target_type,
+			target_name,
+			unit,
+			decimals,
+			duty_company,
+			share_company,
+			source,
+			reportno,
+			reportname,
+			is_powerplant,
+			is_crew,
+			is_must,
+			sign,
+			sort,
+			begin_date,
+			end_date,
+			is_used,
+			remark,
+			versions,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{targetNo},
+			#{targetType},
+			#{targetName},
+			#{unit},
+			#{decimals},
+			#{dutyCompany},
+			#{shareCompany},
+			#{source},
+			#{reportno},
+			#{reportname},
+			#{isPowerplant},
+			#{isCrew},
+			#{isMust},
+			#{sign},
+			#{sort},
+			#{beginDate},
+			#{endDate},
+			#{isUsed},
+			#{remark},
+			#{versions},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE target_info SET 	
+			   target_no = #{targetNo},
+			   target_type = #{targetType},
+			   target_name = #{targetName},
+			   unit = #{unit},
+			   decimals = #{decimals},
+			   duty_company = #{dutyCompany},
+			   share_company = #{shareCompany},
+			   source = #{source},
+			   reportno = #{reportno},
+			   reportname = #{reportname},
+			   is_powerplant = #{isPowerplant},
+			   is_crew = #{isCrew},
+			   is_must = #{isMust},
+			   sign = #{sign},
+			   sort = #{sort},
+			   begin_date = #{beginDate},
+			   end_date = #{endDate},
+			   is_used = #{isUsed},
+			   remark = #{remark},
+			   versions = #{versions},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE target_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="TargetInfo">
+		SELECT 
+			<include refid="targetInfoColumns"/>
+		FROM target_info a
+		<include refid="targetInfoJoins"/>
+		WHERE a.target_no = #{targetNo}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE target_info SET 	
+			   target_no = #{targetNo},
+			   target_type = #{targetType},
+			   target_name = #{targetName},
+			   unit = #{unit},
+			   decimals = #{decimals},
+			   duty_company = #{dutyCompany},
+			   share_company = #{shareCompany},
+			   source = #{source},
+			   sign = #{sign},
+			   is_used = #{isUsed},
+			   remark = #{remark},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate}
+		WHERE target_no = #{targetNo}
+	</update>
+</mapper>

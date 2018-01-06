@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.budget.modules.budget.dao.LmtBudgetHisDao">
+    
+	<sql id="lmtBudgetHisColumns">
+		a.id AS "id",
+		a.claim_id AS "claimId",
+		a.claim_no AS "claimNo",
+		a.claim_line_id AS "claimLineId",
+		a.budget_id AS "budgetId",
+		a.op_type AS "opType",
+		a.budget_no AS "budgetNo",
+		a.budget_name AS "budgetName",
+		a.budget_subject_code AS "budgetSubjectCode",
+		a.budget_really_date AS "budgetReallyDate",
+		a.system_code AS "systemCode",
+		a.system_name AS "systemName",
+		a.user_id AS "userId",
+		a.user_name AS "userName",
+		a.com_id AS "comId",
+		a.com_name AS "comName",
+		a.dept_id AS "deptId",
+		a.dept_name AS "deptName",
+		a.submit_date AS "submitDate",
+		a.change_amount AS "changeAmount",
+		a.budget_amount AS "budgetAmount",
+		a.occupied_amount AS "occupiedAmount",
+		a.blocked_amount AS "blockedAmount",
+		a.budget_balance AS "budgetBalance",
+		a.funds_budget_amount AS "fundsBudgetAmount",
+		a.funds_occupied_amount AS "fundsOccupiedAmount",
+		a.funds_blocked_amount AS "fundsBlockedAmount",
+		a.funds_budget_balance AS "fundsBudgetBalance",
+		a.funds_change_amount AS "fundsChangeAmount",
+		a.describes AS "describes",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="lmtBudgetHisJoins">
+		1=1
+			<if test="claimNo!=null and claimNo!=''">
+		      and CLAIM_NO =#{claimNo}
+		    </if>
+		    <if test="claimLineId!=null and claimLineId!=''">
+		      and CLAIM_LINE_ID =#{claimLineId}
+		    </if>
+		    <if test="budgetNo!=null and budgetNo!=''">
+		      and BUDGET_NO=#{budgetNo}
+		    </if>
+		    
+		    <if test="budgetId!=null and budgetId!=''">
+		      and BUDGET_ID=#{budgetId}
+		    </if>
+		    <if test="claimId!=null and claimId!=''">
+		      and CLAIM_ID=#{claimId}
+		    </if>
+		    
+		    <if test="budgetName!=null and budgetName!=''">
+		      and BUDGET_NAME LIKE '%${budgetName}%'
+		    </if>
+		    <if test="opType!=null and opType!=''">
+		      and OP_TYPE=#{opType}
+		    </if>
+		    <if test="changeAmount!=null and changeAmount!=''">
+		      and CHANGE_AMOUNT=#{changeAmount}
+		    </if>
+		    <if test="userName!=null and userName!=''">
+		      and USER_NAME=#{userName}
+		    </if>
+		    <if test="comId!=null and comId!=''">
+		      and COM_ID=#{comId}
+		    </if>
+		    <if test="deptId!=null and deptId!=''">
+		      and DEPT_ID=#{deptId}
+		    </if>
+		    <if test="systemName!=null and systemName!=''">
+		      and SYSTEM_NAME LIKE '%${systemName}%'
+		    </if>
+		    
+		    <if test="budgetReallyDate!=null and budgetReallyDate!=''">
+  			  <![CDATA[  and a.BUDGET_REALLY_DATE >= #{budgetReallyDate}  ]]>
+			</if>
+			
+		    <if test="budgetReallyDate!=null and budgetReallyDate!=''">
+  			  <![CDATA[  and a.BUDGET_REALLY_DATE <= #{budgetReallyDates}  ]]>
+			</if>
+		    
+	</sql>
+    
+	<select id="get" resultType="LmtBudgetHis">
+		SELECT 
+			<include refid="lmtBudgetHisColumns"/>
+		FROM lmt_budget_his a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" parameterType="com.budget.modules.budget.entity.LmtBudgetHis"      resultType="LmtBudgetHis">
+		SELECT 
+			<include refid="lmtBudgetHisColumns"/>
+		FROM lmt_budget_his a
+		
+		<where>
+			<include refid="lmtBudgetHisJoins"/>
+			
+			and a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.submit_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getLmtBudget" parameterType="com.budget.modules.budget.entity.LmtBudgetHis"      resultType="LmtBudgetHis">
+	 SELECT * FROM (
+		SELECT 
+			<include refid="lmtBudgetHisColumns"/>
+		FROM lmt_budget_his a
+		<where>
+			<include refid="lmtBudgetHisJoins"/>
+			and a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.submit_date DESC
+			</otherwise>
+		</choose>
+		) WHERE rownum = 1
+	</select>
+	
+	
+	<select id="findAllList" resultType="LmtBudgetHis">
+		SELECT 
+			<include refid="lmtBudgetHisColumns"/>
+		FROM lmt_budget_his a
+		<include refid="lmtBudgetHisJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="lmt_budget_his_SEQ">lmt_budget_his_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO lmt_budget_his(
+			id,
+			claim_id,
+			claim_no,
+			claim_line_id,
+			budget_id,
+			op_type,
+			budget_no,
+			budget_name,
+			budget_subject_code,
+			budget_really_date,
+			system_code,
+			system_name,
+			user_id,
+			user_name,
+			com_id,
+			com_name,
+			dept_id,
+			dept_name,
+			submit_date,
+			change_amount,
+			budget_amount,
+			occupied_amount,
+			blocked_amount,
+			budget_balance,
+			funds_budget_amount,
+			funds_occupied_amount,
+			funds_blocked_amount,
+			funds_budget_balance,
+			funds_change_amount,
+			describes,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+		<include refid="lmt_budget_his_SEQ"/>,
+			#{claimId},
+			#{claimNo},
+			#{claimLineId},
+			#{budgetId},
+			#{opType},
+			#{budgetNo},
+			#{budgetName},
+			#{budgetSubjectCode},
+			#{budgetReallyDate},
+			#{systemCode},
+			#{systemName},
+			#{userId},
+			#{userName},
+			#{comId},
+			#{comName},
+			#{deptId},
+			#{deptName},
+			#{submitDate},
+			#{changeAmount},
+			#{budgetAmount},
+			#{occupiedAmount},
+			#{blockedAmount},
+			#{budgetBalance},
+			#{fundsBudgetAmount},
+			#{fundsOccupiedAmount},
+			#{fundsBlockedAmount},
+			#{fundsBudgetBalance},
+			#{fundsChangeAmount},
+			#{describes},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lmt_budget_his SET 	
+			   claim_id = #{claimId},
+			   claim_no = #{claimNo},
+			   claim_line_id = #{claimLineId},
+			   budget_id = #{budgetId},
+			   op_type = #{opType},
+			   budget_no = #{budgetNo},
+			   budget_name = #{budgetName},
+			   budget_subject_code = #{budgetSubjectCode},
+			   budget_really_date = #{budgetReallyDate},
+			   system_code = #{systemCode},
+			   system_name = #{systemName},
+			   user_id = #{userId},
+			   user_name = #{userName},
+			   com_id = #{comId},
+			   com_name = #{comName},
+			   dept_id = #{deptId},
+			   dept_name = #{deptName},
+			   submit_date = #{submitDate},
+			   change_amount = #{changeAmount},
+			   budget_amount = #{budgetAmount},
+			   occupied_amount = #{occupiedAmount},
+			   blocked_amount = #{blockedAmount},
+			   budget_balance = #{budgetBalance},
+			   funds_budget_amount = #{fundsBudgetAmount},
+			   funds_occupied_amount = #{fundsOccupiedAmount},
+			   funds_blocked_amount = #{fundsBlockedAmount},
+			   funds_budget_balance = #{fundsBudgetBalance},
+			   funds_change_amount = #{fundsChangeAmount},
+			   describes = #{describes},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE lmt_budget_his SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

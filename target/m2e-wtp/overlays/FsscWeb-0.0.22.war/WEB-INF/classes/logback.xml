@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <appender name="Jeesite" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${log4j.file.folder}/${project.build.finalName}/jeesite.log</File>
+     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log4j.file.folder}/${project.build.finalName}/jeesite-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>450MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log4j.pattern}</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="Log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log4j.file.folder}/${project.build.finalName}/app.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log4j.file.folder}/${project.build.finalName}/app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>450MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log4j.pattern}</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="Error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${log4j.file.folder}/${project.build.finalName}/error/error.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log4j.file.folder}/${project.build.finalName}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>450MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log4j.pattern}</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="Interface" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${log4j.file.folder}/${project.build.finalName}/interface/interface.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log4j.file.folder}/${project.build.finalName}/interface-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>450MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log4j.pattern}</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${log4j.pattern}</pattern>
+    </encoder>
+  </appender>
+  
+ <!--  <appender name="MongoDB" class="org.log4mongo.MongoDbAppender">
+    <port>${log4j.appender.MongoDB.port}</port>
+    <hostname>${log4j.appender.MongoDB.hostname}</hostname>
+    <userName>${log4j.appender.MongoDB.userName}</userName>
+    <databaseName>${log4j.appender.MongoDB.databaseName}</databaseName>
+    <password>${log4j.appender.MongoDB.password}</password>
+  </appender> -->
+  
+  <logger name="com.thinkgem.jeesite" level="DEBUG">
+    <appender-ref ref="Jeesite"/>
+  </logger>
+  <logger name="com.thinkgem.jeesite.modules.oa.dao.OaNotifyDao.findCount" level="DEBUG">
+    <appender-ref ref="Jeesite"/>
+  </logger>
+  <logger name="com.budget" level="DEBUG">
+    <appender-ref ref="Log"/>
+  </logger>
+  <logger name="error" level="DEBUG">
+    <appender-ref ref="Error"/>
+  </logger>
+  <logger name="com.thinkgem.jeesite.modules.sys.web.LoginController" level="DEBUG">
+    <appender-ref ref="Jeesite"/>
+  </logger>
+  <logger name="com.account" level="DEBUG">
+    <appender-ref ref="Log"/>
+  </logger>
+  <logger name="com.thinkgem.jeesite.common.security.shiro" level="DEBUG">
+    <appender-ref ref="Jeesite"/>
+  </logger>
+  <logger name="com.media" level="DEBUG">
+    <appender-ref ref="Log"/>
+  </logger>
+  <logger name="com.thinkgem.jeesite.common.utils.JedisUtils" level="DEBUG">
+    <appender-ref ref="Jeesite"/>
+  </logger>
+  <logger name="com.contract" level="DEBUG">
+    <appender-ref ref="Log"/>
+  </logger>
+  <logger name="interface" level="DEBUG">
+    <appender-ref ref="Interface"/>
+  </logger>
+  <logger name="com.taskpool" level="DEBUG">
+    <appender-ref ref="Log"/>
+  </logger>
+  <root>
+    <level value="${log4j.logLevel}"/>
+    <appender-ref ref="Console"/>
+    <!-- <appender-ref ref="MongoDB"/> -->
+  </root>
+</configuration>
+

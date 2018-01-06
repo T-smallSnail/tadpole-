@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<context:component-scan base-package="com.thinkgem.jeesite.modules.inf" />
+
+	<!-- 组织机构接口配置 -->
+	<jaxws:endpoint id="IWFOMService"
+		implementor="com.thinkgem.jeesite.modules.inf.server.impl.IWFOMServiceImpl"
+		address="/service">
+		<jaxws:inInterceptors>
+			<!-- <bean name="readSoapHeader" class="com.thinkgem.jeesite.common.inf.support.Logging.ReadSoapHeader" 
+				/> -->
+		</jaxws:inInterceptors>
+
+		<jaxws:outInterceptors>
+			<!-- <bean name="addSoapHeader" class="com.thinkgem.jeesite.common.inf.support.Logging.AddSoapHeader" 
+				/> -->
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+
+</beans>

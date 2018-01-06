@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{ISO8601}];%p;[%X{invokeId}];[%X{clientIp} %X{userName} %X{userNo}];%c;%m;%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="appLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/FsscBudget/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/FsscBudget/app-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>    
+            <pattern>[%d{ISO8601}];%p;[%X{invokeId}];[%X{clientIp} %X{userName} %X{userNo}];%c;%m;%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="log.async" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="appLogFile" />
+        <queueSize>90000</queueSize>
+    </appender>
+
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="log.async" />
+        <appender-ref ref="console" />
+    </root>
+    
+    <logger name="org.mybatis" level="ERROR">
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="mappings.modules.budget" level="ERROR">
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="com.budget" level="DEBUG">
+        <appender-ref ref="console" />
+    </logger>
+
+
+    <logger name="com.thinkgem.jeesite.modules" level="DEBUG">
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="org.apache.cxf.endpoint" level="DEBUG">
+        <appender-ref ref="console" />
+    </logger>
+       
+    <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="DEBUG">
+        <appender-ref ref="console" />
+    </logger>
+
+</configuration>

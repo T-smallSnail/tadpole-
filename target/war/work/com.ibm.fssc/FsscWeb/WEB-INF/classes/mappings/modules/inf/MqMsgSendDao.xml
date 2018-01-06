@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.MqMsgSendDao">
+    
+	<sql id="mqMsgSendColumns">
+		a.id AS "id",
+		a.clientid AS "clientId",
+		a.operationcode AS "operationCode",
+		a.reqid AS "reqId",
+		a.topic AS "topic",
+		a.message AS "message",
+		a.valid AS "valid",
+		a.expiredate AS "expiredate",
+		a.status AS "status",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.fail_times AS "failTimes",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="mqMsgSendJoins">
+	</sql>
+    
+	<select id="get" resultType="MqMsgSend">
+		SELECT 
+			<include refid="mqMsgSendColumns"/>
+		FROM mq_msg_send a
+		<include refid="mqMsgSendJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MqMsgSend">
+		SELECT 
+			<include refid="mqMsgSendColumns"/>
+		FROM mq_msg_send a
+		<include refid="mqMsgSendJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test=" null != topic  and  '' != topic">
+				AND a.topic  like '%'||#{topic}||'%'
+			</if>
+			<if test=" null != message  and  '' != message">
+				AND a.message  like '%'||#{message}||'%'
+			</if>
+			AND a.status = '2'
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MqMsgSend">
+		SELECT 
+			<include refid="mqMsgSendColumns"/>
+		FROM mq_msg_send a
+		<include refid="mqMsgSendJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findSendAndFailureList" resultType="MqMsgSend">
+		SELECT 
+			<include refid="mqMsgSendColumns"/>
+		FROM mq_msg_send a
+		<include refid="mqMsgSendJoins"/>
+		<where>
+			a.del_flag = '0'
+			and a.status = '2'
+            or a.id in (
+			select b.id from mq_msg_send b where b.status = '0' and (sysdate - numtodsinterval(30,'minute')) > b.create_date 
+			)
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 根据reqid查询id -->
+	<select id="getIdByReqId" resultType="java.lang.String">
+		SELECT 
+			a.id
+		FROM mq_msg_send a
+		WHERE a.reqid = #{reqId}
+	</select>
+	
+	<sql id="mq_msg_send_SEQ">mq_msg_send_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO mq_msg_send(
+			id,
+			clientid,
+			operationcode,
+			reqid,
+			topic,
+			message,
+			valid,
+			expiredate,
+			status,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			fail_times,
+			remarks
+		) VALUES (
+		<include refid="mq_msg_send_SEQ"/>,
+			#{clientId},
+			#{operationCode},
+			#{reqId},
+			#{topic},
+			#{message},
+			#{valid},
+			#{expiredate},
+			#{status},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{failTimes},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mq_msg_send SET 	
+			   clientid = #{clientId},
+			   operationcode = #{operationCode},
+			   reqid = #{reqId},
+			   topic = #{topic},
+			   message = #{message},
+			   valid = #{valid},
+			   expiredate = #{expiredate},
+			   status = #{status},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   fail_times = #{failTimes},
+			   remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE mq_msg_send SET 	
+			   status = #{status},
+			   update_date = #{updateDate},
+			   fail_times = #{failTimes}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mq_msg_send SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteSuccessMsg" parameterType="java.util.Date">
+	    delete from mq_msg_send 
+	    where 
+		    (#{currentDate} - numtodsinterval(30,'day')) &gt; create_date 
+		    and status = '1'
+	</delete>
+</mapper>

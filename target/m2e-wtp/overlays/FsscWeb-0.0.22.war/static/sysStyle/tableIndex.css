@@ -1,0 +1,59 @@
+@charset "utf-8";
+/*表格样式*/
+
+/*修改表格thead颜色*/
+.table thead{
+	height: 50px;
+}
+.table thead th i{
+	float: right;
+	padding-right: 10px;
+	margin-top: 5px;
+}
+
+.tab-table{
+	border-top: none;
+	border-radius: 0 0 4px 4px;
+}
+.tab-table thead:first-child tr:first-child > th:first-child, .tab-table tbody:first-child tr:first-child > td:first-child, .tab-table tbody:first-child tr:first-child > th:first-child {
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+    -moz-border-radius-topleft: 0px;
+}
+
+.table-bordered tr td:first-child,.table-bordered tr th:first-child{
+	border-left: none;
+}
+
+/*无tab标签的表格操作*/
+.only-textBtn{
+	border-bottom: 0px !important;
+	cursor: default;
+	margin-bottom: 10px;
+	float: right;
+	color: #999;
+}
+
+
+
+.text-btn{
+	position: absolute;
+	right: 0px;
+	top: 10px;
+	border-bottom: 0px !important;
+	cursor: default;
+}
+
+.text-btn li{
+	font-size:14px;
+	color:#999;
+}
+.text-cor2EA1F8{
+	color:#2EA1F8 !important;
+}
+.text-corEC6868{
+	color:#EC6868 !important;
+}
+.pr{
+	position: relative;
+}

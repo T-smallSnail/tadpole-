@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.EmpOrgDao">
+    
+	<sql id="empOrgColumns">
+		a.id AS "id",
+		a.org_no AS "orgNo",
+		a.job_no AS "jobNo",
+		a.relationtype AS "relationtype",
+		a.org_position AS "orgPosition",
+		a.emp_no AS "empNo",
+		a.depart_no AS "departNo"
+	</sql>
+	
+	<sql id="empOrgJoins">
+	</sql>
+    
+	<select id="get" resultType="EmpOrg">
+		SELECT 
+			<include refid="empOrgColumns"/>
+		FROM sys_emp_org a
+		<include refid="empOrgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="EmpOrg">
+		SELECT 
+			<include refid="empOrgColumns"/>
+		FROM sys_emp_org a
+		<include refid="empOrgJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="EmpOrg">
+		SELECT 
+			<include refid="empOrgColumns"/>
+		FROM sys_emp_org a
+		<include refid="empOrgJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="sys_emp_org_SEQ">sys_emp_org_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_emp_org(
+			id,
+			org_no,
+			job_no,
+			relationtype,
+			org_position,
+			emp_no,
+			depart_no
+		) VALUES (
+			<include refid="sys_emp_org_SEQ"/>,
+			#{orgNo},
+			#{jobNo},
+			#{relationtype},
+			#{orgPosition},
+			#{empNo},
+			#{departNo}
+		)
+	</insert>
+	
+	
+	 <insert id="insertList"> 
+		INSERT INTO sys_emp_org(
+		    id,
+			org_no,
+			job_no,
+			relationtype,
+			org_position,
+			emp_no,
+			depart_no) 
+		<foreach collection="list" item="l" separator=" union all ">
+			select get_seq_next('SYS_EMP_ORG_SEQ'),
+			#{l.orgNo},
+			#{l.jobNo},
+			#{l.relationtype},
+			#{l.orgPosition},
+			#{l.empNo},
+			#{l.departNo} 
+				FROM dual
+		</foreach>
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_emp_org SET 	
+			   org_no = #{orgNo},
+			   job_no = #{jobNo},
+			   relationtype = #{relationtype},
+			   org_position = #{orgPosition},
+			   emp_no = #{empNo},
+			   depart_no = #{departNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_emp_org
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByJob" resultType="EmpOrg">
+		SELECT 
+			<include refid="empOrgColumns"/>
+		FROM sys_emp_org a
+		<include refid="empOrgJoins"/>
+		WHERE a.job_no = #{jobNo}		
+	</select>
+	
+	<select id="findByEmployee" resultType="EmpOrg">
+		SELECT 
+			<include refid="empOrgColumns"/>
+		FROM sys_emp_org a
+		<include refid="empOrgJoins"/>
+		WHERE a.emp_no = #{empNo}  		
+	</select>
+	
+	<update id="updateByJob">
+		UPDATE sys_emp_org SET 	
+			   org_no = #{orgNo},
+			   depart_no = #{departNo} 
+		WHERE job_no = #{jobNo}
+	</update>
+	
+	<update id="updateByEmployee">
+		UPDATE sys_emp_org SET 	
+			   org_no = #{orgNo},
+			   depart_no = #{departNo} ,
+			   job_no = #{jobNo}
+		WHERE emp_no = #{empNo}
+	</update>
+	<select id="findByDept" resultType="EmpOrg">
+		SELECT 
+			<include refid="empOrgColumns"/>
+		FROM sys_emp_org a
+		<include refid="empOrgJoins"/>
+		WHERE a.depart_no = #{orgNo}	
+	</select>
+	
+	<update id="updateByDept">
+		UPDATE sys_emp_org SET 	
+			   org_no = #{orgNo}
+		WHERE depart_no = #{orgNo}
+	</update>
+	
+	<update id="deleteByEmpNo">
+		DELETE FROM sys_emp_org
+		WHERE emp_no = #{empNo}
+	</update>
+</mapper>

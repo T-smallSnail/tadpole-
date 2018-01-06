@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.budget.modules.budget.dao.LmtBudgetDao">
+    
+	<sql id="lmtBudgetColumns">
+		a.id AS "id",<!--ID-->
+		a.comp_id AS "compId",<!--预算责任公司ID-->
+		a.comp_name AS "compName",<!--预算责任公司名称-->
+		a.budget_dept_id AS "budgetDeptId",<!--预算责任部门ID-->
+		a.budget_dept_name AS "budgetDeptName",<!--预算责任部门名字-->
+		a.budget_sys_id AS "budgetSysId",<!--预算使用系统ID-->
+		a.budget_sys_name AS "budgetSysName",<!--预算使用系统名字-->
+		a.budget_desc AS "budgetDesc",<!--预算描述-->
+		a.is_deptbudget AS "isDeptbudget",<!--是否部门预算-->
+		a.budget_no AS "budgetNo",<!--预算编号-->
+		a.budget_name AS "budgetName",<!--预算名称-->
+		a.is_public AS "isPublic",<!--是否公开-->
+		a.budget_type_code AS "budgetTypeCode",<!--预算项目分类编码-->
+		a.budget_type_name AS "budgetTypeName",<!--预算项目分类名称-->
+		a.budget_subject_code AS "budgetSubjectCode",<!--预算科目编码-->
+		a.budget_subject_name AS "budgetSubjectName",<!--预算科目名称-->
+		a.budget_project_code AS "budgetProjectCode",<!--预算项目编码-->
+		a.budget_project_name AS "budgetProjectName",<!--预算项目名称-->
+		a.display_order AS "displayOrder",<!--排序号-->
+		a.is_parent AS "isParent",<!--是否是父级预算-->
+		a.parent_budget_id AS "parentBudgetId",<!--父级预算-->
+		a.parent_budget_name AS "parentBudgetName",<!--父级预算名称-->
+		a.budget_amount AS "budgetAmount",<!--成本预算金额-->
+		a.occupied_amount AS "occupiedAmount",<!--成本预算已完成金额-->
+		a.blocked_amount AS "blockedAmount",<!--成本预算冻结金额-->
+		a.budget_balance AS "budgetBalance",<!--成本预算余额-->
+		a.status AS "status",<!--状态-->
+		a.budget_year AS "budgetYear",<!--预算年度-->
+		a.budget_month AS "budgetMonth",<!--预算月份-->
+		a.budget_valid_period_start AS "budgetValidPeriodStart",<!--预算开始生效日期-->
+		a.budget_valid_period_end AS "budgetValidPeriodEnd",<!--预算结束生效日期-->
+		a.funds_budget_amount AS "fundsBudgetAmount",<!--资金预算金额-->
+		a.funds_occupied_amount AS "fundsOccupiedAmount",<!--资金预算已完成金额-->
+		a.funds_blocked_amount AS "fundsBlockedAmount",<!--资金预算冻结金额-->
+		a.funds_budget_balance AS "fundsBudgetBalance",<!--资金预算余额-->
+		a.creation_time AS "creationTime",<!--预算创建时间-->
+		a.creation_user_id AS "creationUserId",<!--预算创建用户ID-->
+		a.modify_date AS "modifyDate",<!--预算修改时间-->
+		a.modify_user_id AS "modifyUserId",<!--预算修改用户ID-->
+		a.create_by AS "createBy.id",<!--创建者-->
+		a.create_date AS "createDate",<!--创建日期-->
+		a.update_by AS "updateBy.id",<!--更新者-->
+		a.update_date AS "updateDate",<!--更新日期-->
+		a.remarks AS "remarks",<!--备注-->
+		a.del_flag AS "delFlag",
+		a.budget_period AS "budgetPeriod",
+		a.batch_id AS "batchId",
+		a.budget_mark AS "budgetMark",
+		a.record_id AS "recordId"
+	</sql>
+	
+	<sql id="lmtBudgetJoins">
+	</sql>
+
+    <sql id="lmtBudgetIf">
+		<if test="id != null and id !=''"><!--ID-->
+			and a.id=#{id}
+		</if>
+		<if test="compId != null and compId !=''"><!--预算责任公司ID-->
+			and a.comp_id=#{compId}
+		</if>
+		<if test="compName != null and compName !=''"><!--预算责任公司名称-->
+			and a.comp_name like '%${compName}%'
+		</if>
+		<if test="budgetDeptId != null and budgetDeptId !=''"><!--预算责任部门ID-->
+			and a.budget_dept_id=#{budgetDeptId}
+		</if>
+		<if test="budgetDeptName != null and budgetDeptName !=''"><!--预算责任部门名字-->
+			and a.budget_dept_name like '%${budgetDeptName}%'
+		</if>
+		<if test="budgetSysId != null and budgetSysId !=''"><!--预算使用系统ID-->
+			and a.budget_sys_id=#{budgetSysId}
+		</if>
+		<if test="budgetSysName != null and budgetSysName !=''"><!--预算使用系统名字-->
+			and a.budget_sys_name=#{budgetSysName}
+		</if>
+		<if test="budgetDesc != null and budgetDesc !=''"><!--预算描述-->
+			and a.budget_desc=#{budgetDesc}
+		</if>
+		<if test="isDeptbudget != null and isDeptbudget !=''"><!--是否部门预算-->
+			and a.is_deptbudget=#{isDeptbudget}
+		</if>
+		<if test="budgetNo != null and budgetNo !=''"><!--预算编号-->
+			and a.budget_no=#{budgetNo}
+		</if>
+		<if test="budgetName != null and budgetName !=''"><!--预算名称-->
+			and a.budget_name like '%${budgetName}%'
+		</if>
+		<if test="isPublic != null and isPublic !=''"><!--是否公开-->
+			and a.is_public=#{isPublic}
+		</if>
+		<if test="budgetTypeCode != null and budgetTypeCode !=''"><!--预算项目分类编码-->
+			and a.budget_type_code=#{budgetTypeCode}
+		</if>
+		<if test="budgetTypeName != null and budgetTypeName !=''"><!--预算项目分类名称-->
+			and a.budget_type_name like '%${budgetTypeName}%'
+		</if>
+		<if test="budgetSubjectCode != null and budgetSubjectCode !=''"><!--预算科目编码-->
+			and a.budget_subject_code=#{budgetSubjectCode}
+		</if>
+		<if test="budgetSubjectName != null and budgetSubjectName !=''"><!--预算科目名称-->
+			and a.budget_subject_name like '%${budgetSubjectName}%'
+		</if>
+		<if test="budgetProjectCode != null and budgetProjectCode !=''"><!--预算项目编码-->
+			and a.budget_project_code=#{budgetProjectCode}
+		</if>
+		<if test="budgetProjectName != null and budgetProjectName !=''"><!--预算项目名称-->
+			and a.budget_project_name=#{budgetProjectName}
+		</if>
+		<if test="displayOrder != null and displayOrder !=''"><!--排序号-->
+			and a.display_order=#{displayOrder}
+		</if>
+		<if test="isParent != null and isParent !=''"><!--是否是父级预算-->
+			and a.is_parent=#{isParent}
+		</if>
+		<if test="parentBudgetId != null and parentBudgetId !=''"><!--父级预算-->
+			and a.parent_budget_id=#{parentBudgetId}
+		</if>
+		<if test="parentBudgetName != null and parentBudgetName !=''"><!--父级预算名称-->
+			and a.parent_budget_name=#{parentBudgetName}
+		</if>
+		<if test="budgetAmount != null and budgetAmount !=''"><!--成本预算金额-->
+			and a.budget_amount=#{budgetAmount}
+		</if>
+		<if test="occupiedAmount != null and occupiedAmount !=''"><!--成本预算已完成金额-->
+			and a.occupied_amount=#{occupiedAmount}
+		</if>
+		<if test="blockedAmount != null and blockedAmount !=''"><!--成本预算冻结金额-->
+			and a.blocked_amount=#{blockedAmount}
+		</if>
+		<if test="budgetBalance != null and budgetBalance !=''"><!--成本预算余额-->
+			and a.budget_balance=#{budgetBalance}
+		</if>
+		<if test="status != null and status !=''"><!--状态-->
+			and a.status=#{status}
+		</if>
+		<if test="budgetYear != null and budgetYear !=''"><!--预算年度-->
+			and a.budget_year=#{budgetYear}
+		</if>
+		<if test="budgetMonth != null and budgetMonth !=''"><!--预算月份-->
+			and a.budget_month=#{budgetMonth}
+		</if>
+		<if test="budgetValidPeriodStart != null and budgetValidPeriodStart !=''"><!--预算开始生效日期-->
+			and a.budget_valid_period_start=#{budgetValidPeriodStart}
+		</if>
+		<if test="budgetValidPeriodEnd != null and budgetValidPeriodEnd !=''"><!--预算结束生效日期-->
+			and a.budget_valid_period_end=#{budgetValidPeriodEnd}
+		</if>
+		<if test="fundsBudgetAmount != null and fundsBudgetAmount !=''"><!--资金预算金额-->
+			and a.funds_budget_amount=#{fundsBudgetAmount}
+		</if>
+		<if test="fundsOccupiedAmount != null and fundsOccupiedAmount !=''"><!--资金预算已完成金额-->
+			and a.funds_occupied_amount=#{fundsOccupiedAmount}
+		</if>
+		<if test="fundsBlockedAmount != null and fundsBlockedAmount !=''"><!--资金预算冻结金额-->
+			and a.funds_blocked_amount=#{fundsBlockedAmount}
+		</if>
+		<if test="fundsBudgetBalance != null and fundsBudgetBalance !=''"><!--资金预算余额-->
+			and a.funds_budget_balance=#{fundsBudgetBalance}
+		</if>
+		<if test="creationTime != null and creationTime !=''"><!--预算创建时间-->
+			and a.creation_time=#{creationTime}
+		</if>
+		<if test="creationUserId != null and creationUserId !=''"><!--预算创建用户ID-->
+			and a.creation_user_id=#{creationUserId}
+		</if>
+		<if test="modifyDate != null and modifyDate !=''"><!--预算修改时间-->
+			and a.modify_date=#{modifyDate}
+		</if>
+		<if test="modifyUserId != null and modifyUserId !=''"><!--预算修改用户ID-->
+			and a.modify_user_id=#{modifyUserId}
+		</if>
+		<if test="createBy != null and createBy.id != null and createBy.id !=''"><!--创建者-->
+			and a.create_by=#{createBy.id}
+		</if>
+		<if test="createDate != null and createDate !=''"><!--创建日期-->
+			and a.create_date=#{createDate}
+		</if>
+		<if test="updateBy != null and updateBy.id != null and updateBy.id !=''"><!--更新者-->
+			and a.update_by=#{updateBy.id}
+		</if>
+		<if test="updateDate != null and updateDate !=''"><!--更新日期-->
+			and a.update_date=#{updateDate}
+		</if>
+		<if test="remarks != null and remarks !=''"><!--备注-->
+			and a.remarks=#{remarks}
+		</if>
+		<if test="delFlag != null and delFlag !=''"><!--删除标识-->
+			and a.del_flag=#{delFlag}
+		</if>
+    </sql>
+
+	<select id="get" resultType="LmtBudget">
+		SELECT 
+			<include refid="lmtBudgetColumns"/>
+		FROM lmt_budget a
+		<include refid="lmtBudgetJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LmtBudget">
+		SELECT 
+			<include refid="lmtBudgetColumns"/>
+		FROM lmt_budget a
+		<include refid="lmtBudgetJoins"/>
+		<where>
+		a.STATUS ='N'
+			<include refid="lmtBudgetIf"/>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.modify_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LmtBudget">
+		SELECT 
+			<include refid="lmtBudgetColumns"/>
+		FROM lmt_budget a
+		<include refid="lmtBudgetJoins"/>
+		<where>
+			a.STATUS ='N'
+			<include refid="lmtBudgetIf"/>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select lmt_budget_SEQ.nextval from dual
+		</selectKey>
+		INSERT INTO lmt_budget(
+			id,<!--ID-->
+			comp_id,<!--预算责任公司ID-->
+			comp_name,<!--预算责任公司名称-->
+			budget_dept_id,<!--预算责任部门ID-->
+			budget_dept_name,<!--预算责任部门名字-->
+			budget_sys_id,<!--预算使用系统ID-->
+			budget_sys_name,<!--预算使用系统名字-->
+			budget_desc,<!--预算描述-->
+			is_deptbudget,<!--是否部门预算-->
+			budget_no,<!--预算编号-->
+			budget_name,<!--预算名称-->
+			is_public,<!--是否公开-->
+			budget_type_code,<!--预算项目分类编码-->
+			budget_type_name,<!--预算项目分类名称-->
+			budget_subject_code,<!--预算科目编码-->
+			budget_subject_name,<!--预算科目名称-->
+			budget_project_code,<!--预算项目编码-->
+			budget_project_name,<!--预算项目名称-->
+			display_order,<!--排序号-->
+			is_parent,<!--是否是父级预算-->
+			parent_budget_id,<!--父级预算-->
+			parent_budget_name,<!--父级预算名称-->
+			budget_amount,<!--成本预算金额-->
+			occupied_amount,<!--成本预算已完成金额-->
+			blocked_amount,<!--成本预算冻结金额-->
+			budget_balance,<!--成本预算余额-->
+			status,<!--状态-->
+			budget_year,<!--预算年度-->
+			budget_month,<!--预算月份-->
+			budget_valid_period_start,<!--预算开始生效日期-->
+			budget_valid_period_end,<!--预算结束生效日期-->
+			funds_budget_amount,<!--资金预算金额-->
+			funds_occupied_amount,<!--资金预算已完成金额-->
+			funds_blocked_amount,<!--资金预算冻结金额-->
+			funds_budget_balance,<!--资金预算余额-->
+			creation_time,<!--预算创建时间-->
+			creation_user_id,<!--预算创建用户ID-->
+			modify_date,<!--预算修改时间-->
+			modify_user_id,<!--预算修改用户ID-->
+			create_by,<!--创建者-->
+			create_date,<!--创建日期-->
+			update_by,<!--更新者-->
+			update_date,<!--更新日期-->
+			remarks,<!--备注-->
+			del_flag,
+			budget_period,
+			batch_id,
+			budget_mark,
+			record_id
+		) VALUES (
+			#{id},
+			#{compId},<!--预算责任公司ID-->
+			#{compName},<!--预算责任公司名称-->
+			#{budgetDeptId},<!--预算责任部门ID-->
+			#{budgetDeptName},<!--预算责任部门名字-->
+			#{budgetSysId},<!--预算使用系统ID-->
+			#{budgetSysName},<!--预算使用系统名字-->
+			#{budgetDesc},<!--预算描述-->
+			#{isDeptbudget},<!--是否部门预算-->
+			#{budgetNo},<!--预算编号-->
+			#{budgetName},<!--预算名称-->
+			#{isPublic},<!--是否公开-->
+			#{budgetTypeCode},<!--预算项目分类编码-->
+			#{budgetTypeName},<!--预算项目分类名称-->
+			#{budgetSubjectCode},<!--预算科目编码-->
+			#{budgetSubjectName},<!--预算科目名称-->
+			#{budgetProjectCode},<!--预算项目编码-->
+			#{budgetProjectName},<!--预算项目名称-->
+			#{displayOrder},<!--排序号-->
+			#{isParent},<!--是否是父级预算-->
+			#{parentBudgetId},<!--父级预算-->
+			#{parentBudgetName},<!--父级预算名称-->
+			#{budgetAmount},<!--成本预算金额-->
+			#{occupiedAmount},<!--成本预算已完成金额-->
+			#{blockedAmount},<!--成本预算冻结金额-->
+			#{budgetBalance},<!--成本预算余额-->
+			#{status},<!--状态-->
+			#{budgetYear},<!--预算年度-->
+			#{budgetMonth},<!--预算月份-->
+			#{budgetValidPeriodStart},<!--预算开始生效日期-->
+			#{budgetValidPeriodEnd},<!--预算结束生效日期-->
+			#{fundsBudgetAmount},<!--资金预算金额-->
+			#{fundsOccupiedAmount},<!--资金预算已完成金额-->
+			#{fundsBlockedAmount},<!--资金预算冻结金额-->
+			#{fundsBudgetBalance},<!--资金预算余额-->
+			#{creationTime},<!--预算创建时间-->
+			#{creationUserId},<!--预算创建用户ID-->
+			#{modifyDate},<!--预算修改时间-->
+			#{modifyUserId},<!--预算修改用户ID-->
+			#{createBy.id},<!--创建者-->
+			#{createDate},<!--创建日期-->
+			#{updateBy.id},<!--更新者-->
+			#{updateDate},<!--更新日期-->
+			#{remarks},<!--备注-->
+			#{delFlag},
+			#{budgetPeriod},
+			#{batchId},
+			#{budgetMark},
+			#{recordId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lmt_budget SET 	
+			   comp_id = #{compId},<!--预算责任公司ID-->
+			   comp_name = #{compName},<!--预算责任公司名称-->
+			   budget_dept_id = #{budgetDeptId},<!--预算责任部门ID-->
+			   budget_dept_name = #{budgetDeptName},<!--预算责任部门名字-->
+			   budget_sys_id = #{budgetSysId},<!--预算使用系统ID-->
+			   budget_sys_name = #{budgetSysName},<!--预算使用系统名字-->
+			   budget_desc = #{budgetDesc},<!--预算描述-->
+			   is_deptbudget = #{isDeptbudget},<!--是否部门预算-->
+			   budget_no = #{budgetNo},<!--预算编号-->
+			   budget_name = #{budgetName},<!--预算名称-->
+			   is_public = #{isPublic},<!--是否公开-->
+			   budget_type_code = #{budgetTypeCode},<!--预算项目分类编码-->
+			   budget_type_name = #{budgetTypeName},<!--预算项目分类名称-->
+			   budget_subject_code = #{budgetSubjectCode},<!--预算科目编码-->
+			   budget_subject_name = #{budgetSubjectName},<!--预算科目名称-->
+			   budget_project_code = #{budgetProjectCode},<!--预算项目编码-->
+			   budget_project_name = #{budgetProjectName},<!--预算项目名称-->
+			   display_order = #{displayOrder},<!--排序号-->
+			   is_parent = #{isParent},<!--是否是父级预算-->
+			   parent_budget_id = #{parentBudgetId},<!--父级预算-->
+			   parent_budget_name = #{parentBudgetName},<!--父级预算名称-->
+			   budget_amount = #{budgetAmount},<!--成本预算金额-->
+			   occupied_amount = #{occupiedAmount},<!--成本预算已完成金额-->
+			   blocked_amount = #{blockedAmount},<!--成本预算冻结金额-->
+			   budget_balance = #{budgetBalance},<!--成本预算余额-->
+			   status = #{status},<!--状态-->
+			   budget_year = #{budgetYear},<!--预算年度-->
+			   budget_month = #{budgetMonth},<!--预算月份-->
+			   budget_valid_period_start = #{budgetValidPeriodStart},<!--预算开始生效日期-->
+			   budget_valid_period_end = #{budgetValidPeriodEnd},<!--预算结束生效日期-->
+			   funds_budget_amount = #{fundsBudgetAmount},<!--资金预算金额-->
+			   funds_occupied_amount = #{fundsOccupiedAmount},<!--资金预算已完成金额-->
+			   funds_blocked_amount = #{fundsBlockedAmount},<!--资金预算冻结金额-->
+			   funds_budget_balance = #{fundsBudgetBalance},<!--资金预算余额-->
+			   creation_time = #{creationTime},<!--预算创建时间-->
+			   creation_user_id = #{creationUserId},<!--预算创建用户ID-->
+			   modify_date = #{modifyDate},<!--预算修改时间-->
+			   modify_user_id = #{modifyUserId},<!--预算修改用户ID-->
+			   update_by = #{updateBy.id},<!--更新者-->
+			   update_date = #{updateDate},<!--更新日期-->
+			   remarks = #{remarks},
+			   budget_period = #{budgetPeriod},
+			   batch_id = #{batchId},
+			   budget_mark = #{budgetMark},
+			   record_id = #{recordId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateBudgetById">
+		UPDATE lmt_budget SET 	
+		  blocked_amount = #{blockedAmount},<!--成本预算冻结金额-->
+		  budget_balance = #{budgetBalance},<!--成本预算余额-->
+		  OCCUPIED_AMOUNT = #{occupiedAmount},<!--成本预算已完成(占用)金额-->
+		  modify_date = #{modifyDate},<!--预算修改时间-->
+		  modify_user_id = #{modifyUserId}<!--预算修改用户ID-->
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE lmt_budget SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteAll" parameterType="String">
+    delete from lmt_budget where id=#{id}
+ 	</delete>
+	
+	<!-- 根据compId删除数据 -->
+	<delete id="deletebudgetBycompIds" parameterType="String">
+    delete from lmt_budget where comp_id in (${compIds})
+ 	</delete>
+ 	
+ 	<!-- 批量插入数据 -->
+ 	<insert id="insertForeach" parameterType="java.util.List">
+		
+		
+		INSERT INTO lmt_budget(
+			id,<!--ID-->
+			comp_id,<!--预算责任公司ID-->
+			comp_name,<!--预算责任公司名称-->
+			budget_dept_id,<!--预算责任部门ID-->
+			budget_dept_name,<!--预算责任部门名字-->
+			budget_sys_id,<!--预算使用系统ID-->
+			budget_sys_name,<!--预算使用系统名字-->
+			budget_desc,<!--预算描述-->
+			is_deptbudget,<!--是否部门预算-->
+			budget_no,<!--预算编号-->
+			budget_name,<!--预算名称-->
+			is_public,<!--是否公开-->
+			budget_type_code,<!--预算项目分类编码-->
+			budget_type_name,<!--预算项目分类名称-->
+			budget_subject_code,<!--预算科目编码-->
+			budget_subject_name,<!--预算科目名称-->
+			budget_project_code,<!--预算项目编码-->
+			budget_project_name,<!--预算项目名称-->
+			display_order,<!--排序号-->
+			is_parent,<!--是否是父级预算-->
+			parent_budget_id,<!--父级预算-->
+			parent_budget_name,<!--父级预算名称-->
+			budget_amount,<!--成本预算金额-->
+			occupied_amount,<!--成本预算已完成金额-->
+			blocked_amount,<!--成本预算冻结金额-->
+			budget_balance,<!--成本预算余额-->
+			status,<!--状态-->
+			budget_year,<!--预算年度-->
+			budget_month,<!--预算月份-->
+			budget_valid_period_start,<!--预算开始生效日期-->
+			budget_valid_period_end,<!--预算结束生效日期-->
+			funds_budget_amount,<!--资金预算金额-->
+			funds_occupied_amount,<!--资金预算已完成金额-->
+			funds_blocked_amount,<!--资金预算冻结金额-->
+			funds_budget_balance,<!--资金预算余额-->
+			creation_time,<!--预算创建时间-->
+			creation_user_id,<!--预算创建用户ID-->
+			modify_date,<!--预算修改时间-->
+			modify_user_id,<!--预算修改用户ID-->
+			create_by,<!--创建者-->
+			create_date,<!--创建日期-->
+			update_by,<!--更新者-->
+			update_date,<!--更新日期-->
+			remarks,<!--备注-->
+			del_flag,
+			budget_period,
+			batch_id,
+			budget_mark,
+			record_id
+		) 
+		
+		  select lmt_budget_SEQ.nextval, A.*  from(
+		
+		 <foreach collection ="list" item="lmtBudget" index= "index" separator ="UNION ALL">
+		 (
+			  SELECT
+			#{lmtBudget.compId,jdbcType=VARCHAR},<!--预算责任公司ID-->
+			#{lmtBudget.compName,jdbcType=VARCHAR},<!--预算责任公司名称-->
+			#{lmtBudget.budgetDeptId,jdbcType=VARCHAR},<!--预算责任部门ID-->
+			#{lmtBudget.budgetDeptName,jdbcType=VARCHAR},<!--预算责任部门名字-->
+			#{lmtBudget.budgetSysId,jdbcType=VARCHAR},<!--预算使用系统ID-->
+			#{lmtBudget.budgetSysName,jdbcType=VARCHAR},<!--预算使用系统名字-->
+			#{lmtBudget.budgetDesc,jdbcType=VARCHAR},<!--预算描述-->
+			#{lmtBudget.isDeptbudget,jdbcType=VARCHAR},<!--是否部门预算-->
+			#{lmtBudget.budgetNo,jdbcType=VARCHAR},<!--预算编号-->
+			#{lmtBudget.budgetName,jdbcType=VARCHAR},<!--预算名称-->
+			#{lmtBudget.isPublic,jdbcType=VARCHAR},<!--是否公开-->
+			#{lmtBudget.budgetTypeCode,jdbcType=VARCHAR},<!--预算项目分类编码-->
+			#{lmtBudget.budgetTypeName,jdbcType=VARCHAR},<!--预算项目分类名称-->
+			#{lmtBudget.budgetSubjectCode,jdbcType=VARCHAR},<!--预算科目编码-->
+			#{lmtBudget.budgetSubjectName,jdbcType=VARCHAR},<!--预算科目名称-->
+			#{lmtBudget.budgetProjectCode,jdbcType=VARCHAR},<!--预算项目编码-->
+			#{lmtBudget.budgetProjectName,jdbcType=VARCHAR},<!--预算项目名称-->
+			#{lmtBudget.displayOrder,jdbcType=VARCHAR},<!--排序号-->
+			#{lmtBudget.isParent,jdbcType=VARCHAR},<!--是否是父级预算-->
+			#{lmtBudget.parentBudgetId,jdbcType=VARCHAR},<!--父级预算-->
+			#{lmtBudget.parentBudgetName,jdbcType=VARCHAR},<!--父级预算名称-->
+			#{lmtBudget.budgetAmount,jdbcType=BIGINT},<!--成本预算金额-->
+			#{lmtBudget.occupiedAmount,jdbcType=BIGINT},<!--成本预算已完成金额-->
+			#{lmtBudget.blockedAmount,jdbcType=BIGINT},<!--成本预算冻结金额-->
+			#{lmtBudget.budgetBalance,jdbcType=BIGINT},<!--成本预算余额-->
+			#{lmtBudget.status,jdbcType=VARCHAR},<!--状态-->
+			#{lmtBudget.budgetYear,jdbcType=INTEGER},<!--预算年度-->
+			#{lmtBudget.budgetMonth,jdbcType=INTEGER},<!--预算月份-->
+			#{lmtBudget.budgetValidPeriodStart,jdbcType=DATE},<!--预算开始生效日期-->
+			#{lmtBudget.budgetValidPeriodEnd,jdbcType=DATE},<!--预算结束生效日期-->
+			#{lmtBudget.fundsBudgetAmount,jdbcType=BIGINT},<!--资金预算金额-->
+			#{lmtBudget.fundsOccupiedAmount,jdbcType=BIGINT},<!--资金预算已完成金额-->
+			#{lmtBudget.fundsBlockedAmount,jdbcType=BIGINT},<!--资金预算冻结金额-->
+			#{lmtBudget.fundsBudgetBalance,jdbcType=BIGINT},<!--资金预算余额-->
+			#{lmtBudget.creationTime,jdbcType=DATE},<!--预算创建时间-->
+			#{lmtBudget.creationUserId,jdbcType=VARCHAR},<!--预算创建用户ID-->
+			#{lmtBudget.modifyDate,jdbcType=DATE},<!--预算修改时间-->
+			#{lmtBudget.modifyUserId,jdbcType=VARCHAR},<!--预算修改用户ID-->
+			#{lmtBudget.createBy.id,jdbcType=VARCHAR},<!--创建者-->
+			#{lmtBudget.createDate,jdbcType=VARCHAR},<!--创建日期-->
+			#{lmtBudget.updateBy.id,jdbcType=VARCHAR},<!--更新者-->
+			#{lmtBudget.updateDate,jdbcType=VARCHAR},<!--更新日期-->
+			#{lmtBudget.remarks,jdbcType=VARCHAR},<!--备注-->
+			#{lmtBudget.delFlag,jdbcType=VARCHAR},
+			#{lmtBudget.budgetPeriod,jdbcType=VARCHAR},
+			#{lmtBudget.batchId,jdbcType=VARCHAR},
+			#{lmtBudget.budgetMark,jdbcType=VARCHAR},
+			#{lmtBudget.recordId,jdbcType=VARCHAR}
+			from dual
+		)
+		</foreach>
+		) A
+	</insert>
+ 	
+	
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempBudgetAccountMappingDao">
+
+	<sql id="tempBudgetAccountMappingColumns">
+		a.id AS "id",
+		a.account_code AS "accountCode",
+		a.budget_code AS "budgetCode",
+		a.budget_name AS "budgetName",
+		a.type AS "type"
+	</sql>
+	
+	<sql id="tempBudgetAccountMappingJoins">
+	</sql>
+    
+	<select id="get" resultType="TempBudgetAccountMapping">
+		SELECT 
+			<include refid="tempBudgetAccountMappingColumns"/>
+		FROM temp_budget_account_mapping a
+		<include refid="tempBudgetAccountMappingJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TempBudgetAccountMapping">
+		SELECT 
+			<include refid="tempBudgetAccountMappingColumns"/>
+		FROM temp_budget_account_mapping a
+		<include refid="tempBudgetAccountMappingJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TempBudgetAccountMapping">
+		SELECT 
+			<include refid="tempBudgetAccountMappingColumns"/>
+		FROM temp_budget_account_mapping a
+		<include refid="tempBudgetAccountMappingJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_budget_account_mapping_SEQ">temp_budget_account_mapping_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_budget_account_mapping(
+			id,
+			account_code,
+			budget_code,
+			budget_name,
+			type
+		) VALUES (
+		<include refid="temp_budget_account_mapping_SEQ"/>,
+			#{accountCode},
+			#{budgetCode},
+			#{budgetName},
+			#{type}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_budget_account_mapping SET 	
+			   account_code = #{accountCode},
+			   budget_code = #{budgetCode},
+			   budget_name = #{budgetName},
+			   type = #{type}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_budget_account_mapping
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByBudgetCode">
+		DELETE FROM temp_budget_account_mapping
+		WHERE budget_code = #{budgetCode}
+	</update>
+	
+	<select id="findByBudgetCode" resultType="string">
+		SELECT distinct 
+			account_code
+		FROM temp_budget_account_mapping a
+		<include refid="tempBudgetAccountMappingJoins"/>
+		WHERE a.budget_code = #{budgetCode}
+	</select>
+	
+</mapper>

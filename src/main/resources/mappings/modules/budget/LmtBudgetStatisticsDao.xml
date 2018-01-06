@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.budget.modules.budget.dao.LmtBudgetStatisticsDao">
+    
+	<sql id="lmtBudgetStatisticsColumns">
+		a.id AS "id",
+		a.budget_id AS "budgetId",
+		a.claim_id AS "claimId",
+		a.claim_no AS "claimNo",
+		a.claim_line_id AS "claimLineId",
+		a.op_type AS "opType",
+		a.account_name AS "accountName",
+		a.account_code AS "accountCode",
+		a.comp_id AS "compId",
+		a.comp_name AS "compName",
+		a.control_strategy AS "controlStrategy",
+		a.start_time AS "startTime",
+		a.end_time AS "endTime",
+		a.template_no AS "templateNo",
+		a.template_name AS "templateName",
+		a.sup_cate_id AS "supCateId",
+		a.sup_cate_name AS "supCateName",
+		a.apply_amount AS "applyAmount",
+		a.apply_date AS "applyDate",
+		a.change_amount AS "changeAmount",
+		a.budget_amount AS "budgetAmount",
+		a.occupied_amount AS "occupiedAmount",
+		a.blocked_amount AS "blockedAmount",
+		a.remark AS "remark",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="lmtBudgetStatisticsJoins">
+	</sql>
+    
+	<select id="get" resultType="LmtBudgetStatistics">
+		SELECT 
+			<include refid="lmtBudgetStatisticsColumns"/>
+		FROM lmt_budget_statistics a
+		<include refid="lmtBudgetStatisticsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LmtBudgetStatistics">
+		SELECT 
+			<include refid="lmtBudgetStatisticsColumns"/>
+		FROM lmt_budget_statistics a
+		<include refid="lmtBudgetStatisticsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LmtBudgetStatistics">
+		SELECT 
+			<include refid="lmtBudgetStatisticsColumns"/>
+		FROM lmt_budget_statistics a
+		<include refid="lmtBudgetStatisticsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="lmt_budget_statistics_SEQ">lmt_budget_statistics_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO lmt_budget_statistics(
+			id,
+			budget_id,
+			claim_id,
+			claim_no,
+			claim_line_id,
+			op_type,
+			account_name,
+			account_code,
+			comp_id,
+			comp_name,
+			control_strategy,
+			start_time,
+			end_time,
+			template_no,
+			template_name,
+			sup_cate_id,
+			sup_cate_name,
+			apply_amount,
+			apply_date,
+			change_amount,
+			budget_amount,
+			occupied_amount,
+			blocked_amount,
+			remark,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+		<include refid="lmt_budget_statistics_SEQ"/>,
+			#{budgetId},
+			#{claimId},
+			#{claimNo},
+			#{claimLineId},
+			#{opType},
+			#{accountName},
+			#{accountCode},
+			#{compId},
+			#{compName},
+			#{controlStrategy},
+			#{startTime},
+			#{endTime},
+			#{templateNo},
+			#{templateName},
+			#{supCateId},
+			#{supCateName},
+			#{applyAmount},
+			#{applyDate},
+			#{changeAmount},
+			#{budgetAmount},
+			#{occupiedAmount},
+			#{blockedAmount},
+			#{remark},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lmt_budget_statistics SET 	
+			   budget_id = #{budgetId},
+			   claim_id = #{claimId},
+			   claim_no = #{claimNo},
+			   claim_line_id = #{claimLineId},
+			   op_type = #{opType},
+			   account_name = #{accountName},
+			   account_code = #{accountCode},
+			   comp_id = #{compId},
+			   comp_name = #{compName},
+			   control_strategy = #{controlStrategy},
+			   start_time = #{startTime},
+			   end_time = #{endTime},
+			   template_no = #{templateNo},
+			   template_name = #{templateName},
+			   sup_cate_id = #{supCateId},
+			   sup_cate_name = #{supCateName},
+			   apply_amount = #{applyAmount},
+			   apply_date = #{applyDate},
+			   change_amount = #{changeAmount},
+			   budget_amount = #{budgetAmount},
+			   occupied_amount = #{occupiedAmount},
+			   blocked_amount = #{blockedAmount},
+			   remark = #{remark},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE lmt_budget_statistics SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

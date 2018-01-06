@@ -1,0 +1,701 @@
+@charset "utf-8";
+/*图标样式库*/
+/*PS:自定义的图标样式class都以“defined-”开头，因为“icon-”开头的在bootstrap里面有对其控制的样式会影响到自定义的样式*/
+
+
+/*80*80 图标相同的样式属性*/
+	
+.icon-sameAttr80{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 80px;
+	height: 80px;
+	background-size: 80px 80px !important;
+}
+
+/*以下都是80*80px的图标*/
+.defined-printer80{
+	background: url(../sysImages/icon-printer80.png) no-repeat;
+}
+.defined-download80{
+	background: url(../sysImages/icon-download80.png) no-repeat;
+}
+
+/*56*56 图标相同的样式属性*/
+	
+.icon-sameAttr56{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 56px;
+	height: 56px;
+	background-size: 56px 56px !important;
+}
+
+/*以下都是56*56的图标*/
+.defined-peding{
+	background: url(../sysImages/icon-peding.png) no-repeat;
+}
+.defined-processed{
+	background: url(../sysImages/icon-processed.png) no-repeat;
+}
+
+/*48*48 图标相同的样式属性*/
+	
+.icon-sameAttr48{
+	display: inline-block  !important;
+	vertical-align: bottom;
+	width: 48px;
+	height: 48px;
+	background-size: 48px 48px !important;
+}
+
+
+
+/*45*45 加载*/
+.defined-loading{
+	position: absolute;
+	top: 200px;
+	right: 50%;
+	width: 45px;
+	height: 45px;
+	color: transparent;
+	background: url(../sysImages/defined-loading.gif) no-repeat;
+	z-index: 9999;
+	background-size: 100% auto;
+}
+/*40*40 图标相同的样式属性*/
+	
+.icon-sameAttr40{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 40px;
+	height: 40px;
+	background-size: 40px 40px !important;
+}
+
+/*以下都是40*40px的图标*/
+.defined-reimbursement{
+	background: url(../sysImages/icon-reimbursement.png) no-repeat;
+}
+.defined-adjust{
+	background: url(../sysImages/icon-adjust.png) no-repeat;
+}
+.defined-payment{
+	background: url(../sysImages/icon-payment.png) no-repeat;
+}
+.defined-amountInWords{
+	background: url(../sysImages/icon-amountInWords.png) no-repeat;
+}
+
+.icon-sameAttr30{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 30px;
+	height: 30px;
+	background-size: 30px 30px !important;
+}
+
+
+
+/*21*01px 图标相同的样式属性*/
+.icon-sameAttr2101{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 21px;
+	height: 1px;
+	background-size: 21px 1px !important;
+}
+/*以下都是21*01px的图标*/
+
+.defined-splitLine{
+	background: url(../sysImages/icon-splitLine.png) no-repeat;
+}
+
+
+/*20*20 图标相同的样式属性*/
+	
+.icon-sameAttr20{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 20px;
+	height: 20px;
+	background-size: 20px 20px !important;
+}
+
+/*以下都是20*20px的图标*/
+.defined-user{
+	background: url(../sysImages/icon-user.png) no-repeat;
+}
+.defined-add{
+	background: url(../sysImages/icon-add.png) no-repeat;
+}
+.defined-printer{
+	background: url(../sysImages/icon-printer.png) no-repeat;
+}
+.defined-view{
+	background: url(../sysImages/icon-view.png) no-repeat;
+}
+.defined-report{
+	background: url(../sysImages/icon-report.png) no-repeat;
+}
+.defined-delete{
+	background: url(../sysImages/icon-delete.png) no-repeat;
+}
+.defined-edit{
+	background: url(../sysImages/icon-edit.png) no-repeat;
+}
+.defined-copy{
+	background: url(../sysImages/icon-copy.png) no-repeat;
+}
+.defined-check{
+	background: url(../sysImages/icon-check.png) no-repeat;
+}
+.defined-attachment{
+	background: url(../sysImages/icon-attachment.png) no-repeat;
+}
+.defined-refresh{
+	background: url(../sysImages/icon-refresh.png) no-repeat;
+}
+.defined-save{
+	background: url(../sysImages/icon-save.png) no-repeat;
+}
+.defined-cancel{
+	background: url(../sysImages/icon-cancel.png) no-repeat;
+}
+.defined-help{
+	background: url(../sysImages/icon-help.png) no-repeat;
+}
+.defined-reset{
+	background: url(../sysImages/icon-reset.png) no-repeat;
+}
+
+/*蓝色图标 20*20*/
+.defined-blueUser{
+	background: url(../sysImages/icon-blueUser.png) no-repeat;
+}
+.defined-blueAdd{
+	background: url(../sysImages/icon-blueAdd.png) no-repeat;
+}
+.defined-bluePrinter{
+	background: url(../sysImages/icon-bluePrinter.png) no-repeat;
+}
+.defined-blueView{
+	background: url(../sysImages/icon-blueView.png) no-repeat;
+}
+
+.defined-blueReport{
+	background: url(../sysImages/icon-blueReport.png) no-repeat;
+}
+.defined-blueDelete{
+	background: url(../sysImages/icon-blueDelete.png) no-repeat;
+}
+.defined-blueEdit{
+	background: url(../sysImages/icon-blueEdit.png) no-repeat;
+}
+.defined-blueCopy{
+	background: url(../sysImages/icon-blueCopy.png) no-repeat;
+}
+.defined-blueCheck{
+	background: url(../sysImages/icon-blueCheck.png) no-repeat;
+}
+.defined-blueAttachment{
+	background: url(../sysImages/icon-blueAttachment.png) no-repeat;
+}
+.defined-blueRefresh{
+	background: url(../sysImages/icon-blueRefresh.png) no-repeat;
+}
+.defined-blueSave{
+	background: url(../sysImages/icon-blueSave.png) no-repeat;
+}
+.defined-blueCancel{
+	background: url(../sysImages/icon-blueCancel.png) no-repeat;
+}
+.defined-blueHelp{
+	background: url(../sysImages/icon-blueHelp.png) no-repeat;
+}
+.defined-blueReset{
+	background: url(../sysImages/icon-blueReset.png) no-repeat;
+}
+
+/*浅蓝色图标 20*20*/
+.defined-lightBlueUser{
+	background: url(../sysImages/icon-lightBlueUser.png) no-repeat;
+}
+.defined-lightBlueAdd{
+	background: url(../sysImages/icon-lightBlueAdd.png) no-repeat;
+}
+.defined-lightBluePrinter{
+	background: url(../sysImages/icon-lightBluePrinter.png) no-repeat;
+}
+.defined-lightBlueView{
+	background: url(../sysImages/icon-lightBlueView.png) no-repeat;
+}
+.defined-lightBlueReport{
+	background: url(../sysImages/icon-lightBlueReport.png) no-repeat;
+}
+.defined-lightBlueDelete{
+	background: url(../sysImages/icon-lightBlueDelete.png) no-repeat;
+}
+.defined-lightBlueEdit{
+	background: url(../sysImages/icon-lightBlueEdit.png) no-repeat;
+}
+.defined-lightBlueCopy{
+	background: url(../sysImages/icon-lightBlueCopy.png) no-repeat;
+}
+.defined-lightBlueCheck{
+	background: url(../sysImages/icon-lightBlueCheck.png) no-repeat;
+}
+.defined-lightBlueAttachment{
+	background: url(../sysImages/icon-lightBlueAttachment.png) no-repeat;
+}
+.defined-lightBlueRefresh{
+	background: url(../sysImages/icon-lightBlueRefresh.png) no-repeat;
+}
+.defined-lightBlueSave{
+	background: url(../sysImages/icon-lightBlueSave.png) no-repeat;
+}
+.defined-lightBlueCancel{
+	background: url(../sysImages/icon-lightBlueCancel.png) no-repeat;
+}
+.defined-lightBlueHelp{
+	background: url(../sysImages/icon-lightBlueHelp.png) no-repeat;
+}
+
+
+
+/*蓝色图标 20*20*/
+
+.defined-option{
+	background: url(../sysImages/icon-option.png) no-repeat;
+}
+.defined-workbench{
+    background: url(../sysImages/icon-workbench.png) no-repeat;
+}
+.defined-departchange{
+    background: url(../sysImages/icon-departchange.png) no-repeat;
+}
+.defined-about{
+    background: url(../sysImages/icon-about.png) no-repeat;
+}
+.defined-logout{
+    background: url(../sysImages/icon-logout.png) no-repeat;
+}
+.defined-exit{
+    background: url(../sysImages/icon-exit.png) no-repeat;
+}
+.defined-export{
+	background: url(../sysImages/icon-export.png) no-repeat;
+}
+.defined-copyForm{
+	background: url(../sysImages/icon-copyForm.png) no-repeat;
+}
+.defined-deletForm{
+	background: url(../sysImages/icon-deletForm.png) no-repeat;
+}
+.defined-moneybag{
+	background: url(../sysImages/icon-moneybag.png) no-repeat;
+}
+.defined-massPrint{
+	background: url(../sysImages/icon-massPrint.png) no-repeat;
+}
+
+
+.defined-personal{
+	background: url(../sysImages/icon-personal.png) no-repeat;
+}
+
+.defined-submitSuccess{
+	background: url(../sysImages/icon-submitSuccess.png) no-repeat;
+}
+.defined-formRight{
+	background: url(../sysImages/icon-formRight.png) no-repeat;
+}
+	
+
+
+/*白色图标 20*20*/
+.defined-btnBack{
+	background: url(../sysImages/icon-btnBack.png) no-repeat;
+}
+
+.defined-btnPrinter{
+	background: url(../sysImages/icon-btnPrinter.png) no-repeat;
+}
+.defined-btnSave{
+	background: url(../sysImages/icon-btnSave.png) no-repeat;
+}
+.defined-btnSent{
+	background: url(../sysImages/icon-btnSent.png) no-repeat;
+}
+
+
+
+
+
+
+
+
+/*left白色图标样式库&nbsp;20*20*/
+.defined-accHandle{
+	background: url(../sysImages/icon-accHandle.png) no-repeat;
+}
+.defined-focusAccHandle{
+	background: url(../sysImages/icon-focusAccHandle.png) no-repeat;
+}
+.defined-manage{
+	background: url(../sysImages/icon-manage.png) no-repeat;
+}
+.defined-focusManage{
+	background: url(../sysImages/icon-focusManage.png) no-repeat;
+}
+.defined-basicData{
+	background: url(../sysImages/icon-basicData.png) no-repeat;
+}
+.defined-focusBasicData{
+	background: url(../sysImages/icon-focusBasicData.png) no-repeat;
+}
+.defined-statisticalQuery{
+	background: url(../sysImages/icon-statisticalQuery.png) no-repeat;
+}
+.defined-focusStatisticalQuery{
+	background: url(../sysImages/icon-focusStatisticalQuery.png) no-repeat;
+}
+.defined-myAccount{
+	background: url(../sysImages/icon-myAccount.png) no-repeat;
+}
+.defined-focusMyAccount{
+	background: url(../sysImages/icon-focusMyAccount.png) no-repeat;
+}
+.defined-myPending{
+	background: url(../sysImages/icon-myPending.png) no-repeat;
+}
+.defined-focusMyPending{
+	background: url(../sysImages/icon-focusMyPending.png) no-repeat;
+}
+.defined-myDone{
+	background: url(../sysImages/icon-myDone.png) no-repeat;
+}
+.defined-focusMyDone{
+	background: url(../sysImages/icon-focusMyDone.png) no-repeat;
+}
+.defined-systemInfo{
+	background: url(../sysImages/icon-systemInfo.png) no-repeat;
+}
+.defined-focusSystemInfo{
+	background: url(../sysImages/icon-focusSystemInfo.png) no-repeat;
+}
+
+
+/*第二行*/
+.defined-advanceApply{
+	background: url(../sysImages/icon-advanceApply.png) no-repeat;
+}
+.defined-focusAdvanceApply{
+	background: url(../sysImages/icon-focusAdvanceApply.png) no-repeat;
+}
+
+.defined-myEnd{
+	background: url(../sysImages/icon-myEnd.png) no-repeat;
+}
+.defined-focusMyEnd{
+	background: url(../sysImages/icon-focusMyEnd.png) no-repeat;
+}
+.defined-screenSearch{
+	background: url(../sysImages/icon-screenSearch.png) no-repeat;
+}
+.defined-focusScreenSearch{
+	background: url(../sysImages/icon-focusScreenSearch.png) no-repeat;
+}
+.defined-screenEva{
+	background: url(../sysImages/icon-screenEva.png) no-repeat;
+}
+.defined-focusScreenEva{
+	background: url(../sysImages/icon-focusScreenEva.png) no-repeat;
+}
+.defined-screenQC{
+	background: url(../sysImages/icon-screenQC.png) no-repeat;
+}
+.defined-focusScreenQC{
+	background: url(../sysImages/icon-focusScreenQC.png) no-repeat;
+}
+.defined-screenCollect{
+	background: url(../sysImages/icon-screenCollect.png) no-repeat;
+}
+.defined-focusScreenCollect{
+	background: url(../sysImages/icon-focusScreenCollect.png) no-repeat;
+}
+.defined-logoutSEO{
+	background: url(../sysImages/icon-logoutSEO.png) no-repeat;
+}
+.defined-hoverLogoutSEO{
+	background: url(../sysImages/icon-hoverLogoutSEO.png) no-repeat;
+}
+
+
+
+
+
+
+
+
+/*16*16 图标相同的样式属性*/
+	
+.icon-sameAttr16{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 16px;
+	height: 16px;
+	background-size: 16px 16px !important;
+	font-family:inherit; !important;
+	
+}
+}
+
+
+/*白色图标16*16*/
+.defined-layerClose{
+	background: url(../sysImages/icon-layerClose.png) no-repeat;
+}
+.defined-searchSEO{
+	background: url(../sysImages/icon-searchSEO.png) no-repeat;
+}
+
+
+/*图标 16*16*/
+.defined-clock{
+	background: url(../sysImages/icon-clock.png) no-repeat;
+}
+.defined-search{
+	background: url(../sysImages/icon-search.png) no-repeat;
+}
+.defined-pulldown{
+	background: url(../sysImages/icon-pulldown.png) no-repeat;
+}
+.defined-warning{
+	background: url(../sysImages/icon-warning.png) no-repeat;
+}
+.defined-listRight{
+	background: url(../sysImages/icon-listRight.png) no-repeat;
+}
+.defined-calendar{
+	background: url(../sysImages/icon-calendar.png) no-repeat;
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 16px;
+	height: 16px;
+	background-size: 16px 16px !important;
+}
+.defined-disagree{
+	background: url(../sysImages/icon-disagree.png) no-repeat;
+}
+.defined-success{
+	background: url(../sysImages/icon-success.png) no-repeat;
+}
+.defined-info{
+	background: url(../sysImages/icon-info.png) no-repeat;
+}
+.defined-agree{
+	background: url(../sysImages/icon-agree.png) no-repeat;
+}
+.defined-bluePagePrev{
+	background: url(../sysImages/icon-bluePagePrev.png) no-repeat;
+}
+.defined-bluePageNext{
+	background: url(../sysImages/icon-bluePageNext.png) no-repeat;
+}
+.defined-greyPagePrev{
+	background: url(../sysImages/icon-greyPagePrev.png) no-repeat;
+}
+.defined-greyPageNext{
+	background: url(../sysImages/icon-greyPageNext.png) no-repeat;
+}
+.defined-greyPageNext{
+	background: url(../sysImages/icon-greyPageNext.png) no-repeat;
+}
+.defined-disablePageNext{
+	background: url(../sysImages/icon-disablePageNext.png) no-repeat;
+}
+.defined-disablePagePrev{
+	background: url(../sysImages/icon-disablePagePrev.png) no-repeat;
+}
+.defined-ing{
+	background: url(../sysImages/icon-ing.png) no-repeat;
+}
+
+/*图标 16*16*/
+
+.defined-blueClock{
+	background: url(../sysImages/icon-blueClock.png) no-repeat;
+}
+.defined-blueSearch{
+	background: url(../sysImages/icon-blueSearch.png) no-repeat;
+}
+.defined-bluePullUp{
+	background: url(../sysImages/icon-bluePullUp.png) no-repeat;
+}
+.defined-bluePulldown{
+	background: url(../sysImages/icon-bluePulldown.png) no-repeat;
+}
+.defined-blueCalendar{
+	background: url(../sysImages/icon-blueCalendar.png) no-repeat;
+}
+.defined-stepComments{
+	background: url(../sysImages/icon-stepComments.png) no-repeat;
+}
+.defined-popupGreyClose{
+	background: url(../sysImages/icon-popupGreyClose.png) no-repeat;
+}
+.defined-popupClose{
+	background: url(../sysImages/icon-popupClose.png) no-repeat;
+}
+
+
+
+/*单选和复选*/
+.defined-checkbox{
+	background: url(../sysImages/icon-checkbox.png) no-repeat;
+}
+.defined-disableCheckbox{
+	background: url(../sysImages/icon-disableCheckbox.png) no-repeat;
+}
+.defined-disableCheckbox-false{
+	background: url(../sysImages/icon-disableCheckbox-false.png) no-repeat;
+}
+.defined-focusCheckbox{
+	background: url(../sysImages/icon-focusCheckbox.png) no-repeat;
+}
+.defined-hoverCheckbox{
+	background: url(../sysImages/icon-hoverCheckbox.png) no-repeat;
+}
+
+.defined-radiobox{
+	background: url(../sysImages/icon-radiobox.png) no-repeat;
+}
+.defined-disableRadiobox{
+	background: url(../sysImages/icon-disableRadiobox.png) no-repeat;
+}
+.defined-disableRadiobox-false{
+	background: url(../sysImages/icon-disableRadiobox-false.png) no-repeat;
+}
+.defined-focusRadiobox{
+	background: url(../sysImages/icon-focusRadiobox.png) no-repeat;
+}
+.defined-hoverRadiobox{
+	background: url(../sysImages/icon-hoverRadiobox.png) no-repeat;
+}
+
+
+
+/*14*14 图标相同的样式属性*/
+	
+.icon-sameAttr14{
+	display: inline-block;
+	vertical-align: bottom;
+	width: 14px;
+	height: 14px;
+	background-size: 14px 14px !important;
+}
+.defined-suggestEdit{
+	background: url(../sysImages/icon-suggestEdit.png) no-repeat;
+}
+
+.defined-greyMinus{
+	background: url(../sysImages/icon-greyMinus.png) no-repeat;
+}
+.defined-blueMinus{
+	background: url(../sysImages/icon-blueMinus.png) no-repeat;
+}
+.defined-greyAdd{
+	background: url(../sysImages/icon-greyAdd.png) no-repeat;
+}
+.defined-blueAdd{
+	background: url(../sysImages/icon-blueAdd.png) no-repeat;
+}
+
+/*10*10 图标相同的样式属性*/
+	
+.icon-sameAttr10{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 10px;
+	height: 10px;
+	background-size: 10px 10px !important;
+}
+.defined-closeBlue{
+	background: url(../sysImages/icon-closeBlue.png) no-repeat;
+}
+.defined-closeGrey{
+	background: url(../sysImages/icon-closeGrey.png) no-repeat;
+}
+
+.defined-greyFilterUp{
+	background: url(../sysImages/icon-greyFilterUp.png) no-repeat;
+}
+.defined-filterUp{
+	background: url(../sysImages/icon-filterUp.png) no-repeat;
+}
+
+
+/*图标 10*10*/
+
+
+/*8*8 图标相同的样式属性*/
+	
+.icon-sameAttr8{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 8px;
+	height: 8px;
+	background-size: 8px 8px !important;
+}
+
+
+/*图标 8*8*/
+.defined-dot{
+	background: url(../sysImages/icon-dot.png) no-repeat;
+}
+
+.defined-editForm{
+	background: url(../sysImages/icon-editForm.png) no-repeat;
+}
+
+.defined-sureFrom{
+	background: url(../sysImages/icon-sureFrom.png) no-repeat;
+}
+.defined-formDown{
+	background: url(../sysImages/icon-formDown.png) no-repeat;
+}
+
+
+
+
+/*6*6 图标相同的样式属性*/
+	
+.icon-sameAttr6{
+	display: inline-block !important;
+	vertical-align: bottom;
+	width: 6px;
+	height: 6px;
+	background-size: 6px 6px !important;
+}
+
+
+/*图标 6*6*/
+
+.defined-importent{
+	background: url(../sysImages/icon-importent.png) no-repeat;
+}
+
+.form-group .defined-info{
+	position: absolute;
+	right: -17px;
+	top: 7px;
+}
+
+
+
+
+
+
+
+

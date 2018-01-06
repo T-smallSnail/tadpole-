@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.AcctSubDao">
+    
+	<sql id="acctSubColumns">
+		a.id AS "id",
+		a.acct_no AS "acctNo",
+		a.acct_name AS "acctName",
+		a.is_used AS "isUsed",
+		a.subject_level AS "subjectLevel",
+		a.effect_date AS "effectDate",
+		a.is_leaf AS "isLeaf",
+		a.budget_property AS "budgetProperty",
+		a.parentno AS "parentno",
+		a.parentname AS "parentname",
+		a.unacct_no AS "unAcctNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.ref_id AS "refId",
+		a.kmid AS "KMID"
+	</sql>
+	
+	<sql id="acctSubJoins">
+	</sql>
+	<select id="get" resultType="AcctSub">
+		SELECT 
+			<include refid="acctSubColumns"/>
+		FROM acct_sub a
+		<include refid="acctSubJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+	     SELECT COUNT(*) FROM acct_sub
+	</select>
+	
+	
+	
+	<select id="findList" resultType="AcctSub">
+		SELECT 
+			<include refid="acctSubColumns"/>
+		FROM acct_sub a
+		<include refid="acctSubJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="acctNo != null and acctNo != ''">
+				AND a.acct_no = #{acctNo}
+			</if>
+			<if test="unAcctNo != null and unAcctNo != ''">
+				AND a.unacct_no = #{unAcctNo}
+			</if>
+			<if test="acctName != null and acctName != ''">
+				AND a.acct_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{acctName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{acctName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{acctName},'%')</if>
+			</if>
+			<if test="parentname != null and parentname != ''">
+				AND a.parentname LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parentname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parentname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parentname},'%')</if>
+			</if>
+			<if test="isUsed != null and isUsed != ''">
+				AND a.IS_USED = #{isUsed}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AcctSub">
+		SELECT 
+			<include refid="acctSubColumns"/>
+		FROM acct_sub a
+		<include refid="acctSubJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="acct_sub_SEQ">acct_sub_SEQ.NEXTVAL</sql>
+	<insert id="insert">	
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT acct_sub_SEQ.NEXTVAL FROM DUAL
+		</selectKey> 
+		INSERT INTO acct_sub(
+			id,
+			acct_no,
+			acct_name,
+			is_used,
+			subject_level,
+			effect_date,
+			is_leaf,
+			budget_property ,
+			parentno,
+			parentname,
+			unacct_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			ref_id,
+			kmid
+		) VALUES (
+			#{id},
+			#{acctNo},
+			#{acctName},
+			#{isUsed},
+			#{subjectLevel},
+			#{effectDate},
+			#{isLeaf},
+			#{budgetProperty},
+			#{parentno},
+			#{parentname},
+			#{unAcctNo},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{refId},
+			#{KMID}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE acct_sub SET 	
+			   acct_no = #{acctNo},
+			   acct_name = #{acctName},
+		       is_used = #{isUsed},
+			   subject_level = #{subjectLevel},
+			   effect_date =#{effectDate},
+			   is_leaf =#{isLeaf},
+			   budget_property =#{budgetProperty},
+			   parentno = #{parentno},
+			   parentname = #{parentname},
+			   unacct_no = #{unAcctNo},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks},
+			   ref_id = #{refId},
+			   kmid=#{KMID}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE acct_sub SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.bas.entity.AcctSub">
+		SELECT 
+			<include refid="acctSubColumns"/>
+		FROM acct_sub a
+		<include refid="acctSubJoins"/>
+		WHERE a.acct_no = #{acctNo}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE acct_sub SET
+			   acct_no = #{acctNo},
+			   acct_name = #{acctName},
+			   is_used = #{isUsed},
+			   subject_level = #{subjectLevel},
+			   effect_date =#{effectDate},
+			   is_leaf =#{isLeaf},
+			   budget_property =#{budgetProperty},
+			   parentno = #{parentno}, 
+			   parentname = #{parentname},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   unacct_no  = #{unAcctNo},
+			   remarks = #{remarks}, 
+			   kmid=#{KMID}
+		WHERE acct_no = #{acctNo}
+	</update>
+</mapper>

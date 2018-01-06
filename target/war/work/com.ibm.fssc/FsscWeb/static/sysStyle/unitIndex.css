@@ -1,0 +1,47 @@
+@charset "utf-8";
+/*单位切换样式*/
+ul,li{
+	list-style: none;
+}
+.unit{
+	width:100%;
+}
+.unit:hover .unit-left,.unit:hover .unit-right{
+	background: #E0F1FE;
+}
+.unit-ul{
+	float: left;
+	margin-top: 8px;
+	cursor: default;
+}
+.unit-ul li{
+	font-size: 14px;
+	color: #000;
+}
+.unit-ul li:last-child{
+	color: #666666;
+}
+.unit-left{
+	width: 65%;
+	height:60px;
+	float: left;
+}
+.unit-left .radiobox{
+	margin-top: 17px;
+	float: left;
+	margin-left: 3%;
+}
+
+.unit-right{
+	width: 35%;
+	height:60px;
+	float: right;
+	text-align: right;
+	line-height: 60px;
+}
+.unit-right span{
+	padding-right: 10%;
+	color: #666;
+	font-size: 14px;
+	cursor: default;
+}

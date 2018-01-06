@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.TreeConfDao">
+    
+	<sql id="treeConfColumns">
+		a.id AS "id",
+		a.scene_id AS "sceneId",
+		a.scene_desc AS "sceneDesc",
+		a.select_type AS "selectType",
+		a.params AS "params",
+		a.sql AS "sql",
+		a.tri_func AS "triFunc",
+		a.tri_lev AS "triLev",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.updatedate AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.wherecaulse AS "whereCaulse"
+	</sql>
+	
+	<sql id="treeConfJoins">
+	</sql>
+    
+	<select id="get" resultType="TreeConf">
+		SELECT 
+			<include refid="treeConfColumns"/>
+		FROM sys_tree_conf a
+		<include refid="treeConfJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id = "getBySceneId" parameterType = "String" resultType = "Treeconf">
+		SELECT 
+			<include refid="treeConfColumns"/>
+		FROM sys_tree_conf a
+		WHERE a.scene_id = #{sceneId}
+	</select>
+	
+	<select id = "findTreeList" resultType = "Tree">
+		${value}
+	</select>
+		
+	<select id="findList" resultType="TreeConf">
+		SELECT 
+			<include refid="treeConfColumns"/>
+		FROM sys_tree_conf a
+		<include refid="treeConfJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="sceneId != null and sceneId != ''">
+				AND a.scene_id  like  '%'||#{sceneId}||'%' 
+			</if>
+			<if test="sceneDesc != null and sceneDesc != ''">
+				AND a.scene_desc LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sceneDesc}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sceneDesc}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sceneDesc},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise> 	
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TreeConf">
+		SELECT 
+			<include refid="treeConfColumns"/>
+		FROM sys_tree_conf a
+		<include refid="treeConfJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="sys_tree_conf_SEQ">sys_tree_conf_SEQ.NEXTVAL</sql>
+
+	<insert id="insert">
+		INSERT INTO sys_tree_conf(
+			id,
+			scene_id,
+			scene_desc,
+			select_type,
+			params,
+			sql,
+			tri_func,
+			tri_lev,
+			create_by,
+			create_date,
+			update_by,
+			updatedate,
+			remarks,
+			del_flag,
+			wherecaulse
+		) VALUES (
+		<include refid="sys_tree_conf_SEQ"/>,
+			#{sceneId},
+			#{sceneDesc},
+			#{selectType},
+			#{params},
+			#{sql},
+			#{triFunc},
+			#{triLev},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{whereCaulse}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_tree_conf SET 	
+			   scene_id = #{sceneId},
+			   scene_desc = #{sceneDesc},
+			   select_type = #{selectType},
+			   params = #{params},
+			   sql = #{sql},
+			   tri_func = #{triFunc},
+			   tri_lev = #{triLev},
+			   update_by = #{updateBy.id},
+			   updatedate = #{updateDate},
+			   remarks = #{remarks},
+			   wherecaulse = #{whereCaulse}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_tree_conf SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

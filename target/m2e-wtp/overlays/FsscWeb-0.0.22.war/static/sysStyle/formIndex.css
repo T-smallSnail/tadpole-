@@ -1,0 +1,394 @@
+@charset "utf-8";
+/*表单样式*/
+
+
+/*分隔线+公用css*/
+
+.split-line{
+	width:89%;
+	height: 1px;
+	background: url(../sysImages/icon-splitLine.png) repeat-x;
+	margin: 24px 0px 15px 5%;
+}
+.form-group label,.form-group p{
+	font-size: 1.6rem;
+	padding-right: 10px;
+	margin-top: 6px;
+	color: #69798C;
+}
+
+/*内联表单*/
+.form-inline .form-group{
+	width: 40%;
+	margin-top: 12px;
+	margin-left: 5%;
+	text-align: right;
+	position: relative;
+}
+
+p.form-control{
+	padding-left: 3px;
+}
+.form-inline .form-control{
+	float: right;
+	text-align: left;
+	color: #404953;
+}
+
+
+.form-group i{
+	vertical-align: middle;
+}
+
+.form-inline .form-group  input{
+	position: relative;
+	cursor: default;
+}
+
+
+.form-inline .form-group .defined-search ,.form-inline .form-group .dropdown .defined-pulldown,
+.form-inline .form-group .defined-calendar,.form-inline .form-group .defined-clock,
+.form-inline .form-group .defined-disagree,.form-inline .form-group .defined-success,
+.form-inline .form-group .defined-warning
+{
+	background-position: 98% 7px;
+}
+.form-group .input-append .defined-search{
+	width:100% !important;
+	padding-left:0;
+	padding-right:0;
+}
+.form-inline-align .input-append .defined-search{
+	background-position:  98% 6px !important;
+}
+.defined-search:focus{
+	background: url(../sysImages/icon-blueSearch.png) no-repeat;
+}
+.defined-calendar:focus{
+	background: url(../sysImages/icon-blueCalendar.png) no-repeat;
+}
+/*.defined-pulldown:focus{
+	background: url(../sysImages/icon-bluePullUp.png) no-repeat;
+}*/
+.defined-clock:focus{
+	background: url(../sysImages/icon-blueClock.png) no-repeat;
+}
+
+}
+
+/*时间日期样式二*/
+.form-inline .form-group .input-time{
+	width: 65.3%;
+	height: 30px;
+	float: right;
+	text-align: center;
+	line-height: 30px;
+}
+
+.form-inline .form-group .input-time input{
+	width: 40%;
+}
+.form-inline .form-group .input-time .input-timeFirst{
+	float:left;
+}
+.form-inline .form-group .input-time .input-timeSecound{
+	float: right;
+}
+
+/*输入金额*/
+.form-inline .form-group .input-money{
+	width: 64.1%;
+	height: 30px;
+	float: right;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: left;
+}
+
+/*div模拟input的outline样式*/
+.focusOutline{
+	outline: 0;
+	/*outline: thin dotted \9;*/
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+	border: 1px solid rgba(117,158,240,0.8) !important;
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	-moz-transition: border linear .2s,box-shadow linear .2s;
+	-o-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+}
+.form-inline .form-group .input-money input{
+	width: 30%;
+	margin-left: 7%;
+	border: none;
+	box-shadow: none;
+	outline: none;
+}
+
+/*水平表单*/
+.form-horizontal .form-group{
+	margin-top: 12px;
+	
+}
+.form-horizontal .form-group  input,.form-horizontal .form-group textarea{
+	position: relative;
+	cursor: default;
+	width: 75%;
+}
+.form-horizontal .form-group  input{
+	height: 30px;
+}
+.form-horizontal .form-group .defined-search ,.form-horizontal .form-group .dropdown .defined-pulldown,
+.form-horizontal .form-group .defined-calendar,.form-horizontal .form-group .defined-clock,
+.form-inline .form-inline-align .defined-disagree,.form-inline  .form-inline-align .form-group .defined-success,
+.form-inline  .form-inline-align  .defined-warning{
+	background-position: 98% 7px;
+}
+.form-horizontal .form-group .dropdown-menu{
+	left:15%;
+    min-width: 76%;
+}
+
+
+/*复选框和单选框共有*/
+.check-disable,.radiobox-disable{
+	cursor: not-allowed;
+}
+/*复选框*/
+.checkbox input[type="checkbox"],.radiobox input[type="radio"] {
+	opacity:0;
+}
+.checkbox-active{
+	background: url(../sysImages/icon-focusCheckbox.png) no-repeat;
+}
+
+.check-click span{
+	cursor: default;
+}
+.check-click .defined-checkbox:hover{
+	background: url(../sysImages/icon-hoverCheckbox.png) no-repeat;
+}
+.check-click .checkbox-active:hover{
+	background: url(../sysImages/icon-focusCheckbox.png) no-repeat;
+}
+
+
+/*单选框*/
+.radiobox-active{
+	background: url(../sysImages/icon-focusRadiobox.png) no-repeat;
+}
+.radiobox input{
+	width:0;
+}
+.radiobox-click  span{
+	cursor: default;
+}
+.radiobox input{
+	float: left;
+}
+.radiobox-click .defined-radiobox:hover{
+	background: url(../sysImages/icon-hoverRadiobox.png) no-repeat;
+}
+.radiobox-click  .radiobox-active:hover{
+	background: url(../sysImages/icon-focusRadiobox.png) no-repeat;
+}
+
+/*一列的单选和复选框处理*/
+.form-group  .radiobox input, .form-group .checkbox input{
+	float: right;
+}
+.form-group  .radiobox, .form-group .checkbox,.form-group  .input-time{
+	width: 64.2%;
+	text-align: left;
+}
+.form-group  .input-time{
+	text-align: center;
+}
+/*两列的对齐表单*/
+.form-inline  .form-inline-align{
+	width: 85.2%;
+}
+.form-inline  .form-inline-align  input,.form-inline .form-inline-align  textarea,.form-inline  .form-inline-align  p{
+	width: 82.1%;
+}
+
+.form-inline  .form-inline-align .radiobox ,.form-inline .form-inline-align .checkbox ,.form-inline .form-inline-align .input-time{
+	width: 83.2%;
+	text-align: left;
+}
+
+.form-inline  .form-inline-align  .verify-formDescribe{
+	width: 83%;
+}
+
+
+
+/*三列的对齐表单*/
+ .form-threeDiv{
+	width: 59.3% !important;
+}
+.form-threeDiv .form-threeInput{
+	width: 82% !important;
+}
+.form-threeDiv .verify-formDescribe{
+	width: 82.2% !important;
+}
+
+.form-inline .form-three-inline{
+	width: 88.6%;
+}
+.form-inline .form-three-inline  input,.form-inline .form-three-inline  textarea{
+	width: 90.4%;
+}
+.form-inline .form-three-inline .radiobox ,.form-inline .form-three-inline .checkbox{
+	width: 91.5%;
+	text-align: left;
+}
+
+.form-inline .form-three-inline  .verify-formDescribe{
+	width: 90.7%;
+}
+
+/*表单验证样式*/
+/*错误*/
+.verify-error{
+	width: 62.5%;
+    float: left;
+    text-align: left;
+    color: #EC6868;
+    /* position:absolute; */
+   /*  bottom: -22px;
+    right: 5px ; */
+}
+input.verify-error{      /*适用插件当中的写法*/
+	border:1px solid #EC6868;
+    box-shadow: 0px 0px 3px rgb(236, 104, 104);
+}
+textarea.verify-error{      /*适用插件当中的写法*/
+	border:1px solid #EC6868;
+    box-shadow: 0px 0px 3px rgb(236, 104, 104);
+}
+
+/*警告*/
+
+
+.border-colorEC6868{
+	border:1px solid #EC6868 !important;
+    box-shadow: 0px 0px 3px rgb(236, 104, 104) !important;
+} 
+.colorEC6868{
+	color: #EC6868;
+}
+.border-colorF6A734{
+	border:1px solid #F6A734 !important;
+    box-shadow: 0px 0px 3px rgb(246, 167, 52) !important;
+}
+.colorF6A734{
+	color: #F6A734;
+}
+.verify-formDescribe{
+	font-size: 1.4rem !important;
+	width: 62.5%;
+	float: right;
+	text-align: left;
+}
+
+
+
+/*一排三个(合同组)*/
+.form-inline .form-three {
+	width:28%;
+	margin-left: 3% !important;
+}
+
+/*下拉新增*/
+.form-group .select2-container {
+    width: 64.5% !important;
+}
+.form-group .input-append {
+    width: 64.6% !important;
+}
+.form-inline-align .input-append {
+    width: 82.7% !important;
+}
+
+/*一行下拉新增*/
+.form-inline-align  .select2-container{
+	 width: 83% !important;
+}
+/*媒介查询*/
+@media screen (min-width: 1100px) and (max-width: 1400px) {
+	
+	.form-inline .form-inline-align {
+		width: 91.3% !important;
+	}
+	.form-inline .form-inline-align  input,.form-inline  .form-inline-align  textarea,.form-inline  .form-inline-align  p{
+		width: 81.7% !important;
+	}
+	
+	.form-inline .form-inline-align .radiobox, .form-inline .form-inline-align .checkbox{
+		width: 83.2%;
+		text-align: left;
+	}
+	
+	
+	/*合同组三列对齐表单*/
+	.form-inline .form-three-inline{
+		width: 88.6% !important;
+	}
+	.form-inline .form-three-inline  input,.form-inline .form-three-inline  textarea{
+		width: 84.5% !important;
+	}
+	.form-inline .form-three-inline .radiobox,	.form-inline .form-three-inline .checkbox{
+		width: 86%;
+	}
+  	.form-inline .form-threeDiv{
+		width: 58% !important;
+	}
+	.form-inline .form-threeDiv .form-threeInput{
+		width: 76.7% !important
+	}
+	.form-inline  .form-threeDiv .verify-formDescribe{
+		width: 76.7% !important
+	}
+	
+  	 .form-inline .form-group {
+	    width: 44% ;
+	    margin-top: 12px;
+	    margin-left: 3% ;
+	    text-align: right;
+	    position: relative;
+	}
+	.form-inline .form-inline-align  .verify-formDescribe{
+		width:　82.5%;
+	}
+	.form-inline .form-three-inline  .verify-formDescribe{
+		width: 84.5% !important;
+	}
+	/*合同组三列对齐表单*/
+	/*.form-inline .form-three-inline  .verify-formDescribe{
+		width: 86%;
+	}*/
+	.form-inline .form-three {
+		width:27.3%;
+		margin-left: 1%　!important;
+	}
+	.form-inline .form-three .form-control{
+		width:50%;
+	}
+	.form-inline .form-three  .verify-formDescribe{
+		width: 51.7%
+	}
+
+
+}
+		
+
+@media screen and (max-width: 1000px) {
+.form-group .select2-container {
+    width: 65.5% !important;
+}
+}
+.form-control.defined-search::-ms-clear { display: none; }

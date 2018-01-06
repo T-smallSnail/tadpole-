@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd
+    http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.4/weblogic-web-app.xsd">
+	<charset-params>
+			<input-charset>
+				<resource-path>/*</resource-path>
+				<java-charset-name>UTF-8</java-charset-name>
+			</input-charset>
+	</charset-params>
+	<container-descriptor>
+	
+<!-- 		<prefer-web-inf-classes>true</prefer-web-inf-classes>
+		<show-archived-real-path-enabled>true</show-archived-real-path-enabled> -->
+
+		<!-- <application-param> <param-name>webapp.encoding.default</param-name> 
+			<param-value>UTF-8</param-value> </application-param> <prefer-application-packages> 
+			<package-name>org.apache.*</package-name> <package-name>javax.jws.*</package-name> 
+			<package-name>javax.xml.ws.*</package-name> <package-name>org.xmlsoap.schemas.wsdl.*</package-name> 
+			<package-name>javax.persistence.*</package-name> <package-name>antlr.*</package-name> 
+			<package-name>com.bea.xbean.*</package-name> <package-name>com.bea.xml.*</package-name> 
+			</prefer-application-packages> -->
+
+		<prefer-web-inf-classes>false</prefer-web-inf-classes>
+
+		<prefer-application-packages>
+			<package-name>org.slf4j</package-name>
+			<package-name>org.apache.xerces.*</package-name>
+			<package-name>org.apache.commons.*</package-name>
+			<package-name>javax.jws.*</package-name>
+			<package-name>javax.xml.ws.*</package-name>
+			<package-name>javax.xml.bind.*</package-name>
+			<package-name>javax.xml.soap.*</package-name>
+			<package-name>javax.namespace.xml.*</package-name>
+			<package-name>javax.wsdl.*</package-name>
+			<package-name>org.xmlsoap.schemas.wsdl.*</package-name>
+			<package-name>org.hibernate.*</package-name>
+			<package-name>javax.persistence.*</package-name>
+			<package-name>com.bea.xbean.*</package-name>
+			<package-name>com.bea.xml.*</package-name>
+			<package-name>com.sun.xml.*</package-name>
+			<package-name>javax.validation.*</package-name>
+		</prefer-application-packages>
+
+		<!-- if not using prefer-application-resources you will get a warning like this: -->
+		<!-- Class path contains multiple SLF4J bindings -->
+		<!-- SLF4J: Found binding in [jar:file:/path/to/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class] -->
+		<!-- SLF4J: Found binding in [jar:file:/u01/app/wls12130/wlserver/modules/features/weblogic.server.merged.jar!/org/slf4j/impl/StaticLoggerBinder.class] -->
+		<prefer-application-resources>
+			<resource-name>org/slf4j/impl/StaticLoggerBinder.class</resource-name>
+		</prefer-application-resources>
+
+		<!-- <prefer-application-resources> <resource-name>javax.faces.*</resource-name>
+			<resource-name>com.sun.faces.*</resource-name> <resource-name>com.bea.faces.*</resource-name> 
+			<resource-name>META-INF/services/javax.servlet.ServletContainerInitializer</resource-name> 
+			</prefer-application-resources> -->
+	</container-descriptor>
+</weblogic-web-app>

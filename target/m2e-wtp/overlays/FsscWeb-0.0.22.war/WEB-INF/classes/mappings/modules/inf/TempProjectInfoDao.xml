@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempProjectInfoDao">
+    
+	<sql id="tempProjectInfoColumns">
+		a.id AS "id",
+		a.project_code AS "projectCode",
+		a.code AS "projectNo",
+		a.projectname AS "projectName",
+		a.projecttype AS "projectType",
+		a.enginercategoruy AS "programType",
+		a.projectstatus AS "projectStatus",
+		a.buildcompany AS "buildCompany",
+		a.uuid AS "uuid",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="tempProjectInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="TempProjectInfo">
+		SELECT 
+			<include refid="tempProjectInfoColumns"/>
+		FROM temp_project_info a
+		<include refid="tempProjectInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_project_info
+	</select>
+	<select id="findList" resultType="TempProjectInfo">
+		SELECT 
+			<include refid="tempProjectInfoColumns"/>
+		FROM temp_project_info a
+		<include refid="tempProjectInfoJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllList" resultType="TempProjectInfo">
+		SELECT 
+			<include refid="tempProjectInfoColumns"/>
+		FROM temp_project_info a
+		<include refid="tempProjectInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_project_info_SEQ">temp_project_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_project_info(
+			id,
+			project_code,
+			code,
+			projectname,
+			projecttype,
+			enginercategoruy,
+			projectstatus,
+			buildcompany,
+			uuid,
+			create_date
+		) VALUES (
+		<include refid="temp_project_info_SEQ"/>,
+			#{projectCode},
+			#{projectNo},
+			#{projectName},
+			#{projectType},
+			#{programType},
+			#{projectStatus},
+			#{buildCompany},
+			#{uuid},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_project_info SET 	
+			   project_code = #{projectCode},
+			   code = #{projectNo},
+			   projectname = #{projectName},
+			   projecttype = #{projectType},
+			   enginercategoruy = #{programType},
+			   projectstatus = #{projectStatus},
+			   buildcompany = #{buildCompany},
+			   uuid = #{uuid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_project_info
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_project_info
+		WHERE code = #{projectNo}
+	</update>
+	
+</mapper>

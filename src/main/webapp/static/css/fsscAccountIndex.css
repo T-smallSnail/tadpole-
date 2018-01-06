@@ -1,0 +1,424 @@
+@charset "utf-8";
+
+
+
+
+/*布局*/
+/* .layout-content{
+	width:95%;
+	margin: 15px auto 100px;
+	position: relative;
+}
+ */
+.panel-defined .panel-defined-content{
+	padding-bottom:20px;
+}
+
+.form-inline .form-group .radiobox ,.form-inline  .form-group .checkbox{
+	width: 64.2%;
+	text-align: left;
+}
+
+
+/*修改下拉框*/
+
+
+.form-inline .form-inline-align .radiobox, .form-inline .form-inline-align .checkbox{
+	width: 83.2%;
+	text-align: left;
+}
+/*重置工具栏a标签换成input*/
+.reset-attr{
+	border: none;
+	background: none;
+	padding: 0px;
+}
+
+.form-inline .form-group input{
+	font-family: '微软雅黑';
+}
+
+
+
+/*卡片式*/
+.suspend-card .suspend-cardForm .suspend-cardFormbtn{
+	width: 64.3%;
+}
+
+.suspend-card .suspend-cardForm .suspend-cardFormbtn .btn{
+	padding:4px 15px;
+}
+.text-btn{
+	position: absolute;
+	right: 0px;
+	top: 10px;
+	border-bottom: 0px !important;
+	cursor: default;
+}
+
+.text-btn li{
+	font-size:14px;
+	color:#999;
+}
+.text-active{
+	color:#2EA1F8 !important;
+}
+
+
+
+.fr{
+	float:right;
+}
+
+
+/*报账组用*/
+
+/*固定底部模糊背景的按钮*/
+.footerSEO-fixed ,.toolbar-fixed{
+	position: fixed !important;
+	bottom: 0px;
+	z-index: 1111;
+}
+
+
+
+.alignCenter{
+	text-align:center !important;
+}
+
+
+
+
+/*添加单行的备注样式*/
+.supend-onlyTextarea{
+	padding: 0px;
+	width: 100%;
+	border-radius: 8px;
+}
+.supend-onlyTextarea .card-suggest{
+	width: 98% !important;
+	margin: 0px;
+}
+.supend-onlyTextarea .card-suggest .form-suggestText{
+	text-align: left;
+	width: 100%;
+	padding: 0px;
+	resize: none;
+	border-color: transparent;
+	box-shadow: none;
+	text-indent: 1%;
+}
+
+/*薪酬报账单样式*/
+.payBill-top{
+	width: 100%;
+	text-align: center;
+	padding: 60px 0px 40px;
+}
+.payBill-top .payBill-top-title{
+	font-size: 16px;
+	color: #666;
+}
+
+.payBill-top .payBill-top-content{
+	font-size: 13px;
+	color: #999;
+}
+
+.payBill-content{
+}
+.payBill-content-list li{
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+}
+.payBill-content-list li a{
+	display: inline-block;
+	width: 48%;
+	background-color: #2EA1F8;
+	text-align: center;
+	padding: 12px 0px;
+	margin: 20px 0px;
+	border-radius: 4px;
+	color: #FFF;
+}
+.payBill-content-list li a:hover{
+	background-color: #5EBAFF;
+}
+
+
+
+
+/*测试，平台会引入，记得删除*/
+.suspend-card-middle .card-height80-twoDivPart i{
+	float: left;
+	margin-left: 28%;
+	margin-right: 4%;
+}
+/*80下面的2个没有分开的div*/
+.card-height80-parts  .card-height80-twoDivPart{
+	width: 49%;
+	float: left;
+	margin-top: 18px;
+}
+
+
+
+
+/*引入暂时使用*/
+/* .defined-suggest-selected{
+	background: #E3EAF2;
+}
+ */
+
+/*jbox固定按钮在底端*/
+
+.jbox-fixed{
+	position: fixed;
+	bottom: -10px;
+	height: 50px;
+	line-height: 50px;
+	margin-bottom: 10px;
+	text-align:right;
+	right:1%;
+}
+
+/*readonly 但是可以点击选择样式*/
+.readonlyBcff{
+	background-color:#fff !important;
+}
+
+/*input旁边新增清楚字体样式*/
+.clean-text{
+	position: absolute;
+	right: -33px;
+	top: 5px;
+}
+
+.cleanAdd-text{
+	position: absolute;
+	right: -30px;
+	cursor: pointer;
+	font-size:12px;
+}
+.minus-text{
+	top: 14px;
+}
+.add-text{
+	top: -4px;
+}
+
+/*添加字体颜色class*/
+.red{
+	color:red !important;
+}
+
+/*input 特殊处理方式*/
+.suban-input{
+	border: none !important;
+	box-shadow: none !important;
+	background-color: #fff !important;
+}
+
+
+/*新增td强制换行class*/
+.break-td{
+	word-wrap: break-word;
+	word-break: break-all;
+	max-width: 20rem;
+}
+
+/*解决table溢出问题*/
+.table-responsive {
+  min-height: .01%;
+  overflow-x: auto;
+}
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .table-responsive > .table-bordered {
+    border: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+}
+
+
+/*留出到上面的距离*/
+.overall-layoutSEO{
+	margin-top:10px;
+}
+
+/*让多选框对齐*/
+.td-center{
+	text-align: center !important;
+	padding-right: 36px !important;
+}
+
+.supend-break1{
+		word-wrap: break-word;
+		word-break: break-all;
+		width: 15rem;
+
+	} 
+/*适配label字数过多，让它换行展示*/
+@media screen and (max-width: 1300px) {
+	.supend-break1{
+		 word-wrap: break-word;
+		word-break: break-all;
+		width: 9rem;
+
+	} 
+	.break-fl{
+		float:left;
+	}
+	.break-width10{
+		max-width: 10rem;
+	}
+	.break-width9{
+		max-width: 9rem;
+	}
+	
+}
+
+
+.form-group .select2-container {
+    width: 65.5% !important;
+}
+
+/*流程组 按钮优化*/
+.btnA {
+	text-align:center !important;
+}
+.btnA a {
+	padding-right: 10%;
+	cursor: default;
+}
+
+/*合计金额*/
+.total-td{
+	text-align: center !important;
+	border-top: 1px solid #e9ecf0;
+	font-size: 1.8rem;
+	height: 35px;
+	background:#fff !important;
+}
+
+/*物资批量导入*/
+
+.choose-file{
+	position: absolute;
+	opacity: 0;
+	width: 52px !important;
+	left: 32px;
+}
+.choose-span{
+	padding:0 10px;
+}
+.color999{
+	color:#999;
+}
+
+/*处理table*/
+.break-td1{
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal !important;
+	min-width: 14rem;
+}
+
+/*分割线*/
+.seoPage-splitLine {
+    width: 95%;
+    border-top: 1px dashed #93A3B5;
+    margin: 10px auto;
+}
+.split-only{
+	margin: 25px auto 0;
+}
+
+.title-a{
+	color:#69798C;
+	font-size: 1.6rem;
+}
+
+.title-div{
+	text-align: left;
+	width: 93.5%;
+	margin: 12px 3% 0px;
+	border: 1px solid #f4f6f8;
+	border-radius: 4px;
+	padding: 4px;
+	background: #f9fbfe;
+}
+.title-div  i{
+	float:right;
+}
+
+/*样式统一*/
+.input-append  input{
+	text-indent: 8px;
+}
+
+
+/*物资采购汇总*/
+.show-yfxg{
+}
+
+
+@media screen and (max-width: 1400px) {
+.break-td1{
+	min-width: 10rem;
+}
+
+	
+}
+@media screen and (max-width: 1000px) {
+	.supend-break1{
+		width: 9rem;
+
+	} 
+
+	
+}
+	
+
+
+
+

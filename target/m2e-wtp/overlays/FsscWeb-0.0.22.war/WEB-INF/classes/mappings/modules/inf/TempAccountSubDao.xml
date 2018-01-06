@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempAccountSubDao">
+
+	<sql id="tempAccountSubColumns">
+		a.id AS "id",
+		a.code AS "acctNo",
+		a.acctname AS "acctName",
+		a.isused AS "isUsed",
+		a.subjectlevel AS "subjectLevel",
+		a.parentno AS "parentno",
+		a.parentname AS "parentname",
+		a.effect_date AS "effectDate",
+		a.is_leaf AS "isLeaf",
+		a.budget_property AS "budgetProperty",
+		a.unacct_no AS "unAcctNo",
+		a.kmid AS "KMID",
+		a.uuid AS "uuid",
+		
+		a.create_date AS "createDate"
+	</sql>
+
+	<sql id="tempAccountSubJoins">
+	</sql>
+
+	<select id="get" resultType="TempAccountSub">
+		SELECT
+		<include refid="tempAccountSubColumns" />
+		FROM temp_account_sub a
+		<include refid="tempAccountSubJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM
+		temp_account_sub
+	</select>
+	<select id="findList" resultType="TempAccountSub">
+		SELECT
+		<include refid="tempAccountSubColumns" />
+		FROM temp_account_sub a
+		<include refid="tempAccountSubJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="TempAccountSub">
+		SELECT
+		<include refid="tempAccountSubColumns" />
+		FROM temp_account_sub a
+		<include refid="tempAccountSubJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<sql id="temp_account_sub_SEQ">temp_account_sub_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_account_sub(
+		id,
+		code,
+		acctname,
+		isused,
+		subjectlevel,
+		parentno,
+		parentname,
+		effect_date,
+		is_leaf,
+		budget_property ,
+		unacct_no,
+		KMID,
+		uuid,
+		create_date
+		) VALUES (
+		<include refid="temp_account_sub_SEQ" />
+		,
+		#{acctNo},
+		#{acctName},
+		#{isUsed},
+		#{subjectLevel},
+		#{parentno},
+		#{parentname},
+		#{effectDate},
+		#{isLeaf},
+		#{budgetProperty},
+		#{unAcctNo},
+		#{KMID},
+		#{uuid},
+		#{createDate}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE temp_account_sub SET
+		code = #{acctNo},
+		acctname = #{acctName},
+		isused = #{isUsed},
+		subjectlevel = #{subjectLevel},
+		parentno = #{parentno},
+		parentname = #{parentname},
+		effect_date = #{effectDate},
+		is_leaf = #{isLeaf},
+		budget_property = #{budgetProperty},
+		unacct_no = #{unAcctNo},
+		KMID = #{KMID},
+		uuid = #{uuid}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM temp_account_sub
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteTemp">
+		DELETE FROM temp_account_sub
+		WHERE code = #{acctNo}
+	</update>
+
+</mapper>

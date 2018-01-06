@@ -1,0 +1,265 @@
+@charset "utf-8";
+/*其他样式*/
+/*全局*/
+*{
+	outline: none !important;
+}
+html{
+	font-size: 62.5% !important;
+}
+/*面包屑*/
+ .breadcrumb{
+	padding: 6px 15px 8px 15px;
+    margin-bottom: 0px;
+    background-color:transparent;
+}
+ .breadcrumb a{
+	color:#999999;
+	text-decoration: none;
+}
+ .breadcrumb a:hover{
+	color:#2EA1F8;
+	text-decoration: none;
+}
+
+/*分页*/
+
+.pagination > li > a, .pagination > li > span{
+	margin: 0 9px;
+	border-radius: 4px;
+	
+}
+.pagination .icon-sameAttr16 {
+	padding-bottom: 1px;
+}
+.pagination .page-liPrev a:hover span{
+	background: url(../sysImages/icon-bluePagePrev.png) no-repeat;
+}
+.pagination .page-liNext a:hover span{
+	background: url(../sysImages/icon-bluePageNext.png) no-repeat;
+}
+
+.pagination .each-page span{
+	border: none;
+	padding: 6px 1px 6px 20px;
+}
+.pagination .each-inputPage{
+	float: left;
+}
+.pagination .each-inputPage input{
+	width: 25px;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.pagination .each-pageNum span{
+	border: none;
+	padding: 6px 1px 6px 0px;
+	
+}
+.pagination .each-page:hover span,.pagination .each-pageNum:hover span{
+	color:#666;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus{
+	color: #2EA1F8;
+	background-color: #fff;
+	border-color: #2EA1F8;
+}
+.pagination >.page-liNext > a:focus, .pagination > .page-liPrev > a:focus{
+	border-color: #ddd;
+}
+
+.pagination > .page-liNext > a:hover, .pagination > .page-liPrev > a:hover{
+	border-color: #2EA1F8;
+}
+
+
+/*不可点击*/
+
+ .pagination  .page-disablePrev a:hover span{
+	background: url(../sysImages/icon-disablePagePrev.png) no-repeat;
+}
+ .pagination  .page-disablePageNext a:hover span{
+	background: url(../sysImages/icon-disablePageNext.png) no-repeat;
+}
+ .pagination  .page-disablePrev a:hover {
+	border: 1px solid #ddd;
+	cursor: not-allowed;
+}
+ .pagination  .page-disablePageNext a:hover {
+	border: 1px solid #ddd;
+	cursor: not-allowed;
+}
+	
+
+/*标签式的导航菜单*/
+.nav-tabs > li{
+	margin-right: 13px;
+}
+
+.defined-tabs >li >a{
+	color: #666;
+	padding-left: 3px;
+	padding-top: 14px !important;
+	padding-bottom: 14px !important;
+}
+.defined-tabs li a:active,.defined-tabs li a:hover,.defined-tabs li a:focus{
+	background: #fff !important;
+	border-color:#fff !important ;
+	color: #2EA1F8;
+}
+.defined-tabs > .defined-tabActive > a, .defined-tabs > .defined-tabActive > a:hover, .defined-tabs > .defined-tabActive > a:focus{
+	color: #2EA1F8 !important;
+	border: none !important;
+	font-weight: bold;
+}
+ .defined-tabActive {
+	border-bottom: 4px solid #2EA1F8;
+}
+
+/*tab标签式的导航菜单*/
+.defined-tableTabs{
+	border-color: #B5C2D1;
+	margin-bottom: 0px;
+}
+.defined-tableTabs > li {
+	min-width: 82px;
+	text-align: center;
+	background: #F9F9F9;
+	border:1px solid #B5C2D1;
+	border-bottom-color: #b5c2d1;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.defined-tableTabs > li>a{
+	color: #404953;
+}
+.tableTabs-div{
+	width: 100%;
+	height: 50px;
+	border: 1px solid #93A3B5;
+	border-top: none;
+}
+.defined-tableTabsActive{
+	background: #fff !important;
+	border-bottom-color: #fff !important;
+}
+.defined-tableTabsActive a{
+	color:#04AAEF !important;
+}	
+.defined-tableTabs li a:active, .defined-tableTabs li a:hover, .defined-tableTabs li a:focus{
+	background: transparent;
+}
+
+
+/*进度条*/
+.defined-progressREC .defined-progress-border{
+	width: 38%;
+	height: 14px;
+	border: 1px solid #CCCCCC;
+	border-radius: 25px;
+	float: left;
+	margin-top: 3.5px;
+}
+.defined-progressREC .progress{
+	height: 10px;
+	background: #E9E9E9;
+	width: 99%;
+	border-radius: 25px;
+	margin: 2px auto;
+}
+.defined-progressREC .progress .progress-bar{
+	border-radius: 25px;
+}
+.defined-progressREC span{
+	color: #409B27 ;
+	font-size: 1.4rem;
+	font-weight: bold;
+	margin-left: 12px;
+}
+
+
+/*步骤条*/
+
+.step-bar{
+	display: inline-block;
+}
+
+.step-bar p{
+	font-size: 1.4rem;
+}
+.step-bar .step-describe{
+	color: #404953;
+	font-weight: bold;
+	margin: 0px 0px 0px -24px;
+	padding-bottom: 6px;
+}
+.step-bar .step-line{
+	display: inline-block;
+	width: 126px;
+	height: 2px;
+	margin: 0 8px 3px 4px;
+}
+.bg-color00A2F7{
+	background: #00A2F7;
+}
+.color00A2F7{
+	color: #00A2F7;
+}
+.bg-colorE9E9E9 {
+	background: #E9E9E9;
+}
+.color999 {
+	color: #999;
+}
+.bg-colorEC6868{
+	background: #EC6868;
+}
+.colorEC6868{
+	color: #EC6868;
+}
+
+.step-bar .step-operator{
+	color: #666;
+	margin: 6px 0px 0px -14px;
+}
+
+.step-bar .step-time{
+	color: #999;
+	font-size: 1.2rem;
+	margin: 0px 0px 0px -30px;
+}
+
+
+
+/*详细说明悬浮*/
+/*省略需要添加的样式属性*/
+.state-omit{
+	overflow: hidden;
+	text-overflow:ellipsis; 
+	white-space:nowrap;
+}
+
+.state{
+	position: absolute;
+	width: 300px;
+	top: -40px;
+	left: 35%;
+	text-align: left;
+}
+.state .state-title{
+	height: 30px;
+	opacity: 0.65;
+	background: #000000;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.15);
+	border-radius: 4px;
+	position: relative;
+}
+.state .state-content{
+	color:#fff;
+	font-size: 1.4rem;
+	position: relative;
+	top: -25px;
+	left: 8px;
+}

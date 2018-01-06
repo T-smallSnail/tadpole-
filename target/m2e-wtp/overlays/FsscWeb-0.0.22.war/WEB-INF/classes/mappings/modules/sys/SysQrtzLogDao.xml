@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.SysQrtzLogDao">
+    
+	<sql id="sysQrtzLogColumns">
+		a.id AS "id",
+		a.job_id AS "jobId",
+		a.executor_address AS "executorAddress",
+		a.job_desc AS "jobDesc",
+		a.trigger_time AS "triggerTime",
+		a.trigger_code AS "triggerCode",
+		a.trigger_msg AS "triggerMsg",
+		a.handle_time AS "handleTime",
+		a.handle_code AS "handleCode",
+		a.handle_msg AS "handleMsg",
+		a.job_name AS "jobName"
+	</sql>
+	
+	<sql id="sysQrtzLogJoins">
+		LEFT JOIN sys_qrtz_job b ON b.id = a.job_id
+	</sql>
+    
+	<select id="get" resultType="SysQrtzLog">
+		SELECT 
+			<include refid="sysQrtzLogColumns"/>
+		FROM sys_qrtz_log a
+		<include refid="sysQrtzLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SysQrtzLog">
+		SELECT 
+			<include refid="sysQrtzLogColumns"/>
+		FROM sys_qrtz_log a
+		<include refid="sysQrtzLogJoins"/>
+		<where>
+			<if test="jobId != null and jobId != ''">
+				AND a.job_id = #{jobId}
+			</if>
+			<if test="jobName != null and jobName != ''">
+				AND a.job_name = #{jobName}
+			</if>
+		</where>
+			ORDER BY a.handle_time DESC
+	</select>
+	
+	<select id="findAllList" resultType="SysQrtzLog">
+		SELECT 
+			<include refid="sysQrtzLogColumns"/>
+		FROM sys_qrtz_log a
+		<include refid="sysQrtzLogJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="sys_qrtz_log_SEQ">sys_qrtz_log_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_qrtz_log(
+			id,
+			job_id,
+			executor_address,
+			job_desc,
+			trigger_time,
+			trigger_code,
+			trigger_msg,
+			handle_time,
+			handle_code,
+			handle_msg,
+			job_name
+		) VALUES (
+		<include refid="sys_qrtz_log_SEQ"/>,
+			#{jobId},
+			#{executorAddress},
+			#{jobDesc},
+			#{triggerTime},
+			#{triggerCode},
+			#{triggerMsg},
+			#{handleTime},
+			#{handleCode},
+			#{handleMsg},
+			#{jobName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_qrtz_log SET 	
+			   job_id = #{jobId},
+			   executor_address = #{executorAddress},
+			   job_desc = #{jobDesc},
+			   trigger_time = #{triggerTime},
+			   trigger_code = #{triggerCode},
+			   trigger_msg = #{triggerMsg},
+			   handle_time = #{handleTime},
+			   handle_code = #{handleCode},
+			   handle_msg = #{handleMsg},
+			   job_name = #{jobName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_qrtz_log
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE job_id = #{jobId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

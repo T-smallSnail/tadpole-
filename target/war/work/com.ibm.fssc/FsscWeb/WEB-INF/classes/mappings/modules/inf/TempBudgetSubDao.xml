@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempBudgetSubDao">
+    
+	<sql id="tempBudgetSubColumns">
+		a.id AS "id",
+		a.code AS "budgetNo",
+		a.subname AS "budgetName",
+		a.isused AS "isUsed",
+		a.budgetlevel AS "budgetLevel",
+		a.parentno AS "parentNo",
+		a.parentname AS "parentName",
+		a.subexplain AS "remarks",
+		a.uuid AS "uuid",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="tempBudgetSubJoins">
+	</sql>
+    
+	<select id="get" resultType="TempBudgetSub">
+		SELECT 
+			<include refid="tempBudgetSubColumns"/>
+		FROM temp_budget_sub a
+		<include refid="tempBudgetSubJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_budget_sub
+	</select>
+	<select id="findList" resultType="TempBudgetSub">
+		SELECT 
+			<include refid="tempBudgetSubColumns"/>
+		FROM temp_budget_sub a
+		<include refid="tempBudgetSubJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TempBudgetSub">
+		SELECT 
+			<include refid="tempBudgetSubColumns"/>
+		FROM temp_budget_sub a
+		<include refid="tempBudgetSubJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_budget_sub_SEQ">temp_budget_sub_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_budget_sub(
+			id,
+			code,
+			subname,
+			isused,
+			budgetlevel,
+			parentno,
+			parentname,
+			subexplain,
+			uuid,
+			create_date
+		) VALUES (
+		<include refid="temp_budget_sub_SEQ"/>,
+			#{budgetNo},
+			#{budgetName},
+			#{isUsed},
+			#{budgetLevel},
+			#{parentNo},
+			#{parentName},
+			#{remarks},
+			#{uuid},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_budget_sub SET 	
+			   code = #{budgetNo},
+			   subname = #{budgetName},
+			   isused = #{isUsed},
+			   budgetlevel = #{budgetLevel},
+			   parentno = #{parentNo},
+			   parentname = #{parentName},
+			   subexplain = #{remarks},
+			   uuid = #{uuid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_budget_sub
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_budget_sub
+		WHERE code = #{budgetNo}
+	</update>
+	
+</mapper>

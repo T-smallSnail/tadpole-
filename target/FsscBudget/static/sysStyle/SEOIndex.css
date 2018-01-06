@@ -1,0 +1,203 @@
+@charset "utf-8";
+/*优化样式*/
+
+.seoPage{
+	width: 100%;
+}
+.seoPage .seoPage-top{
+	height: 38px;
+	color: #666666;
+	font-size: 1.8rem;
+}
+
+/*seoPage-middle-top start*/
+/*搜索tab选项*/
+.seoPage .seoPage-middle-top{
+	height: 40px;
+}
+.seoPage .seoPage-middle-top li{
+	padding: 10px;
+	cursor: default;
+}
+.seoPage .seoPage-middle-top li a{
+	font-size: 1.4rem;
+	color: #404953;
+	cursor: default;
+}
+.seoPage .seoPage-middle-top .seoPage-middleTop-option{
+	float: left;
+	margin-bottom: 0px;
+	margin-left: -9px;
+}
+.seoPage .seoPage-middle-top .seoPage-middleTop-option li{
+	float: left;
+	margin-left: 10px;
+}
+
+.seoPage-optionActive{
+	background: #2EA1F8;
+	color: #fff !important;
+	border-radius: 4px 4px 0 0;
+}
+
+/*搜索日期*/
+.seoPage .seoPage-middle-top .seoPage-middleTop-date{
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 0px;
+}
+.seoPage .seoPage-middle-top .seoPage-middleTop-date li{
+	float: left;
+}
+.seoPage-dateActive{
+	color: #2EA1F8 !important;
+}
+.seoPage-dateActive span{
+	background: rgb(46, 161, 248);
+	color: rgb(255, 255, 255);
+	box-shadow: 0px 4px 5px 0px rgba(0, 73, 158, 0.25);
+}
+/*seoPage-middle-top end*/
+
+
+/*seoPage-middle-bottom start*/
+.seoPage-middle-bottom{
+	height: 40px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	border-top-left-radius: 0px;
+}
+
+.form-inline .seoPage-form{
+	width: 90%;
+	margin: 0px;
+	float: left;
+}
+
+.form-inline .seoPage-form input{
+	width: 100%;
+	float: left;
+	height: 40px;
+	padding: 0 9px;
+	border: none;
+}
+
+
+
+.form-inline .seoPage-formBtn{
+	width: 10%;
+	float: right;
+	background-color: #2EA1F8;
+	text-align: center;
+	height: 40px;
+	line-height: 28px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+/*seoPage-middle-bottom end*/
+
+
+/*seoPage-footer start*/
+/*分隔线*/
+.seoPage-splitLine{
+	width: 100%;
+	border-top: 1px dashed #93A3B5;
+	margin-bottom: 10px;
+}
+.panel-seoPage .panel-seoPageTop{
+	height: 40px;
+}
+.panel-seoPage .panel-seoPageTop-title{
+	float:left;
+	color: #69798C;
+	margin: 10px 15px 10px 0px;
+}
+.panel-seoPage .panel-seoPageTop-name{
+	float: left;
+	color: #69798C;
+	margin: 10px 15px 10px 0px;
+	width: 8%;
+	text-align: right;
+}
+.panel-seoPage .seoPage-letter span{
+	border-radius: 38px;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	line-height: 24px;
+}
+.panel-seoPage  .seoPageContent-letter .seoPage-letter li{
+	margin-right: 1.5%;
+}
+.panel-seoPage .panel-seoPageTitle li{
+	float: left;
+	margin-right: 2.7%;
+	margin-top: 10px;
+	cursor: default;
+}
+.panel-seoPage .panel-seoPageTop a{
+	float: right;
+	margin-top: 10px;
+	margin-right: 14px;
+	text-decoration: none;
+}
+.panel-seoPage .panel-seoPageTop a i{
+	margin-left: 10px;
+}
+
+.panel-seoPage .panel-seoPageContent{
+	padding-top: 10px;
+}
+
+.panel-seoPage .seoPageContent-letter{
+	height: 55px;
+}
+.panel-seoPage .seoPageContent-letterInfo{
+	/*height: 30px;*/
+	display: inline-block;
+	overflow-y: hidden;
+	position: relative;
+	width: 100%;
+}
+.panel-seoPage .seoPageContent-last{
+	height: 36px;
+	display: inline-block;
+	overflow-y: hidden;
+	position: relative;
+}
+
+.panel-seoPage .panel-seoPageTitle-pdLeft{
+	padding-left: 94px;
+}
+
+.search-more{
+	color: rgb(46, 161, 248);
+	display: inline-block;
+	float: right;
+	position: absolute;
+	right: 0px;
+	cursor: pointer;
+}
+.img-bluePullup{
+	background: url(../sysImages/icon-bluePullUp.png) no-repeat;
+}
+
+
+
+/*seoPage-footer end*/
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1300px) {
+	
+}

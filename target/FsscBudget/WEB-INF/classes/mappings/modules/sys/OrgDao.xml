@@ -1,0 +1,1355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.OrgDao">
+
+	<sql id="sysOrgColumns">
+		a.id AS "id",
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		a.area_id AS "area.id",
+		a.org_no AS "orgNo",
+		a.name AS "name",
+		a.org_egn_name AS "orgEgnName",
+		a.simple_name AS "simpleName",
+		a.grade,
+		a.useable AS useable,
+		a.belong_industry AS "belongIndustry",
+		a.business_nature AS "businessNature",
+		a.business_status AS "businessStatus",
+		a.register_type AS "registerType",
+		a.market_status AS "marketStatus",
+		a.main_product AS "mainProduct",
+		a.parent_no AS "parentNo",
+		a.parent_name AS "parentName",
+		a.country_arearegister AS "countryArearegister",
+		a.register_adrss AS "registerAdrss",
+		a.manage_adress AS "manageAdress",
+		a.admin_manage AS "adminManage",
+		a.is_cost AS "isCost",
+		a.is_gain AS "isGain",
+		a.org_type AS "orgType",
+		a.org_sts AS "orgSts",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS"updateBy.id",
+		a.is_leaf as "isleaf",
+		a.update_date AS "updateDate",
+		a.pdept_no AS "pdeptNo",
+		a.pdept_name AS "pdeptName",
+		a.remarks AS "remarks",
+		a.is_leaf as "isLeaf",
+		a.account as "account",
+		a.hr_orgno as "HROrgNo",
+		a.budget as "budget",
+		a.finance as "finance",
+		a.account_pno as "accountPNo",
+		a.budget_pno as "budgetPNo",
+		a.finance_pno as "financePNo",
+		a.cost_pno as "costPNo",
+		a.gain_pno as "gainPNo",
+		a.legalRepresentative as "legalRepresentative",
+		a.org_code as "orgCode",
+		a.check_Sts as "checkSts",
+		a.budget_Sts as "budgetSts",
+		a.financial_Sts as "financialSts",
+		a.cost_Sts as "costSts",
+		a.profit_Sts as "profitSts",
+		a.area_code as "areaCode",
+
+		a.fbelong_industry as"fBelongIndustry",
+		
+		a.Is_bottom_gain as "IsBottomGain",
+		a.Is_bottom_unit as "IsBottomUnit",
+		a.Belong_profit_centre as "BelongProfitCentre",
+		a.Belong_Financial_org_cost as "BelongFinancialOrgCost",
+		a.Belong_Financial_org_profit as "BelongFinancialOrgProfit",
+		a.Account_org_name as "AccountOrgName",
+		a.compar_adminno as "comparAdminNo" 
+
+	</sql>
+	
+	<sql id="curOrgColumns">
+		get_orgordepart_columns(#{orgno},'org',1,'ID') as "oneID",
+		get_orgordepart_columns(#{orgno},'org',1,'NO') as "oneNo",
+		get_orgordepart_columns(#{orgno},'org',1,'NAMES') as "oneName",
+		get_orgordepart_columns(#{orgno},'org',2,'ID') as "twoID",
+		get_orgordepart_columns(#{orgno},'org',2,'NO') as "twotNo",
+		get_orgordepart_columns(#{orgno},'org',2,'NAMES') as "twoName",
+		get_orgordepart_columns(#{orgno},'org',3,'ID') as "threeID",
+		get_orgordepart_columns(#{orgno},'org',3,'NO') as "threeNo",
+		get_orgordepart_columns(#{orgno},'org',3,'NAMES') as "threetName",
+		get_orgordepart_columns(#{orgno},'org',4,'ID') as "fourID",
+		get_orgordepart_columns(#{orgno},'org',4,'NO') as "fourNo",
+		get_orgordepart_columns(#{orgno},'org',4,'NAMES') as "fourName"
+	</sql>
+
+	<sql id="curdepartColumns">
+		get_orgordepart_columns(#{departno},'depart',1,'ID') as
+		"doneID",
+		get_orgordepart_columns(#{departno},'depart',1,'NO') as
+		"doneNo",
+		get_orgordepart_columns(#{departno},'depart',1,'NAMES') as
+		"doneName",
+		get_orgordepart_columns(#{departno},'depart',2,'ID') as
+		"dtwoID",
+		get_orgordepart_columns(#{departno},'depart',2,'NO') as
+		"dtwotNo",
+		get_orgordepart_columns(#{departno},'depart',2,'NAMES') as
+		"dtwoName",
+		get_orgordepart_columns(#{departno},'depart',3,'ID') as
+		"dthreeID",
+		get_orgordepart_columns(#{departno},'depart',3,'NO') as
+		"dthreeNo",
+		get_orgordepart_columns(#{departno},'depart',3,'NAMES') as
+		"dthreetName",
+		get_orgordepart_columns(#{departno},'depart',4,'ID') as
+		"dfourID",
+		get_orgordepart_columns(#{departno},'depart',4,'NO') as
+		"dfourNo",
+		get_orgordepart_columns(#{departno},'depart',4,'NAMES') as
+		"dfourName"
+	</sql>
+
+	<sql id="sysOrgJoins">
+		LEFT JOIN sys_org p ON p.id = a.parent_id
+	</sql>
+	
+	<sql id="sysDeptJoins">
+		LEFT JOIN sys_org p ON p.org_no = a.parent_no
+	</sql>
+
+	<select id="get" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int" parameterType="String">
+			SELECT COUNT(*) FROM sys_org
+		<if test="orgType!=null and orgType!= '' ">
+			where org_type='3'
+		</if>
+	</select>
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.sys.entity.Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.org_no = #{orgNo}
+	</select>
+
+	<select id="getOrgInfo" resultType="Org">
+		select
+		<include refid="curOrgColumns" />
+		FROM dual
+	</select>
+
+	<select id="getDepartInfo" resultType="Org">
+		select
+		<include refid="curdepartColumns" />
+		FROM dual
+	</select>
+	<select id="findParentOrg" resultType="Org">
+		select	a.org_no,a.name
+		from sys_org a
+		where a.org_no = #{orgNo}
+	</select>
+
+	<select id="findChildOrgs" resultType="Org">
+		select
+		<include refid="sysOrgColumns" />
+		from sys_org a
+		<include refid="sysOrgJoins" />
+		<if test="null!=parentNo and ''!=parentNo">
+				where a.parent_no = #{parentNo}
+		</if>
+
+	</select>
+
+	<!-- 获取指定用户的所有上级组织信息 -->
+	<select id="findUserParentAllOrg" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT distinct o.org_no,o.name
+    	FROM SYS_ORG o
+   		LEFT JOIN  sys_user u 
+   		ON o.org_no =u.org_no
+   	 	START WITH
+	    o.ORG_NO =  (select ORG_NO from  sys_user u  where u.user_no = #{participantId})
+	    CONNECT BY PRIOR
+	    o.PARENT_NO = o.ORG_NO
+      	and o.org_no !=(select ORG_NO from sys_user u where u.user_no = #{participantId})
+	</select>
+	<!-- start  lwt -->
+	<!-- 根据用户编码获取上级组织 -->
+	<select id="findParentByUserNo"  parameterType="java.lang.String"
+		resultType="Org">
+		SELECT o.org_no,o.name 
+	    FROM SYS_ORG O
+	    WHERE O.ORG_NO =
+	      (SELECT distinct o.parent_no
+	      FROM SYS_ORG o
+	      LEFT JOIN sys_user u ON o.org_no = u.org_no
+	      WHERE u.user_no =#{participantId})
+		
+	</select>
+	<!-- 根据上级组织编码,上级部门编码获取部门集合 -->
+	<select id="findParentDepts" resultType="Org">
+		select
+		<include refid="sysOrgColumns" />
+		from sys_org a
+		<include refid="sysOrgJoins" />
+		where a.parent_no = #{parentNo}
+		and a.org_no = #{pdeptNo}
+	</select>
+	<!-- 找到所有子节点可能用不着 -->
+	<select id="findByParentIdsLike" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
+	</select>
+	<!-- 根据组织父编码获取所以子数据 -->
+	<select id="getOrgList" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.del_flag = 0
+		<if test="null==parentNo or ''==parentNo">
+				and  a.parent_no = '0'
+		</if>
+		<if test="null!=parentNo and ''!=parentNo">
+				and  a.parent_no = #{parentNo}
+		</if>
+			<if test="null != orgType and '' !=orgType">
+					AND  case when a.org_type = #{orgType}  then '2'  else  #{orgType} end =#{orgType}
+			</if>
+		
+		<!-- 数据范围过滤 -->
+		<!-- ${sqlMap.dsf} OR a.id = #{currentUser.office.id} ORDER BY a.code -->
+	</select>
+	<!-- 有过滤的查询 -->
+	<select id="findList" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		<!-- 数据范围过滤 -->
+		<!-- ${sqlMap.dsf} OR a.id = #{currentUser.office.id} ORDER BY a.code -->
+	</select>
+	<!-- 查询所有 -->
+	<select id="findAllList" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+
+		<!-- ORDER BY a.code -->
+	</select>
+	<!-- ztree 查询树结构 -->
+	<select id="findAllOrgList" resultType="Org" parameterType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE 1=1
+		<if test="null == parentNo ">
+			AND a.parent_no ='0'
+		</if>
+		<if test="null != parentNo  and ''!=parentNo">
+			AND a.parent_no= #{parentNo}
+		</if>
+		<if test="null != orgType and '' !=orgType">
+			AND  case when a.org_type = #{orgType}  then '2'  else  #{orgType} end =#{orgType}
+		</if>
+			AND a.del_flag = 0
+		ORDER BY a.name DESC
+	</select>
+	
+		<select id="findAllDepartList" resultType="Org" parameterType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE 1=1
+		<if test="null == parentNo or ''==parentNo">
+			AND a.parent_no is null
+		</if>
+		<if test="null != parentNo  and ''!=parentNo">
+			AND a.parent_no= #{parentNo}
+		</if>
+		<if test="null != orgType and '' !=orgType">
+			AND a.org_type = #{orgType}
+		</if>
+		ORDER BY a.name DESC
+	</select>
+	<!-- 查询所有部门 -->
+	<select id="findDeptAll" resultType="Org">
+		select
+		<include refid="sysOrgColumns" />
+		from
+		SYS_ORG a
+		<include refid="sysOrgJoins" />
+		where
+		a.org_type='3'
+		ORDER BY a.name DESC
+	</select>
+	
+	<!-- 缓存查询部门并分页 -->
+	<select id="findCacheOrg" resultType="Org">
+		select
+		<include refid="sysOrgColumns" />
+		from
+		SYS_ORG a
+		<include refid="sysOrgJoins" />		
+		<where>
+			<if test="orgType!=null and orgType == '3'.toString() ">
+				a.org_type='3'
+			</if>
+			<if test="orgType!=null and orgType!= '3'.toString() ">
+				and a.org_type !='3' 
+			</if>
+				and a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.name DESC
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 查询根目录编码 -->
+	<select id="findRootNo" resultType="Org" parameterType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		where a.parent_no is null
+	</select>
+	<!-- 查询根目录下的一级目录 -->
+	<select id="findListAllParents" resultType="Org">
+		select
+		<include refid="sysOrgColumns" />
+		from SYS_ORG a
+		<include refid="sysOrgJoins" />
+		where a.org_type ='0'
+	</select>
+	<!-- 查询部门和人的结构树 -->
+	<sql id="OrgEmpTree">
+		SELECT
+		o.org_no AS orgNo,
+		o. NAME AS NAME,
+		o.parent_no as
+		parentNo,
+		o.parent_name,
+		nvl(o.is_leaf,'0') as isLeaf
+		FROM SYS_ORG o
+		UNION ALL
+		SELECT
+		E.emp_no AS orgNo,
+		E.emp_name AS NAME,
+		E.depart_no as
+		parentNo,
+		E.depart_name AS parent_name,
+		'1' as isLeaf
+		FROM sys_employee E
+	</sql>
+	
+	
+	<!-- 查询某个组织下的部门和人的结构树 -->
+	<select id="getAsyncOrgEmpTree" resultType="Org">
+		select * from (
+		<include refid="OrgEmpTree" />
+		)
+		where parentNo = #{orgNo}
+	</select>
+	<!-- 查询某个组织下的所有部门和人的结构树 -->
+	<select id="getAsyncAllOrgEmpTree" resultType="Org">
+		select * from (
+		<include refid="OrgEmpTree" />
+		)
+		where parentNo = #{orgNo}
+	</select>
+	
+	<!-- 异步兼职组织部门 人员数  start-->
+	<select id="getAsyncAllOrgDepartEmpTree" resultType="Org">
+		select * from (
+		SELECT o.org_no AS orgNo,
+		       o. NAME AS NAME,
+		       o.parent_no as parentNo,
+		       o.parent_name,
+		       '0' as isLeaf
+		  FROM SYS_ORG o
+		UNION ALL
+		SELECT E.emp_no AS orgNo,
+		       E.emp_name AS NAME,
+		       eo.depart_no as parentNo,
+		       get_orgnamebyno(eo.depart_no) AS parent_name,
+		       '1' as isLeaf
+		  FROM sys_employee E , sys_emp_org  eo
+		  where e.emp_no=eo.emp_no )
+		  a  
+		 where 1=1
+		  <choose>
+		  	<when test="null != parentNo and ''!=parentNo">
+		  		and a.parentNo = #{parentNo}
+		   </when>
+		   <otherwise>
+		   and a.parentNo ='0'
+		   </otherwise>
+		   </choose>
+	</select>
+	<!-- 异步组织部门 人员数  end-->
+	
+	
+	<!-- 没有过滤的查询某个组织下的所有子类 -->
+	<select id="getChildList" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="null != parentNo and ''!=parentNo">
+				and  a.parent_no = #{parentNo}
+		</if>
+		<if test="null != orgNo and ''!=orgNo">
+				and  a.org_no like '%'||#{orgNo}||'%'
+		</if>
+		<if test="null != name and ''!=name">
+				and  a.name  like  '%'|| #{name}||'%'
+		</if>
+		<if test="null != belongIndustry and ''!=belongIndustry">
+				and  a.BELONG_INDUSTRY = #{belongIndustry}
+		</if>
+		<if test="null != businessNature and ''!=businessNature">
+				and  a.BUSINESS_NATURE = #{businessNature}
+		</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.name DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<sql id="sys_org_SEQ">sys_org_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT sys_org_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO sys_org(
+		id,
+		parent_id,
+		parent_ids,
+		area_id,
+		org_no,
+		name,
+		org_egn_name,
+		simple_name,
+		grade,
+		useable,
+		belong_industry,
+		business_nature,
+		business_status,
+		register_type,
+		market_status,
+		main_product,
+		parent_no,
+		parent_name,
+		country_arearegister,
+		register_adrss,
+		manage_adress,
+		admin_manage,
+		is_cost,
+		is_gain,
+		org_type,
+		org_sts,
+		del_flag,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		pdept_no,
+		pdept_name,
+		is_leaf,
+		account,
+		hr_orgno,
+		budget,
+		finance,
+		account_pno,
+		budget_pno,
+		finance_pno,
+		cost_pno,
+		gain_pno,
+		legalRepresentative,
+		org_code,
+		check_Sts,
+		budget_Sts,
+		financial_Sts,
+		cost_Sts,
+		profit_Sts,
+		fbelong_industry,
+		Is_bottom_gain,
+		Is_bottom_unit,
+		Belong_profit_centre,
+		Belong_Financial_org_cost,
+		Belong_Financial_org_profit,
+		Account_org_name,
+		compar_adminno 
+		)
+		VALUES (
+		#{id},
+		#{parent.id},
+		#{parentIds},
+		#{area.id},
+		#{orgNo},
+		trim(#{name}),
+		#{orgEgnName},
+		#{simpleName},
+		#{grade},
+		#{useable},
+		#{belongIndustry},
+		#{businessNature},
+		#{businessStatus},
+		#{registerType},
+		#{marketStatus},
+		#{mainProduct},
+		#{parentNo},
+		#{parentName},
+		#{countryArearegister},
+		#{registerAdrss},
+		#{manageAdress},
+		#{adminManage},
+		#{isCost},
+		#{isGain},
+		#{orgType},
+		#{orgSts},
+		#{delFlag},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{pdeptNo},
+		#{pdeptName},
+		#{isLeaf},
+		#{account},
+		#{HROrgNo},
+		#{budget},
+		#{finance},
+		#{accountPNo},
+		#{budgetPNo},
+		#{financePNo},
+		#{costPNo},
+		#{gainPNo},
+		#{legalRepresentative},
+		#{orgCode},
+		#{checkSts},
+		#{budgetSts},
+		#{financialSts},
+		#{costSts},
+		#{profitSts},
+		#{fBelongIndustry},
+		#{IsBottomGain},
+		#{IsBottomUnit},
+		#{BelongProfitCentre},
+		#{BelongFinancialOrgCost},
+		#{BelongFinancialOrgProfit},
+		#{AccountOrgName},
+		#{comparAdminNo}
+		)
+	</insert>
+
+	<insert id="insertList">
+		INSERT INTO sys_org(
+		id,
+		parent_id,
+		parent_ids,
+		area_id,
+		org_no,
+		name,
+		org_egn_name,
+		simple_name,
+		grade,
+		useable,
+		belong_industry,
+		business_nature,
+		business_status,
+		register_type,
+		market_status,
+		main_product,
+		parent_no,
+		parent_name,
+		country_arearegister,
+		register_adrss,
+		manage_adress,
+		admin_manage,
+		is_cost,
+		is_gain,
+		org_type,
+		org_sts,
+		del_flag,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		pdept_no,
+		pdept_name,
+		is_leaf,
+		account,
+		hr_orgno,
+		budget,
+		finance,
+		account_pno,
+		budget_pno,
+		finance_pno,
+		cost_pno,
+		gain_pno,
+		legalRepresentative,
+		org_code,
+		check_Sts,
+		budget_Sts,
+		financial_Sts,
+		cost_Sts,
+		profit_Sts,
+		fbelong_industry,
+		Is_bottom_gain,
+		Is_bottom_unit,
+		Belong_profit_centre,
+		Belong_Financial_org_cost,
+		Belong_Financial_org_profit,
+		Account_org_name,
+		compar_adminno
+		)
+		<foreach collection="list" item="l" separator=" union all ">
+			select
+			get_seq_next('SYS_ORG_SEQ'),
+			#{l.parent.id},
+			#{l.parentIds},
+			#{l.area.id},
+			#{l.orgNo},
+			#{l.name},
+			#{l.orgEgnName},
+			#{l.simpleName},
+			#{l.grade},
+			#{l.useable},
+			#{l.belongIndustry},
+			#{l.businessNature},
+			#{l.businessStatus},
+			#{l.registerType},
+			#{l.marketStatus},
+			#{l.mainProduct},
+			#{l.parentNo},
+			#{l.parentName},
+			#{l.countryArearegister},
+			#{l.registerAdrss},
+			#{l.manageAdress},
+			#{l.adminManage},
+			#{l.isCost},
+			#{l.isGain},
+			#{l.orgType},
+			#{l.orgSts},
+			#{l.delFlag},
+			#{l.createBy.id},
+			#{l.createDate},
+			#{l.updateBy.id},
+			#{l.updateDate},
+			#{l.remarks},
+			#{l.pdeptNo},
+			#{l.pdeptName},
+			#{l.isLeaf},
+			#{l.account},
+			#{l.HROrgNo},
+			#{l.budget},
+			#{l.finance},
+			#{l.accountPNo},
+			#{l.budgetPNo},
+			#{l.financePNo},
+			#{l.costPNo},
+			#{l.gainPNo},
+			#{l.legalRepresentative},
+			#{l.orgCode},
+			#{l.checkSts},
+			#{l.budgetSts},
+			#{l.financialSts},
+			#{l.costSts},
+			#{l.profitSts},
+			#{l.fBelongIndustry},
+			#{l.IsBottomGain},
+			#{l.IsBottomUnit},
+			#{l.BelongProfitCentre},
+			#{l.BelongFinancialOrgCost},
+			#{l.BelongFinancialOrgProfit},
+			#{l.AccountOrgName},
+			#{l.comparAdminNo}
+			FROM dual
+		</foreach>
+	</insert>
+
+	<update id="update">
+		UPDATE sys_org SET
+		parent_id = #{parent.id},
+		parent_ids = #{parentIds},
+		area_id = #{area.id},
+		org_no = #{orgNo},
+		name = trim(#{name}),
+		org_egn_name = #{orgEgnName},
+		simple_name = #{simpleName},
+		grade = #{grade},
+		useable=#{useable},
+		belong_industry = #{belongIndustry},
+		business_nature = #{businessNature},
+		business_status = #{businessStatus},
+		register_type = #{registerType},
+		market_status = #{marketStatus},
+		main_product = #{mainProduct},
+		parent_no = #{parentNo},
+		parent_name = #{parentName},
+		country_arearegister = #{countryArearegister},
+		register_adrss = #{registerAdrss},
+		manage_adress = #{manageAdress},
+		admin_manage = #{adminManage},
+		is_cost = #{isCost},
+		is_gain = #{isGain},
+		org_type = #{orgType},
+		org_sts = #{orgSts},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks},
+		pdept_no = #{pdeptNo},
+		pdept_name = #{pdeptName},
+		is_leaf = #{isLeaf},
+		account = #{account},
+		hr_orgno = #{HROrgNo},
+		budget =	#{budget},
+		finance =	#{finance},
+		account_pno = #{accountPNo},
+		budget_pno = #{budgetPNo},
+		finance_pno = #{financePNo},
+		cost_pno = #{costPNo},
+		gain_pno = #{gainPNo},
+		legalRepresentative=#{legalRepresentative},
+		org_code=#{orgCode},
+		check_Sts=#{checkSts},
+		budget_Sts=#{budgetSts},
+		financial_Sts=#{financialSts},
+		cost_Sts=#{costSts},
+		profit_Sts=#{profitSts},
+		fbelong_industry=#{fBelongIndustry},
+		Is_bottom_gain=#{IsBottomGain},
+		Is_bottom_unit=#{IsBottomUnit},
+		Belong_profit_centre=#{BelongProfitCentre},
+		Belong_Financial_org_cost=#{BelongFinancialOrgCost},
+		Belong_Financial_org_profit=#{BelongFinancialOrgProfit},
+		Account_org_name=#{AccountOrgName},
+		compar_adminno=#{comparAdminNo}
+		WHERE id = #{id}
+	</update>
+	<update id="updateParentIds">
+		UPDATE sys_org SET
+		parent_id = #{parent.id},
+		parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+
+
+	<update id="delete">
+		UPDATE sys_org SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id} OR
+		parent_ids LIKE
+		<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+		<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
+		<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+	</update>
+
+
+	<select id="findByOrgNo" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT O.ORG_NO,O.ORG_TYPE,O.PARENT_NO,O.NAME FROM  SYS_ORG O WHERE O.ORG_NO =#{participantId}
+	</select>
+	<!-- 查询组织中所有的下级组织和部门信息及角色信息 -->
+	<select id="getChildParticipantsToOrg" parameterType="java.lang.String"
+		resultType="Org">
+		select o.org_no ,o.name
+		from sys_org o
+		where o.parent_no= (select o.org_no from sys_org o where
+		org_no=#{participantId})
+	</select>
+	<!-- 根据组织id获取下级用户 -->
+	<select id="findOrgChildAllUser" parameterType="java.lang.String"
+		resultType="Org">
+		    SELECT u.user_no ,u.user_name
+    		FROM SYS_ORG O
+    		LEFT JOIN SYS_USER U ON u.org_no = O.ORG_NO
+   			WHERE O.org_no= #{participantId}  and u.user_no is not null
+	</select>
+	<!-- 查询组织中的上级组织 -->
+	<select id="getParentParticipantsToOrg" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT DISTINCT o.org_no,o.name,o.org_type
+	    FROM SYS_ORG
+	    o
+	    where o.org_no != #{participantId}
+	    START WITH
+	    o.ORG_NO =
+	    #{participantId}
+	    CONNECT BY
+	    PRIOR o.PARENT_NO =
+	    o.ORG_NO
+	    ORDER BY O.org_no
+	</select>
+
+	<!-- 查询组织中所有的下级部门信息 -->
+	<select id="getChildParticipantsToDept" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT DISTINCT o.id,o.name
+		FROM SYS_ORG o
+		where
+		o.org_type='3'
+		START WITH
+		o.ORG_NO = (select ORG_NO from sys_org where
+		"ID" = #{participantId} )
+		CONNECT BY PRIOR o.ORG_NO= o.PARENT_NO
+	</select>
+
+	<!-- 查询组织中所有的上级参与者 -->
+	<select id="getParentParticipants" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT ID,NAME FROM
+		SYS_ORG
+		START WITH
+		ORG_NO = (select ORG_NO
+		from sys_org where "ID" = #{participantId })
+		CONNECT
+		BY PRIOR PARENT_NO
+		= ORG_NO
+	</select>
+
+
+	<!-- 根据类型获取下级参与者 -->
+	<select id="getChildParticipantsById" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT ID,NAME FROM SYS_ORG
+		WHERE ORG_TYPE=#{0}
+		START WITH
+		ORG_NO=(select ORG_NO from sys_org where "ID" = #{participantId })
+		CONNECT BY PRIOR
+		ORG_NO = PARENT_NO
+	</select>
+
+
+
+	<!-- 根据id获取指定部门的信息 -->
+	<select id="getDeptById" parameterType="java.lang.String"
+		resultType="Org">
+		select ID,NAME from sys_org where org_type='3' and id
+		=#{participantId }
+	</select>
+
+	<!-- 获取指定类型的部门 -->
+	<select id="findOrgChildAllDept" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT ID,NAME FROM SYS_ORG
+		where ORG_TYPE='3'
+		START WITH
+		ORG_NO=(select ORG_NO
+		from sys_org where "ID" = #{participantId})
+		CONNECT BY PRIOR
+		ORG_NO =
+		PARENT_NO
+	</select>
+
+
+
+	<!-- 获取指定类型的组织 -->
+	<select id="findOrgChildAllOrg" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT ORG_NO,NAME FROM SYS_ORG
+		where ORG_NO!=#{participantId}
+		START
+		WITH
+		ORG_NO=#{participantId}
+		CONNECT BY PRIOR
+		ORG_NO =
+		PARENT_NO
+	</select>
+
+
+	<!-- 获取用户所有上级的组织信息 lwt -->
+	<select id="findOrgAllParenticipants" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT DISTINCT o.id,o.name,o.org_type,r.id, r.role_name
+		FROM SYS_ORG
+		o
+		left join sys_role r on r.org_no = o.org_no
+		WHERE r.id !=#{participantId}
+		START WITH
+		o.ORG_NO =
+		(select
+		ORG_NO
+		from sys_role
+		where "ID" = #{participantId}
+		)
+		CONNECT BY
+		PRIOR o.PARENT_NO=o.ORG_NO
+	</select>
+
+	<!-- 获取人员所有上级部门信息 -->
+	<select id="findDeptParenticipantsToEmployee" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT ID,NAME FROM SYS_ORG
+		WHERE ORG_TYPE ='3'
+		START WITH
+		ORG_NO=(select ORG_NO from sys_employee where "ID" =
+		#{participantId})
+		CONNECT BY PRIOR PARENT_NO=ORG_NO
+
+	</select>
+
+	<!-- 查询部门的所有上级组织信息 -->
+	<select id="findOrgParticipantsToOrg" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT ID,NAME FROM SYS_ORG
+		WHERE ORG_TYPE !='3'
+		START WITH
+		ORG_NO=(select ORG_NO from sys_org where "ID" = #{participantId})
+		CONNECT BY PRIOR PARENT_NO=ORG_NO
+	</select>
+
+	<!-- 根据人员id查询上级部门信息 -->
+	<select id="findDeptToEmployee" parameterType="java.lang.String"
+		resultType="Org">
+		SELECT o.ID,o.NAME FROM SYS_ORG o
+		left join sys_employee e
+		on e.depart_no = o.org_no
+		WHERE ORG_TYPE ='3' and e.id=#{participantId}
+	</select>
+
+
+	<!--查询根节点下的所有组织和部门信息 -->
+	<select id="getRootChildParticipants" parameterType="java.lang.String"
+		resultType="Org">
+		select o.org_no ,o.name
+		from sys_org o
+		where o.parent_no= (select o.org_no from sys_org o where
+		org_no=#{participantId})
+
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE sys_org SET
+		parent_id = #{parent.id},
+		org_no = #{orgNo},
+		name = trim(#{name}),
+		simple_name = #{simpleName},
+		belong_industry = #{belongIndustry},
+		business_nature = #{businessNature},
+		business_status = #{businessStatus},
+		register_type = #{registerType},
+		market_status = #{marketStatus},
+		main_product = #{mainProduct},
+		parent_no = #{parentNo},
+		parent_name = #{parentName},
+		country_arearegister = #{countryArearegister},
+		register_adrss = #{registerAdrss},
+		manage_adress = #{manageAdress},
+		org_type = #{orgType},
+		
+		<if test="null != adminManage and account != '' ">
+		admin_manage = #{adminManage},
+		org_sts = #{orgSts},
+		</if>
+		<if test="null != account and account != '' ">
+		account = #{account},
+		account_pno = #{accountPNo},
+		check_Sts = #{checkSts},
+		</if>
+		<if test="null != isCost and isCost != '' ">
+		is_cost = #{isCost},
+		cost_pno = #{costPNo},
+		cost_Sts = #{costSts},
+		Belong_profit_centre = #{BelongProfitCentre},
+		Belong_Financial_org_cost  = #{BelongFinancialOrgCost},
+		</if>
+		<if test="null != isGain and isGain != '' ">
+		is_gain = #{isGain},
+		gain_pno= #{gainPNo},
+		profit_Sts = #{profitSts},
+		Belong_Financial_org_profit = #{BelongFinancialOrgProfit},
+		</if>
+		<if test="null != budget and budget != '' ">
+		budget = #{budget},
+		budget_pno = #{budgetPNo},
+		budget_Sts = #{budgetSts},
+		</if>
+		<if test="null != finance and finance != '' ">
+		finance = #{finance},
+		finance_pno = #{financePNo},
+		financial_Sts = #{financialSts},
+		fbelong_industry = #{fBelongIndustry}, 
+		Account_org_name = #{AccountOrgName}, 
+		compar_adminno=#{comparAdminNo},
+		
+		Is_bottom_gain = #{IsBottomGain},
+		Is_bottom_unit = #{IsBottomUnit},
+		</if>
+		legalRepresentative=#{legalRepresentative},
+		org_code=#{orgCode},
+		is_leaf=#{isLeaf},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE org_no = #{orgNo}
+	</update>
+	
+	<update id="updateDeptMDM">
+		UPDATE sys_org SET
+		parent_id = #{parent.id},
+		org_no = #{orgNo},
+		name = trim(#{name}),
+		parent_no = #{parentNo},
+		parent_name = #{parentName},
+		is_cost = #{isCost},
+		is_gain = #{isGain},
+		pdept_no = #{pdeptNo},
+		pdept_name = #{pdeptName},
+		org_sts = #{orgSts},
+		cost_pno = #{costPNo},
+		gain_pno= #{gainPNo},
+		hr_orgno= #{HROrgNo},
+		useable= #{useable},
+		org_type = #{orgType},
+		Is_bottom_gain = #{IsBottomGain},
+		Belong_profit_centre = #{BelongProfitCentre},
+		Belong_Financial_org_cost  = #{BelongFinancialOrgCost},
+		
+		is_leaf=#{isLeaf},
+		del_flag=#{delFlag},
+		
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE org_no = #{orgNo}
+	</update>
+	
+	<!-- 查询不含部门的组织信息 -->
+	<select id="getOrgAllInfo" resultType="Org" parameterType="Org">
+	SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE 1=1 
+		<if test="null == parentNo ">
+			AND a.parent_no is null
+		</if>
+		<if test="null != parentNo  and ''!=parentNo">
+			AND a.parent_no= #{parentNo}
+		</if>
+		AND a.org_type <![CDATA[ <> ]]> '3'
+		ORDER BY a.name DESC
+	</select>
+	<!-- 获取部门列表 -->
+	<select id="getDeptAllInfo" resultType="Org" parameterType="Org">
+	SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE 1=1 
+		<if test="null == parentNo ">
+			AND a.parent_no is null
+		</if>
+		<if test="null != parentNo  and ''!=parentNo">
+			AND a.parent_no= #{parentNo}
+		</if>
+		<if test="3 == orgType">
+		AND a.org_type = '3'
+		</if>
+		AND a.del_flag = 0
+		
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 根据id查询所有子集 人员树 -->
+	<select id="findSoyys" resultType="Org" parameterType="string">
+	       
+SELECT * from ( SELECT a.*
+         FROM (SELECT o.org_no      AS id,
+                      o.            NAME AS NAME,
+                      o.parent_no   AS parentid,
+                      o.parent_name
+                 FROM SYS_ORG o
+               UNION ALL
+               SELECT E.emp_no      AS id,
+                      E.emp_name    AS NAME,
+                      E.depart_no   AS parentid,
+                      E.depart_name AS parent_name
+                 FROM sys_employee E) a
+        START WITH id = #{1}
+       CONNECT BY PRIOR id = parentid)t where t.parentid = #{0}
+	</select>
+	
+	<!-- 根据id查询所有子集  部门树 -->
+	<select id="findDeptSoyys" resultType="Org" parameterType="string">
+	       
+          SELECT * from (SELECT o.org_no      AS id,
+                 o.            NAME AS NAME,
+                 o.parent_no    AS parentid,
+                 o.parent_name
+            FROM SYS_ORG o) t  where t.parentid = #{participantId}
+	</select>
+
+	<!-- 查询不含部门的我方主体信息 -->
+	<select id="getOrgBydeposit" resultType="Org">
+	SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE  a.org_type <![CDATA[ <> ]]> '3' 
+		<if test="name!=''">
+		and a.name like '%'||#{name}||'%'
+		</if>
+	</select>
+
+	<!-- 根据公司编码查询当前公司下的部门信息 -->
+	<select id="getDeptByParentNo" resultType="Org">
+		SELECT
+			a.org_no AS orgNo,
+			a.name AS name
+		FROM sys_org a
+			WHERE a.org_type = '3'
+			and a.del_flag = 0
+		<if test="null != name and name !='' ">
+			and a.name like '%'||#{name}||'%'
+		</if>
+		
+		<if test="null != orgNo and orgNo !='' ">
+			and a.org_no like '%'||#{orgNo}||'%'
+		</if>
+		
+		<if test="null != parentNo and parentNo !='' ">
+		 start with  a.parent_no =#{parentNo} connect by  prior a.org_no=a.parent_no
+		</if>
+		
+	</select>
+	
+	<!-- 根据组织机构编码获取部门信息 -->
+	<select id="getDeptByOrgNo" resultType="Org">
+		SELECT
+			a.org_no AS orgNo,
+			a.name AS name
+		FROM sys_org a
+			WHERE a.org_type = '3' 
+		<if test="null != parentNo and parentNo !='' ">
+			and a.org_no = #{parentNo} 
+		</if>
+		and a.del_flag = 0
+	</select>
+	
+	<!-- 根据组织父编码获取部门信息 -->
+	<select id="getDeptList" resultType="Org">
+		SELECT
+			a.org_no as orgNo,a.name as name,a.parent_no as parentNo,a.is_leaf as isLeaf
+		FROM sys_org a
+			<include refid="sysDeptJoins" />
+		WHERE a.del_flag = 0
+			AND a.parent_no=#{parentNo} 
+			AND a.org_type = '3'
+	 	union 
+    		select 
+    			o.org_no as orgNo,o.name as name,o.parent_no as parentNo,o.is_leaf as isLeaf
+    		from sys_org o 
+    			where o.org_no= #{parentNo}
+					AND o.del_flag = 0
+	</select>
+	
+	<!-- 根据部门编码获取部门信息 -->
+	<select id="getDeptClickList" resultType="Org">
+		SELECT
+			a.org_no as orgNo,a.name as name,a.parent_no as parentNo,a.is_leaf as isLeaf
+		FROM sys_org a
+			<include refid="sysDeptJoins" />
+		WHERE a.del_flag = 0
+			AND a.parent_no=#{parentNo} 
+			AND a.org_type = '3'
+	</select>
+
+	<!-- 查询所有公司数据 -->
+	<select id="findAllCompanyList" resultType="Org" parameterType="Org">
+		SELECT
+			a.org_no as orgNo,a.name as name,a.parent_no as parentNo,a.is_leaf as isLeaf
+		FROM sys_org a
+		<include refid="sysDeptJoins" />
+		WHERE 1=1
+		<if test="null != parentNo  and ''!=parentNo">
+			AND a.parent_no= #{parentNo}
+		</if>
+			AND (a.org_type != '3' OR a.org_type is null)
+			AND a.del_flag = 0
+		ORDER BY a.name DESC
+	</select>
+	
+	<select id="getAllParentOrgs" resultType="Org">
+		SELECT * FROM SYS_ORG O
+		WHERE O.ORG_NO != #{orgNo}
+		START WITH O.ORG_NO = #{orgNo}
+		CONNECT BY PRIOR O.PARENT_NO = O.ORG_NO
+	</select>
+
+	<!-- 根据组织父编码获取利润中心信息 -->
+	<select id="getProfitCenterList" resultType="Org">
+		SELECT
+		a.org_no as orgNo,a.name as name,a.parent_no as parentNo,a.is_leaf as isLeaf
+		FROM sys_org a
+		<include refid="sysDeptJoins" />
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="null != parentNo  and '' != parentNo">
+			AND a.parent_no=#{parentNo}
+		</if>
+		<if test="null != isGain  and '' != isGain">
+			AND a.is_gain= #{isGain}
+		</if>
+		<if test="null != isCost  and '' != isCost">
+			AND a.is_cost= #{isCost}
+		</if>
+		union
+		select
+		o.org_no as orgNo,o.name as name,o.parent_no as parentNo,o.is_leaf as isLeaf
+		from sys_org o
+		where o.org_no= #{parentNo}
+	</select>
+
+	<!-- 根据部门编码获取部门信息 -->
+	<select id="getProfitCenterClickList" resultType="Org">
+		SELECT
+		a.org_no as orgNo,a.name as name,a.parent_no as parentNo,a.is_leaf as isLeaf
+		FROM sys_org a
+		<include refid="sysDeptJoins" />
+		WHERE a.del_flag = 0
+		AND a.parent_no=#{parentNo}
+		<if test="null != isGain  and '' != isGain">
+			AND a.is_gain= #{isGain}
+		</if>
+		<if test="null != isCost  and ''!=isCost">
+			AND a.is_cost= #{isCost}
+		</if>
+	</select>
+
+	<!-- 根据公司编码查询当前公司下的利润中心信息 -->
+	<select id="getProfitCenterByParentNo" resultType="Org">
+		SELECT
+		a.org_no AS orgNo,
+		a.name AS name
+		FROM sys_org a
+		WHERE 1=1
+
+		<if test="null != isGain  and ''!=isGain">
+			AND a.is_gain= #{isGain}
+		</if>
+		<if test="null != isCost  and ''!=isCost">
+			AND a.is_cost= #{isCost}
+		</if>
+		<if test="null != name and name !='' ">
+			AND a.name like '%'||#{name}||'%'
+		</if>
+		<if test="null != orgNo and orgNo !='' ">
+			AND a.org_no like '%'||#{orgNo}||'%'
+		</if>
+		START WITH
+		<choose>
+			<when test="null != parentNo and parentNo !='' ">
+				a.parent_no = #{parentNo}
+			</when>
+			<otherwise>
+				a.parent_no = '111111111'
+			</otherwise>
+		</choose>
+		CONNECT BY PRIOR
+			org_no = parent_no
+
+	</select>
+
+	<!-- 根据组织机构编码获取利润中心信息 -->
+	<select id="getProfitCenterByOrgNo" resultType="Org">
+		SELECT
+		a.org_no AS orgNo,
+		a.name AS name
+		FROM sys_org a
+		WHERE 1=1
+		<if test="null != parentNo and parentNo !='' ">
+			and a.org_no = #{parentNo}
+		</if>
+		<if test="null != isGain  and ''!=isGain">
+			AND a.is_gain= #{isGain}
+		</if>
+	</select>
+	
+	
+	<!-- 搜索 根据关键字搜索 组织 tree -->
+	<select id="getTreeOrgBySearch" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.del_flag = 0
+		
+		and a.org_no in (
+			SELECT distinct(org_no) FROM sys_org t 
+			START WITH name like '%'|| #{key}||'%' and org_type != '3' CONNECT BY prior t.parent_no=org_no
+		)
+	</select>
+	
+	<!-- 组织树搜索关键字 -->
+	<select id="findAllOrgListBySearch" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE 1=1
+		<if test="null == org.parentNo ">
+			AND a.parent_no ='0'
+		</if>
+		<if test="null != org.parentNo  and ''!=org.parentNo">
+			AND a.parent_no= #{org.parentNo}
+		</if>
+		<if test="null != org.orgType and '' !=org.orgType">
+			AND  case when a.org_type = #{org.orgType}  then '2'  else  #{org.orgType} end =#{org.orgType}
+		</if>
+			AND a.del_flag = 0 
+			
+			AND a.org_no in (
+			SELECT distinct(org_no) FROM sys_org t 
+			START WITH name like '%'|| #{key}||'%' and org_type != '3' CONNECT BY prior t.parent_no=org_no
+		)
+		ORDER BY a.name DESC
+	</select>
+	
+	<!-- 部门树搜索关键字 -->
+	<select id="findAllDeptListBySearch" resultType="Org">
+		SELECT
+		<include refid="sysOrgColumns" />
+		FROM sys_org a
+		<include refid="sysOrgJoins" />
+		WHERE a.del_flag = 0  AND a.org_type = '3' AND 
+		a.org_no in(
+			SELECT DISTINCT org_no FROM sys_org t START WITH  org_no=#{org.parentNo} CONNECT BY prior t.org_no=parent_no 
+			<if test="null != key and '' !=key">
+			intersect 
+			SELECT DISTINCT org_no FROM sys_org t START WITH  name LIKE '%'|| #{key}||'%' CONNECT BY prior t.parent_no=org_no
+			</if>
+		) ORDER BY a.name DESC
+		
+	</select>
+	
+</mapper>

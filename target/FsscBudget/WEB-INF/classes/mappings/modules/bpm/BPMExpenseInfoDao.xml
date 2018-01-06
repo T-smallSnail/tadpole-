@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bpm.dao.BPMExpenseInfoDao">
+
+    <select id="getExpenseInfoByProcessId" resultType="BPMExpenseInfo">
+        SELECT tbe.* FROM TEST_BPM_EXPENSEINFO tbe WHERE tbe.PROCESSINSTID = #{processId}
+    </select>
+
+    <select id="get" resultType="BPMExpenseInfo">
+        SELECT tbe.* FROM TEST_BPM_EXPENSEINFO tbe WHERE tbe.id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO TEST_BPM_EXPENSEINFO(
+        id,
+
+        expid,
+        processinstid,
+        expname,
+        expmoney,
+        reason,
+        isbudgetitem,
+        auditor,
+        wipeoutName,
+        isCraft,
+
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag
+
+        ) VALUES (
+        #{id},
+
+        #{expid},
+        #{processinstid},
+        #{expname},
+        #{expmoney},
+        #{reason},
+        #{isbudgetitem},
+        #{auditor},
+        #{wipeoutName},
+        #{isCraft},
+
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE TEST_BPM_EXPENSEINFO SET
+        expid = #{expid}
+        processinstid = #{processinstid},
+        expname= #{processinstid},
+        expmoney = #{expmoney},
+        reason= #{reason},
+        isbudgetitem= #{isbudgetitem},
+        auditor= #{auditor},
+        wipeoutName=#{wipeoutName},
+        isCraft=#{isCraft},
+
+        update_by = #{updateBy.id},
+        update_date = #{updateDate},
+        remarks = #{remarks},
+        ref_id = #{refId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE TEST_BPM_EXPENSEINFO SET
+        del_flag = #{DEL_FLAG_DELETE}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

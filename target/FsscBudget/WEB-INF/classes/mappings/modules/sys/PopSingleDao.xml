@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.PopSingleDao">
+    
+	<sql id="popSingleColumns">
+		a.id AS "id",
+		a.scene_id AS "sceneId",
+		a.scene_desc AS "sceneDesc",
+		a.col_name AS "colName",
+		a.sql AS "sql",
+		a.db_bean_rel AS "dbBeanRel",
+		a.query_disname AS "queryDisname",
+		a.query_name AS "queryName",
+		a.page_no AS "pageNo",
+		a.dyn_and AS "dynAnd",
+		a.dyn_or AS "dynOr",
+		a.orderby AS "orderby",
+		a.if_query AS "ifQuery",
+		a.hidden_col AS "hiddenCol"
+	</sql>
+	
+	<sql id="popSingleJoins">
+	</sql>
+    
+	<select id="get" resultType="PopSingle">
+		SELECT 
+			<include refid="popSingleColumns"/>
+		FROM sys_pop_single a
+		<include refid="popSingleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PopSingle">
+		SELECT 
+			<include refid="popSingleColumns"/>
+		FROM sys_pop_single a
+		<include refid="popSingleJoins"/>
+		<where>
+			
+			<if test="sceneId != null and sceneId != ''">
+				AND a.scene_id = #{sceneId}
+			</if>
+			<if test="sceneDesc != null and sceneDesc != ''">
+				AND a.scene_desc = #{sceneDesc}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PopSingle">
+		SELECT 
+			<include refid="popSingleColumns"/>
+		FROM sys_pop_single a
+		<include refid="popSingleJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="sys_pop_single_SEQ">sys_pop_single_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_pop_single(
+			id,
+			scene_id,
+			scene_desc,
+			col_name,
+			sql,
+			db_bean_rel,
+			query_disname,
+			query_name,
+			page_no,
+			dyn_and,
+			dyn_or,
+			orderby,
+			if_query,
+			hidden_col
+		) VALUES (
+		<include refid="sys_pop_single_SEQ"/>,
+			#{sceneId},
+			#{sceneDesc},
+			#{colName},
+			#{sql},
+			#{dbBeanRel},
+			#{queryDisname},
+			#{queryName},
+			#{pageNo},
+			#{dynAnd},
+			#{dynOr},
+			#{orderby},
+			#{ifQuery},
+			#{hiddenCol}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_pop_single SET 	
+			   scene_id = #{sceneId},
+			   scene_desc = #{sceneDesc},
+			   col_name = #{colName},
+			   sql = #{sql},
+			   db_bean_rel = #{dbBeanRel},
+			   query_disname = #{queryDisname},
+			   query_name = #{queryName},
+			   page_no = #{pageNo},
+			   dyn_and = #{dynAnd},
+			   dyn_or = #{dynOr},
+			   orderby = #{orderby},
+			   if_query = #{ifQuery},
+			   hidden_col = #{hiddenCol}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_pop_single
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getBySceneId" resultType="PopSingle">
+		SELECT 
+			<include refid="popSingleColumns"/>
+		FROM sys_pop_single a
+		<include refid="popSingleJoins"/>
+		WHERE a.scene_id = #{sceneId}
+	</select>
+	<!-- 查询pop count -->
+	<select id="getCountPop" parameterType="String" resultType="Integer"> 
+	    ${value}
+	</select>
+	 <!-- 查询传入的sql的结果-->
+	<select id="getPopLisyBySql" parameterType="String" resultType="java.util.LinkedHashMap"> 
+        ${value} 
+    </select>
+</mapper>

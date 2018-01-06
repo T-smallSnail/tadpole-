@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.JobDao">
+
+	<sql id="jobColumns">
+		a.id AS "id",
+		a.job_no AS "jobNo",
+		a.job_name AS "jobName",
+		a.depart_no AS "departNo",
+		a.depart_name AS "departName",
+		a.org_no AS
+		"orgNo",
+		a.org_name AS "orgName",
+		a.create_by AS "createBy.loginName",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.loginName",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.pjob_no AS "pJobNo",
+		a.pjob_name AS "pJobName",
+		a.isrevoke AS "isRevoke"
+	</sql>
+	<sql id="jobJoins">
+	</sql>
+	<select id="get" resultType="Job">
+		SELECT
+		<include refid="jobColumns" />
+		FROM sys_job a
+		<include refid="jobJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM sys_job
+	</select>
+	<select id="findJoinJobs" resultType="Job">
+		SELECT
+		<include refid="jobColumns" />
+		FROM sys_job a
+		<include refid="jobJoins" />
+		WHERE a.org_no = #{orgNo} AND a.depart_no = #{departNo}
+	</select>
+
+	<select id="findList" resultType="Job">
+		SELECT
+		<include refid="jobColumns" />
+		FROM sys_job a
+		<include refid="jobJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="jobName != null and jobName != ''">
+				AND a.job_name = #{jobName}
+			</if>
+			<if test="jobNo != null and jobNo != ''">
+				AND a.job_no = #{jobNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="findOrgChildAllJob" parameterType="java.lang.String"
+		resultType="Job">
+		SELECT DISTINCT j.id ,j.job_name
+		FROM SYS_ORG o
+		left join
+		sys_employee
+		e on o.org_no = e.org_no
+		left join sys_job j on e.job_no =
+		j.job_no
+		where j.job_name is not null
+		START WITH
+		o.ORG_NO = (select
+		ORG_NO from
+		sys_org where "ID" = #{participantId })
+		CONNECT BY PRIOR
+		o.ORG_NO =
+		o.PARENT_NO
+	</select>
+
+
+
+	<select id="findJobToDept" parameterType="java.lang.String"
+		resultType="Job">
+		SELECT j.id,j.job_name
+		FROM SYS_ORG o
+		left join sys_job j on
+		o.org_no = j.depart_no
+		where o.id =#{participantId } and j.id is not
+		null
+	</select>
+
+	<!-- 根据JobNo获取岗位信息 -->
+	<select id="findListByJobNoToJob" parameterType="java.lang.String"
+		resultType="Job">
+		SELECT
+		j.ID,j.job_name
+		FROM
+		sys_job j
+		where
+		j.job_no=#{jobNo}
+	</select>
+
+	<!-- 指定组织下的所有岗位 -->
+	<select id="getChildJobToOrg" parameterType="java.lang.String"
+		resultType="Job">
+		SELECT DISTINCT j.id,j.job_name
+		FROM SYS_ORG o
+		left join
+		sys_employee e on o.org_no = e.org_no
+		left join sys_job j on e.job_no =
+		j.job_no
+		where j.job_name is not null
+		START WITH
+		o.ORG_NO = (select
+		ORG_NO from
+		sys_org where "ID" = #{participantId } )
+		CONNECT BY PRIOR
+		o.ORG_NO= o.PARENT_NO
+	</select>
+	<!-- 指定部门下的所有岗位 -->
+	<select id="getChildJobToDept" parameterType="java.lang.String"
+		resultType="Job">
+		SELECT j.id,j.job_name
+		FROM SYS_ORG o
+		left join
+		sys_job j on j.depart_no = o.org_no
+		START WITH
+		o.ORG_NO =
+		(select ORG_NO
+		from sys_org where "ID" =
+		#{participantId } )
+		CONNECT BY
+		PRIOR o.ORG_NO=
+		o.PARENT_NO
+	</select>
+
+
+	<select id="findAllList" resultType="Job">
+		SELECT
+		<include refid="jobColumns" />
+		FROM sys_job a
+		<include refid="jobJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<sql id="sys_job_SEQ">sys_job_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT sys_job_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO sys_job(
+		id,
+		job_no,
+		job_name,
+		depart_no,
+		depart_name,
+		org_no,
+		org_name,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag,
+		pjob_no,
+		pjob_name,
+		isrevoke
+		) VALUES (
+		#{id},
+		#{jobNo},
+		#{jobName},
+		#{departNo},
+		#{departName},
+		#{orgNo},
+		#{orgName},
+		#{createBy.loginName},
+		#{createDate},
+		#{updateBy.loginName},
+		#{updateDate},
+		#{remarks},
+		#{delFlag},
+		#{pJobNo},
+		#{pJobName},
+		#{isRevoke}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_job SET
+		job_no = #{jobNo},
+		job_name =#{jobName},
+		depart_no = #{departNo},
+		depart_name = #{departName},
+		org_no= #{orgNo},
+		org_name = #{orgName},
+		create_by=#{createBy.loginName},
+		create_date=#{createDate},
+		update_by=#{updateBy.loginName},
+		update_date=#{updateDate},
+		remarks = #{remarks},
+		pjob_no=#{pJobNo},
+		pjob_name=#{pJobName},
+		isrevoke=#{isRevoke}
+		WHERE id = #{id}
+	</update>
+
+
+	<update id="delete">
+		UPDATE sys_job SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE
+		id = #{id}
+	</update>
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.sys.entity.Job">
+		SELECT
+		<include refid="jobColumns" />
+		FROM sys_job a
+		<include refid="jobJoins" />
+		WHERE a.job_no = #{job_no}
+	</select>
+
+	<insert id="insertList">
+		INSERT INTO sys_job(
+		id,
+		job_no,
+		job_name,
+		depart_no,
+		depart_name,
+		org_no,
+		org_name,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag,
+		pjob_no,
+		pjob_name,
+		isrevoke
+		)
+		<foreach collection="list" item="l" separator=" union all ">
+			select
+			get_seq_next('SYS_JOB_SEQ'),
+			#{l.jobNo},
+			#{l.jobName},
+			#{l.departNo},
+			#{l.departName},
+			#{l.orgNo},
+			#{l.orgName},
+			#{l.createBy.id},
+			#{l.createDate},
+			#{l.updateBy.id},
+			#{l.updateDate},
+			#{l.remarks},
+			#{l.delFlag},
+			#{l.pJobNo},
+			#{l.pJobName},
+			#{l.isRevoke}
+			FROM dual
+		</foreach>
+	</insert>
+
+	<update id="updateMDM">
+		UPDATE sys_job SET
+		job_no = #{jobNo},
+		job_name =
+		#{jobName},
+		depart_no = #{departNo},
+		depart_name = #{departName},
+		org_no = #{orgNo},
+		org_name = #{orgName},
+		pjob_no=#{pJobNo},
+		pjob_name=#{pJobName},
+		isrevoke=#{isRevoke},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE job_no = #{jobNo}
+	</update>
+</mapper>

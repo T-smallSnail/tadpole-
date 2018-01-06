@@ -1,0 +1,143 @@
+@charset "utf-8";
+/*全局*/
+ul,li{
+	list-style: none;
+	padding: 0px;
+    margin: 0px;
+}
+
+.list-group .icon-sameAttr16{
+	float:right;
+}
+
+/*面板样式*/
+
+.panel{
+	box-shadow: none;
+}
+.panel-heading{
+	color: #fff;
+	font-size: 1.8rem;
+	position: relative;
+}
+.panel-content .list-group-item:first-child{
+	border-top: none;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+.panel-content .list-group{
+	margin: 0px;
+}
+
+.panel-content .list-group a{
+	color: #666666;
+	font-size: 1.4rem;
+	text-decoration: none;
+}
+.panel-content .list-group a:hover{
+	color: #008FDA;
+}
+
+/*面板颜色*/
+.panel-color008FDA>.panel-heading {
+	background-color: #008FDA ;
+}
+
+.panel-F5A734>.panel-heading {
+	background-color: #F5A734;
+}
+
+.panel-color00A59B>.panel-heading {
+	background-color: #00A59B;
+}
+
+.panel-colorEE6765>.panel-heading {
+	background-color: #EE6765;
+}
+
+.panel-color2EA1F8>.panel-heading {
+	background-color: #2EA1F8;
+}
+
+.panel-colorF6A734>.panel-heading {
+	background-color: #F6A734;
+}
+
+
+/*面板样式二*/
+ .panel-defined{
+	margin: 10px auto;
+	border: 1px solid #D4D8DF;
+	border-radius: 4px;
+}
+ .panel-defined-title{
+	background: rgb(233,245,254);
+	height:30px;
+}
+ .panel-defined-title span{
+	height:30px;
+	font-size:1.6rem;
+	color:#0A509F ;
+	font-weight:bold;
+	line-height: 30px;
+	border-left: 4px solid #409B27;
+	margin-left: 1%;
+	padding-left: 0.6%;
+}
+.panel-defined-title i{
+	float: right;
+	margin-top: 5px;
+	padding-right: 1%;
+	cursor: default;
+}
+
+
+/*表格面板样式*/
+.panel-content .table-bordered{
+	border-top: none;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-collapse: collapse;
+}
+
+.panel .icon-sameAttr56{
+	padding-right: 13px;
+	margin-right: 13px;
+	font-size:1.8rem;
+}
+.panel .icon-border006ca5{
+	border-right:3px solid  #006ca5;
+}
+.panel .icon-border007d76{
+	border-right:3px solid  #007d76;
+}
+.panel .defined-reset{
+	float: right;
+    padding-right: 10px;
+    margin-top: 4px;
+}
+.panel-checkMore{
+	position: relative;
+    right: -21px;
+    float: right;
+    top: 37px;
+    font-size: 1.4rem;
+    cursor: default;
+}
+
+.panel .panel-inforNum{
+	display: inline-block;
+}
+.panel .panel-inforNum li{
+	padding: 8px 0px 0px 0px;
+}
+.panel .panel-inforNum li .font28{
+	font-weight: bold;
+	padding-right: 10px;
+}
+.font28{
+	font-size:2.8rem;
+}
+.font14{
+	font-size:1.4rem;
+}

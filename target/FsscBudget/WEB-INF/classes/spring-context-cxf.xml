@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<context:component-scan base-package="com.thinkgem.jeesite.modules.inf" />
+	<jaxws:endpoint id="cxfDemo"
+		implementor="com.thinkgem.jeesite.modules.inf.server.impl.CXFDemoImpl"
+		address="/CXFDemo">
+		<jaxws:inInterceptors>
+			<bean name="logInInter" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+			<!--<bean name="logInInter2" class="com.thinkgem.jeesite.common.inf.support.Logging.LoggingDemo" 
+				/> -->
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<bean name="logOutInter" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+
+
+	<jaxws:endpoint id="mdmSubscriber"
+		implementor="com.thinkgem.jeesite.modules.inf.mdm.MdmSubscriberImpl"
+		address="/mdmsync">
+		<jaxws:inInterceptors>
+			<bean name="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+			<bean name="messageInInterceptor"
+				class="com.thinkgem.jeesite.modules.inf.support.Logging.MessageInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<bean name="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+			<bean name="messageOutInterceptor"
+				class="com.thinkgem.jeesite.modules.inf.support.Logging.MessageOutInterceptor" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+
+	<jaxws:endpoint id="syncUserService"
+		implementor="com.thinkgem.jeesite.modules.inf.iam.SyncUserServiceImpl"
+		address="/iamsync">
+		<jaxws:inInterceptors>
+			<bean name="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+			<bean name="messageInInterceptor"
+				class="com.thinkgem.jeesite.modules.inf.support.Logging.MessageInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<bean name="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+			<bean name="messageOutInterceptor"
+				class="com.thinkgem.jeesite.modules.inf.support.Logging.MessageOutInterceptor" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+
+	<!-- <bean id="syncUserService" class="com.thinkgem.jeesite.modules.inf.iam.SyncUserServiceImpl"> 
+		<property name="mdmMessageHandler" ref="mdmMessageHandler2"></property> </bean> 
+		<bean id="mdmSubscriber" class="com.thinkgem.jeesite.modules.inf.mdm.MdmSubscriberImpl"> 
+		<property name="mdmMessageHandler" ref="mdmMessageHandler2"></property> </bean> 
+		<bean id="mdmMessageHandler" class="com.thinkgem.jeesite.modules.inf.MdmMessageHandlerImpl"></bean> 
+		<bean id="mdmMessageHandler2" class="com.thinkgem.jeesite.modules.inf.MdmMessageHandlerImpl2"></bean> -->
+</beans>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempEmployeeDao">
+    
+	<sql id="tempEmployeeColumns">
+		a.id AS "id",
+		a.emp_no AS "empNo",
+		a.emp_name AS "empName",
+		a.sex AS "sex",
+		a.nation AS "nation",
+		a.office_level AS "officeLevel",
+		a.email AS "email",
+		a.job_no AS "jobNo",
+		a.job_name AS "jobName",
+		a.depart_no AS "departNo",
+		a.depart_name AS "departName",
+		a.org_no AS "orgNo",
+		a.org_name AS "orgName",
+		a.porg_no AS "porgNo",
+		a.porg_name AS "porgName",
+		a.status AS "status",
+		a.user_type as userType,
+		a.user_account_status as userAccountStatus,
+		a.part_time_jobNos as partTimeJobNos,
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="tempEmployeeJoins">
+	</sql>
+    
+	<select id="get" resultType="TempEmployee">
+		SELECT 
+			<include refid="tempEmployeeColumns"/>
+		FROM temp_employee a
+		<include refid="tempEmployeeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_employee
+	</select>
+	<select id="findList" resultType="TempEmployee">
+		SELECT 
+			<include refid="tempEmployeeColumns"/>
+		FROM temp_employee a
+		<include refid="tempEmployeeJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TempEmployee">
+		SELECT 
+			<include refid="tempEmployeeColumns"/>
+		FROM temp_employee a
+		<include refid="tempEmployeeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_employee_SEQ">temp_employee_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_employee(
+			id,
+			emp_no,
+			emp_name,
+			sex,
+			nation,
+			office_level,
+			email,
+			job_no,
+			job_name,
+			depart_no,
+			depart_name,
+			org_no,
+			org_name,
+			porg_no,
+			porg_name,
+			status,
+			user_type,
+			user_account_status,
+			part_time_jobNos,
+			create_date
+		) VALUES (
+		<include refid="temp_employee_SEQ"/>,
+			#{empNo},
+			#{empName},
+			#{sex},
+			#{nation},
+			#{officeLevel},
+			#{email},
+			#{jobNo},
+			#{jobName},
+			#{departNo},
+			#{departName},
+			#{orgNo},
+			#{orgName},
+			#{porgNo},
+			#{porgName},
+			#{status},
+			#{userType},
+			#{userAccountStatus},
+			#{partTimeJobNos},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_employee SET 	
+			   emp_no = #{empNo},
+			   emp_name = #{empName},
+			   sex = #{sex},
+			   nation = #{nation},
+			   office_level = #{officeLevel},
+			   email = #{email},
+			   job_no = #{jobNo},
+			   job_name = #{jobName},
+			   depart_no = #{departNo},
+			   depart_name = #{departName},
+			   org_no = #{orgNo},
+			   org_name = #{orgName},
+			   porg_no = #{porgNo},
+			   porg_name = #{porgName},
+			   status = #{status},
+			   user_type = #{userType},
+			   user_account_status = #{userAccountStatus},
+			   part_time_jobNos = #{partTimeJobNos}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_employee
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_employee
+		WHERE emp_no = #{empNo}
+	</update>
+	
+</mapper>

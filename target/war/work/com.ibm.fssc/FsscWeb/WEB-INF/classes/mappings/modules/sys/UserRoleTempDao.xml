@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.UserRoleTempDao">
+    
+	<sql id="userRoleTempColumns">
+		a.id AS "id",
+		a.role_no AS "roleNo",
+		r.ROLE_NAME as "name",
+		get_IDByUserNo(a.user_no) as "userId",
+		a.user_no AS "userNo",
+		a.org_no AS "orgNo",
+		a.depart_no AS "departNo",
+		a.create_by AS "createBy.loginName",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.loginName",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.del_flag AS "delFlag",
+		o.id AS "company.id",
+		o.name AS "company.name",
+		a.org_no AS "company.orgNo",
+		d.id AS "office.id",
+		d.name AS "office.name",
+		a.depart_no AS "office.orgNo"
+	</sql>
+	
+	<sql id="userRoleTempJoins">
+	,sys_role r,sys_org o,sys_org d
+	</sql>
+    <sql id="odunion">
+  
+    and a.role_no=r.id
+    and a.org_no=o.org_no
+    and a.depart_no=d.org_no(+)  
+    and a.del_flag = '0'
+    and r.del_flag = '0'
+    </sql>
+    
+	<select id="get" resultType="UserRoleTemp">
+		SELECT 
+			<include refid="userRoleTempColumns"/>
+		FROM sys_user_role a
+		<include refid="userRoleTempJoins"/>
+		WHERE 1=1
+		and a.id = #{id}
+		<include refid="odunion"/>
+		
+	</select>
+	
+	<select id="findList" resultType="UserRoleTemp">
+		SELECT 
+			<include refid="userRoleTempColumns"/>
+		FROM sys_user_role a
+		<include refid="userRoleTempJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<include refid="odunion"/>
+			<if test="roleNo != null and roleNo != ''">
+				AND a.role_no = #{roleNo}
+			</if>
+			<if test="userNo != null and userNo != ''">
+				AND a.user_no = #{userNo}
+			</if>
+			<if test="orgNo != null and orgNo != ''">
+				AND a.org_no = #{orgNo}
+			</if>
+			<if test="departNo != null and departNo != ''">
+				AND a.depart_no = #{departNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.role_no DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="UserRoleTemp">
+		SELECT 
+			<include refid="userRoleTempColumns"/>
+		FROM sys_user_role a
+		<include refid="userRoleTempJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<include refid="odunion"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.role_no DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="SYS_USER_ROLE_SEQ">SYS_USER_ROLE_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_user_role(
+			id,
+			role_no,
+			user_no,
+			org_no,
+			depart_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			start_date,
+			end_date,
+			del_flag
+		) VALUES (
+		<include refid="SYS_USER_ROLE_SEQ"/>,
+			#{roleNo},
+			#{userNo},
+			#{company.orgNo},
+			#{office.orgNo},
+			#{createBy.loginName},
+			#{createDate},
+			#{updateBy.loginName},
+			#{updateDate},
+			#{remarks},
+			#{startDate},
+			#{endDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_user_role SET 	
+			   role_no = #{roleNo},
+			   user_no = #{userNo},
+			   org_no = #{orgNo},
+			   depart_no = #{departNo},
+			   update_by = #{updateBy.loginName},
+			   update_date = #{updateDate},
+			   remarks = #{remarks},
+			   start_date = #{startDate},
+			   end_date = #{endDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE sys_user_role
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

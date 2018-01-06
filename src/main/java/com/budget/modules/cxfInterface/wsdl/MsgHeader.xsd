@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://electronicsImage.cmcc.com/MsgHeader"
+	xmlns:tns="http://electronicsImage.cmcc.com/MsgHeader"
+	elementFormDefault="qualified" attributeFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:complexType name="MsgHeader">
+		<xs:sequence>
+			<xs:element name="SOURCE_SYSTEMID" type="xs:string" nillable="true" />
+			<xs:element name="SOURCE_SYSTEMNAME" type="xs:string" nillable="true" />
+			<xs:element name="USERID" type="xs:string" nillable="true" />
+			<xs:element name="USERNAME" type="xs:string" nillable="true" />
+			<xs:element name="SUBMITDATE" type="xs:string" nillable="true" />
+			<xs:element name="PAGE_SIZE" type="xs:long" nillable="true" />
+			<xs:element name="CURRENT_PAGE" type="xs:long" nillable="true" />
+			<xs:element name="TOTAL_RECORD" type="xs:long" nillable="true" />
+			<xs:element name="PROVINCE_CODE" type="xs:string" nillable="true" />
+			<xs:element name="ENVIRONMENT_NAME" type="xs:string" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

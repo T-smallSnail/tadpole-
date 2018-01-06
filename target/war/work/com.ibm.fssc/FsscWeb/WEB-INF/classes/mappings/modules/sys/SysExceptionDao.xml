@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.SysExceptionDao">
+    
+	<sql id="sysExceptionColumns">
+		a.id AS "id",
+		a.exp_pro_code AS "expProCode",
+		a.exp_title AS "expTitle",
+		a.exp_req_uri AS "expReqUri",
+		a.exp_class AS "expClass",
+		a.exp_method AS "expMethod",
+		a.exp_name AS "expName",
+		a.exp_info AS "expInfo",
+		a.user_id AS "user.id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.updatedate AS "updatedate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u9.name AS "user.name"
+	</sql>
+	
+	<sql id="sysExceptionJoins">
+		LEFT JOIN sys_user u9 ON u9.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="SysException">
+		SELECT 
+			<include refid="sysExceptionColumns"/>
+		FROM sys_exception a
+		<include refid="sysExceptionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SysException">
+		SELECT 
+			<include refid="sysExceptionColumns"/>
+		FROM sys_exception a
+		<include refid="sysExceptionJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="expProCode != null and expProCode != ''">
+				AND a.exp_pro_code = #{expProCode}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SysException">
+		SELECT 
+			<include refid="sysExceptionColumns"/>
+		FROM sys_exception a
+		<include refid="sysExceptionJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="sys_exception_SEQ">sys_exception_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_exception(
+			id,
+			exp_pro_code,
+			exp_title,
+			exp_req_uri,
+			exp_class,
+			exp_method,
+			exp_name,
+			exp_info,
+			user_id,
+			create_by,
+			create_date,
+			update_by,
+			updatedate,
+			remarks,
+			del_flag
+		) VALUES (
+		<include refid="sys_exception_SEQ"/>,
+			#{expProCode},
+			#{expTitle},
+			#{expReqUri},
+			#{expClass},
+			#{expMethod},
+			#{expName},
+			#{expInfo},
+			#{user.id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updatedate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_exception SET 	
+			   exp_pro_code = #{expProCode},
+			   exp_title = #{expTitle},
+			   exp_req_uri = #{expReqUri},
+			   exp_class = #{expClass},
+			   exp_method = #{expMethod},
+			   exp_name = #{expName},
+			   exp_info = #{expInfo},
+			   user_id = #{user.id},
+			   create_by = #{createBy.id},
+			   create_date = #{createDate},
+			   update_by = #{updateBy.id},
+			   updatedate = #{updatedate},
+			   remarks = #{remarks},
+			   del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_exception SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

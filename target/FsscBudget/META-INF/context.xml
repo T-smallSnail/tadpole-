@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    
+<Resource  name="JNDI/budget/oracleDataSource" auth="Container"      
+    type="javax.sql.DataSource"    
+    factory="com.alibaba.druid.pool.DruidDataSourceFactory"
+    driverClassName="oracle.jdbc.driver.OracleDriver"    
+    url="jdbc:oracle:thin:@10.50.1.3:1521/orcl"    
+    username="budg_cs"
+    password="budg"
+    initialSize="1"                
+    maxActive="20"
+    minIdle="3"
+    maxWait="60000"
+    removeAbandoned="true"
+    logAbandoned="true"
+    removeAbandonedTimeout="60"
+    timeBetweenEvictionRunsMillis="60000"
+    minEvictableIdleTimeMillis="300000"
+    numTestsPerEvictionRun="100"
+    validationQuery="SELECT 'x' FROM DUAL"
+    poolPreparedStatements="true"
+    maxOpenPreparedStatements="20" /> 
+
+</Context>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempBankInfoDao">
+    
+	<sql id="tempBankInfoColumns">
+		a.id AS "id",
+		a.supplier_no AS "supplierNo",
+		a.customer_no AS "customerNo",
+		a.bank_no AS "bankNo",
+		a.bank_name AS "bankName",
+		a.bank_account AS "bankAccount",
+		a.account_name AS accountName,
+		a.business_personnel_flag AS "businessPersonnelFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="tempBankInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="TempBankInfo">
+		SELECT 
+			<include refid="tempBankInfoColumns"/>
+		FROM temp_bank_info a
+		<include refid="tempBankInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TempBankInfo">
+		SELECT 
+			<include refid="tempBankInfoColumns"/>
+		FROM temp_bank_info a
+		<include refid="tempBankInfoJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TempBankInfo">
+		SELECT 
+			<include refid="tempBankInfoColumns"/>
+		FROM temp_bank_info a
+		<include refid="tempBankInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="temp_bank_info_SEQ">temp_bank_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_bank_info(
+			id,
+			supplier_no,
+			customer_no,
+			bank_no,
+			bank_name,
+			bank_account,
+			account_name,
+			business_personnel_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+		<include refid="temp_bank_info_SEQ"/>,
+			#{supplierNo},
+			#{customerNo},
+			#{bankNo},
+			#{bankName},
+			#{bankAccount},
+			#{accountName},
+			#{businessPersonnelFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE temp_bank_info SET 	
+			   supplier_no = #{supplierNo},
+			   customer_no = #{customerNo},
+			   bank_no = #{bankNo},
+			   bank_name = #{bankName},
+			   bank_account = #{bankAccount},
+			   account_name = #{accountName},
+			   business_personnel_flag = #{businessPersonnelFlag},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM temp_bank_info
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByCustomer">
+		DELETE FROM temp_bank_info
+		WHERE customer_no = #{customerNo} and supplier_no is null
+	</update>
+	
+	<update id="deleteBySupplierNo">
+		DELETE FROM temp_bank_info
+		WHERE supplier_no = #{supplierNo} and customer_no is null
+	</update>
+	
+	<insert id="batchInsert">
+		INSERT INTO temp_bank_info(
+			id,
+			supplier_no,
+			customer_no,
+			bank_no,
+			bank_name,
+			bank_account,
+			account_name,
+			business_personnel_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date) 
+		<foreach collection="list" item="temp" separator=" union all ">
+			select get_seq_next('temp_bank_info_SEQ'),
+			#{temp.supplierNo},
+			#{temp.customerNo},
+			#{temp.bankNo},
+			#{temp.bankName},
+			#{temp.bankAccount},
+			#{temp.accountName},
+			#{temp.businessPersonnelFlag},
+			#{temp.createBy.id},
+			#{temp.createDate},
+			#{temp.updateBy.id},
+			#{temp.updateDate}
+			FROM dual  
+		</foreach>
+	</insert>
+	
+	<select id="selectByCustomer" resultType="TempBankInfo">
+		SELECT 
+			<include refid="tempBankInfoColumns"/>
+		FROM temp_bank_info a
+		<include refid="tempBankInfoJoins"/>
+		WHERE a.customer_no = #{customerNo}
+	</select>
+	
+	<select id="selectBySupplier" resultType="TempBankInfo">
+		SELECT 
+			<include refid="tempBankInfoColumns"/>
+		FROM temp_bank_info a
+		<include refid="tempBankInfoJoins"/>
+		WHERE a.supplier_no = #{supplierNo}
+	</select>
+</mapper>

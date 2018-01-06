@@ -1,0 +1,84 @@
+@charset "utf-8";
+label.error {
+  background:url("images/unchecked.gif") no-repeat 0px 0px;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  font-weight: bold;
+  color: yellow;
+  margin-left: 10px;
+}
+
+/*自定义表单验证样式start*/
+
+/*错误*/
+label.verify-error{
+	display:block;
+	margin-top:10px;
+	margin-left:20px;
+    /*text-align: left;*/
+    color: #EC6868 !important;
+    padding-left: 184px;
+    position: absolute; 
+	font-size: 1.3rem !important;
+}
+input.verify-error{    
+	display: inline-block ;
+	vertical-align: bottom;
+	border:1px solid #EC6868;
+    box-shadow: 0px 0px 3px rgb(236, 104, 104);
+    background:url("images/icon-disagree.png") no-repeat;
+    background-size:16px 16px;
+    background-position: 98% 7px;
+}
+
+
+
+@media screen and (max-width: 1379px) {
+	   padding-left: 143px;
+}
+
+
+
+
+/*警告*/
+
+label.verify-warning{
+	width: 62.5%;
+    float: right;
+    text-align: left;
+    color: #F6A734;
+}
+input.verify-warning{    
+	display: inline-block ;
+	vertical-align: bottom;
+	border:1px solid #F6A734;
+    box-shadow: 0px 0px 3px rgb(246, 167, 52);
+    background:url("images/icon-warning.png") no-repeat;
+    background-size:16px 16px;
+    background-position: 98% 7px;
+}
+
+
+
+/*通过，正确*/
+label.verify-right{
+	width: 62.5%;
+    float: right;
+    text-align: left;
+    color: green;
+}
+
+input.verify-right{    
+	display: inline-block ;
+	vertical-align: bottom;
+    background:url("images/icon-success.png") no-repeat;
+    background-size:16px 16px;
+    background-position: 98% 7px;
+}
+
+
+
+
+
+
+

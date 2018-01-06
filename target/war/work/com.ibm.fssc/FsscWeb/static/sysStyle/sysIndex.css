@@ -1,0 +1,621 @@
+@charset "utf-8";
+/*========================================================
+	1.该css文档为sysIndex.jsp的样式文档；
+	2.若有修改请备注在该说明当中
+	
+===============================================by dyl===*/
+
+
+/*全局*/
+
+html{
+	font-size: 62.5%;
+	font-family: "微软雅黑",Helvetica, Georgia, Arial, sans-serif, 宋体;
+}
+body{
+	font-family: "微软雅黑",Helvetica, Georgia, Arial, sans-serif, 宋体;
+	background: #f4f6f8;
+
+	
+}
+a:hover{
+	text-decoration: none;
+}
+/*引入新版本bootstrap的css*/
+
+
+/*分页*/
+.pagination{
+	text-align: right;
+}
+.pagination .page-num{
+	margin-right: 1%;
+}
+
+.pagination ul > li > a, .pagination ul > li > span{
+	border: 1px solid #B6B6B6;
+	margin: 0 5px;
+	border-radius: 4px;
+	color:#666;
+}
+.pagination ul > .active > a:hover{
+	color:#fff;
+}
+ .pagination .page-num .disabled a:hover{
+ 	border: 1px solid #B6B6B6;
+ 	color:#999;
+ }
+ 
+/*修改首页布局*/
+#main .content-right{
+	width:100%;
+	height:700px;
+	position:relative;
+	/* position:absolute;
+	left:228px;
+	width:100%;
+	top:0;
+	height:100%; */
+}
+
+
+
+
+/*修改顶部导航栏*/
+
+#header .navbar-inner{
+	height: 40px;
+	min-height:40px;
+	background-color: #fff;
+	border: none;
+	/*padding-left:10px;*/
+	width:100%;
+}
+   
+#header .brand{
+	padding: 2px 0px 2px 38px;/*覆盖bootstrap的样式设定*/
+	width: 11.4%;
+	margin-right: 10px;
+}
+
+/* top左侧logo+系统模块名*/
+#header #header-logo{
+	display: inline-block;
+	padding-right: 13px;
+	height:35px;
+}
+
+#header .nav-collapse{
+	 color: #fff;
+}
+   
+
+#header span{
+	font-size: 1.4rem;
+	font-family:'微软雅黑';
+}
+
+/* top右侧menu*/
+#header #userControl {
+	position: relative;
+}
+#header #userControl li:last-child{
+	margin-right: 10px;
+}
+#header #userControl a{
+	color: #404953;
+	font-size: 1.6rem;
+	font-family: '微软雅黑';
+	padding: 10px;
+}
+
+/*top右侧menu图标样式start*/
+	/*图标相同的样式属性*/
+	
+.sameIconAtrr{
+	display: inline-block;
+	vertical-align: bottom;
+	padding-right: 6px;
+	width: 18px;
+	height: 18px;
+	background-size:18px 18px !important;
+}
+/*PS:自定义的图标样式都以“defined-”开头，因为“icon-”开头的在bootstrap里面有对其控制的样式会影响到自定义的样式*/
+
+.defined-workbench{
+    background: url(../sysImages/icon-workbench.png) no-repeat;
+}
+.defined-departchange{
+    background: url(../sysImages/icon-departchange.png) no-repeat;
+}
+.defined-about{
+    background: url(../sysImages/icon-about.png) no-repeat;
+}
+.defined-logout{
+    background: url(../sysImages/icon-logout.png) no-repeat;
+}
+.defined-exit{
+    background: url(../sysImages/icon-exit.png) no-repeat;
+}
+.defined-personal{
+	background: url(../sysImages/icon-personal.png) no-repeat;
+}
+.defined-helpIndex{
+	background: url(../sysImages/icon-helpIndex.png) no-repeat;
+}
+.defined-dot{
+	display: inline-block;
+	width:8px;
+	height:8px;
+	background: url(../sysImages/icon-dot.png) no-repeat;
+	position: absolute;
+	top: 9px;
+	right: 57px;
+    background-size: 8px 8px !important;
+}
+/*top右侧menu图标样式end*/
+
+/*exit的li特有的样式属性*/
+#header #userControl .exit-privateAttr{
+	margin-right:10px;
+}
+
+/*personal的li特有的样式属性*/
+#header #userControl .personal-privateAttr{
+	position: relative;
+	padding-left: 14px;
+}
+#header #userControl .personal-privateAttr a{
+	padding: 0px 10px;
+	margin-top: 8px;
+}
+#header #userControl .personal-privateAttr i{
+	padding-right: 6px;
+	vertical-align: middle;
+}
+#main .container-fluid{
+	padding:0px;	
+
+}
+
+
+/*左侧菜单栏*/
+.nav-left{
+	position:relative;
+}
+.nav-left .left-personal img{
+	float:left;
+	max-height:40px;
+	margin-top: 15px;
+}
+
+.nav-left .left-personal  h1{
+	display: inline-block;
+	font-size: 1.8rem;
+	margin-right: 22px;
+	color: #fff;
+	line-height: 28px;
+	margin-top: 5px;
+	font-weight: normal;
+}
+
+.nav-left .left-footer{
+	width: 100%;
+	height: 46px;
+	position: absolute;
+	bottom: 0px;
+	border-top: 1px solid #4571A6;
+}
+.nav-left .left-footer i{
+	margin-top: 12px;
+	margin-left: 11%;
+	padding-right: 18px;
+	
+}
+.nav-left .left-footer span{
+	font-size:1.4rem;
+	color: #4571A6;
+}
+
+.nav-left .left-footer:hover span{
+	color: #fff;
+}
+.nav-left .left-footer:hover i{
+	background: url(../sysImages/icon-hoverLogoutSEO.png) no-repeat;
+}
+
+/*一级菜单栏*/
+#menu{
+	float:left;
+	width:100%;
+	padding: 5px 0px 5px 19px;
+	border-bottom: 1px solid #eee;
+}
+#menu li{
+	float:left;
+	padding: 0px 0px 0px 30px;
+	    
+}
+
+#content .nav-left{
+	background-color: #225692;	
+}
+#content .left-personal{
+	width:100%;
+	height:100px;
+	background-color:#225692;
+	position:relative;
+	text-align: right;
+}
+
+#content .nav-left .accordion-heading{
+	background:transparent;
+}
+
+#content .nav-left #menu-bar .accordion-group{
+	border:none;
+	border-top: 1px solid #4571A6;
+	border-radius: 0px;
+	margin-bottom:0px;
+}
+/*
+#menu-bar .accordion-listMenu1 .icon-chevron-right,#menu-bar .accordion-listMenu1 .icon-chevron-down  {
+	opacity: 0;
+}
+*/
+#content .nav-left #menu-bar .accordion-group:last-child{
+	border-bottom: 1px solid #4571A6;
+}
+#menu-bar .accordion-listMenu1 i:first-child{
+	float: left;
+	margin-top: 10px;
+	color: #fff;
+}
+#menu-bar .accordion-listMenu1,#menu-bar .accordion-listMenu2{
+	text-align:right;
+}
+#menu-bar .accordion-listMenu1 span{
+	float:left;
+	padding-left: 6px;
+	color: #fff;
+}
+#menu-bar .accordion-listMenu2 span{
+	float:left;
+	padding-left: 15px;
+	color: #fff;
+}
+
+/*二级菜单栏*/
+/*重置a标签的投影*/
+#content .nav-left #menu-bar .accordion-group a{
+	text-shadow: none;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 30px;
+	line-height: 30px;
+}
+.nav-left #menu-bar .accordion-group .accordion-inner{
+ 	background: #1B92E0;
+ 	border: none;
+ 	padding: 0px 8px 0px 8px;
+ }
+
+.nav-left #menu-bar .accordion-group .accordion-inner  .nav-listMenu2 {
+	padding-left:0px;
+	padding-right:0px;
+	margin-bottom:0px;
+}
+.nav-left #menu-bar .accordion-group .accordion-inner  .nav-listMenu2 a{
+	color:#FFF;
+	font-size:1.4rem; 
+	padding: 9px 15px 9px 21px;
+	border-bottom: 1px solid #489EDF;
+}
+.nav-left #menu-bar .accordion-group .accordion-inner  .nav-listMenu2 a:hover,.nav-left #menu-bar .accordion-group .accordion-inner  .nav-listMenu2 .nav-listMenu3 a:hover{
+	background:#04AAEF;
+}
+
+/*三级菜单栏*/
+
+.nav-left #menu-bar .accordion-group .accordion-inner  .nav-listMenu2 .nav-listMenu3 a{
+	color:#FFF;
+	padding-left: 50px;
+}
+
+.nav-left #menu-bar .accordion-group .accordion-inner  .nav-listMenu3 {
+	padding-left:0px;
+	padding-right:0px;
+}
+
+
+/*
+.nav-list > .active > a,
+.nav-list > .active > a:hover,
+.nav-list > .active > a:focus {
+  background-color: red;
+}
+
+*/
+
+
+
+
+
+
+
+/*登录页面*/
+.login-container{
+	width: 100%;
+	height:800px;
+	background: url(../sysImages/loginBj.png) no-repeat;
+	background-size:100% auto;
+}
+.login-container .login-header{
+	width:100%;
+	height:200px;
+}
+
+.login-container .login-header .login-div{
+	width:100%;
+	text-align: left;
+}
+.login-container .login-header .login-logo{
+	max-height: 36px;
+	margin: 30px 5%;
+}
+.login-container .login-header .login-info{
+	color: #fff;
+	text-align: left;
+	font-size: 1.2rem;
+	margin-left: 87px;
+	padding-left: 14px;
+	line-height: 27px;
+	position:relative;
+}
+.login-container .login-header .login-infoBj{
+	width: 41%;
+	height: 27px;
+	background: #3F4FF6;
+	border-radius: 23px;
+	opacity: 0.2;
+}
+.login-container .login-header .login-infoWe{
+	width: 100%;
+	position: relative;
+	top: -27px;
+	left: 0px;
+}
+
+.login-container .login-header .login-info span{
+	background:#007EE5;
+	padding: 1px 17px;
+    border-radius: 14px;
+    margin-right: 8px;
+    margin-left: 5px;
+}
+
+
+/*login-left start*/
+.login-container .login-left{
+	width:50%;
+	float:left;
+	text-align: left;
+	color:#fff;
+}
+
+.login-container .login-left .login-left-content{
+	width:100%;
+	padding-left: 100px;
+}
+.login-left h1{
+	font-weight:normal;
+	color:#fff;
+	margin-bottom:20px;
+}
+
+
+
+/*login-right start*/
+.login-container .login-right{
+	width:50%;
+	float:right;
+}
+.login-container .login-right .form-group{
+	margin-bottom: 12px;
+}
+
+.defined-loginUser{
+	background: url(../sysImages/loginUser.png) no-repeat;
+}
+.defined-loginKey{
+	background: url(../sysImages/loginKey.png) no-repeat;
+}
+
+
+.login-container .login-right .login-defined{
+	width: 49px;
+	height: 48px;
+	background: #eee;
+	float: left;
+	border: 1px solid #CCCCCC;
+	border-right: none;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	text-align: center;
+	line-height: 44px;
+}
+
+
+#loginForm .btn-login{
+	background-image: linear-gradient(21deg, rgb(0, 126, 229) 0%, rgb(46, 161, 248) 80%, rgb(46, 161, 248) 80%);
+	border-radius: 4px;
+	width: 166px;
+	height: 40px;
+	float: right;
+	margin-right: 8px;
+	font-size:1.6rem;
+	color:#fff;
+	box-shadow: 0 15px 12px -14px rgb(215, 229, 254);
+	margin-top: 10px;
+}
+#loginForm .btn-login:focus{
+	background-position:0;
+}
+
+#login-checkbox{
+	float:left;
+	font-size: 1.4rem;
+	margin-top: 14px;
+}
+#login-checkbox .checkbox{
+	padding-left:0px;
+	width:auto;
+}
+
+#login-checkbox .checkbox i{
+	padding-right:4px;
+}
+
+
+.login-right{
+	position:relative;
+}
+.login-right .login-forget{
+	width: 100%;
+	height: 50px;
+	float: left;
+	line-height: 50px;
+	color:#007EE5;
+	font-size:1.4rem;
+	
+}
+
+.login-right .login-right-footer{
+    width: 358px;
+    height: 56px;
+    position: relative;
+    margin: 0 auto;
+    border-top: 1px solid #e5e5e5;
+    top: -78px;
+    line-height: 50px;
+    color: #e5e5e5;
+    font-size: 1.2rem;
+    background: #fbfcfd;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/*登录页面 end*/
+
+/*星号*/
+.mark{
+	vertical-align: sub;
+}
+
+
+
+/*404頁面*/
+
+.error-bg{
+		background: url(../sysImages/error-bg1.png) no-repeat;
+		background-size: 100% 100%;
+	}
+
+.error-bg p{
+	color:#666;
+	font-size:3.7rem;
+}
+.error-bg  .page-header{
+	margin-top:70px;
+}
+.error-bg.container-fluid{
+	padding-left:78px;	
+}
+.error-bg .error-content{
+	color:#666;
+	font-size:2.1rem;
+}
+
+.error-bg .error-content a{
+	text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*演示首页--不需要了*/
+
+/*
+a,a:hover{text-decoration: none;}
+.index-container{width: 100%;height: 700px;background: #eff2f5;}
+.index-container .index-header{width: 100%;height: 40px;background-color: #00b0fd;background: url(../sysImages/headerNavbarInnerBj.png) no-repeat;background-size:100% 40px ;}
+.index-container .index-header .index-logo{max-height: 36px;margin-left: 20px;padding-bottom: 8px;}
+.index-container .index-header h1{display: inline-block;color: #fff;font-size: 24px;font-weight: normal;margin: 2px 0px 0px 10px;border-left: 1px solid #fff;padding-left: 10px;line-height: 35px;}
+.index-header-left{width:30%;height: 40px;float: right;}
+.index-header-left ul{float: right;padding-right: 28px;}
+.index-header-left ul li{float: left;padding: 9px 20px 9px;}
+.index-header-left ul li a{font-size:16px;color: #0A509F;padding-left: 6px;}
+.index-content{width: 100%;}
+.index-content .index-content-left{width: 81%;height: 650px;float: left;padding-left: 12px;padding-top: 38px;margin-left: 111px;}
+.index-content .index-content-left .panel{width: 23%;display: inline-block;background: transparent;float: left;margin-right: 12px;}
+.index-content .index-content-left .panel .panel-heading{border-top-left-radius: 10px;border-top-right-radius: 10px;}
+.panel-colordcd6b3 > .panel-heading{background-color:#dcd6b3;}
+.panel-colorbedcb3 > .panel-heading{background-color:#bedcb3;}
+.panel-colorb3cedc > .panel-heading{background-color:#b3cedc;}
+.panel-colorb8b3dc > .panel-heading{background-color:#b8b3dc;}
+.panel-colordcb3b3> .panel-heading{background-color:#dcb3b3;}
+.colorEE6765{color:#EE6765;}
+.color52c4f4{color:#52c4f4;}
+.colorf8ad3d{color:#f8ad3d;}
+.color37c5b5{color:#37c5b5;}
+.index-content .index-content-left .panel .panel-same{width: 100%;height:400px;background: #FFF;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}
+.index-content .index-content-left .panel .panel-same a,.index-content .index-content-left .panel .panel-same a:hover{color: #666;}
+.index-content .index-content-left .panel .panel-facss{height: 550px;}
+.index-content .index-content-left .panel-same-top{width: 100%;height:350px;border-bottom: 1px solid #eee;}
+.index-content .index-content-left .panel-same-top li{height:116px;padding-left: 15px;font-size: 16px;cursor: pointer;}
+.index-content .index-content-left .panel-same-top li:hover{background: rgb(232, 246, 251) ;}
+.index-content .index-content-left .panel-same-top .panel-same-topT li{height:174px;}
+.index-content .index-content-left .panel-same-top .panel-same-topT h1{float: right;margin-right: 43px;}
+.index-content .index-content-left .panel-same-top .panel-same-topT li{height:174px;}
+.index-content .index-content-left .panel-same-top li p:first-child{padding-top: 21px;margin-bottom: 5px;}
+.index-content .index-content-left .panel-same-top li span{font-size: 12px;}
+.index-content .index-content-left .panel-same-top .panel-p{font-size: 14px;}
+.index-content .index-content-left .panel-same-top .panel-p span{float: right;margin-right: 21px;font-size: 14px;}
+.index-content .index-content-left .panel-same-top .panel-s,.index-content .index-content-left .panel-same-top .panel-s span{font-size: 14px;}
+.index-content .index-content-left .panel-same-bottom{text-align: center;}
+.index-content .index-content-left .panel-same-bottom p{line-height: 46px;font-size: 16px;}
+.index-content .index-content-left .panel-facss-top{width: 100%;height:500px;border-bottom: 1px solid #eee;}
+.index-content .index-content-right{width: 9%;height: 700px;float: right;}
+.index-content .index-content-right div{width: 115px;height: 54px;background: #fff;margin: 20px auto;text-align: center;line-height: 50px;border-radius: 7px;border: 1px solid #e3e0e0;box-shadow: 0px 1px 1px #d8d4d4;}
+*/
+
+
+.outer-container{
+	width:98%;
+	margin:0 auto;
+}
+
+#left{
+	overflow: hidden;
+}
+
+/*适配*/
+@media screen and (max-width: 1400px) {
+	html{
+		font-size: 58.5% !important;
+	}
+
+}
+
+
+
+
+

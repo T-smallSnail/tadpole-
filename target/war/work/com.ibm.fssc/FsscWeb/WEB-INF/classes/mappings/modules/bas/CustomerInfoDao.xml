@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.CustomerInfoDao">
+    
+	<sql id="customerInfoColumns">
+		a.id AS "id",
+		a.customer_no AS "customerNo",
+		a.customer_name AS "customerName",
+		a.customer_ename AS "customerEname",
+		a.simle_name AS "simleName",
+		a.customer_type AS "customerType",
+		a.register_adress AS "registerAdress",
+		a.qualifications AS "qualifications",
+		a.bar_no AS "barNo",
+		a.language AS "language",
+		a.national AS "national",
+		a.register_type AS "registerType",
+		a.register_money AS "registerMoney",
+		a.register_moneytype AS "registerMoneytype",
+		a.business_licenseno AS "businessLicenseno",
+		a.tax_registerno AS "taxRegisterno",
+		a.corporation AS "corporation",
+       	a.industry_type     AS "industryType",
+		a.org_type AS "orgType",
+		a.org_registerdate AS "orgRegisterdate",
+		a.tel_adress AS "telAdress",
+		a.orc_tel AS "orcTel",
+		a.orc_email AS "orcEmail",
+		a.orc_fax AS "orcFax",
+		a.versions AS "versions",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.status AS "status",
+		a.create_date AS "createDate",
+		a.org_no AS "orgNo"
+	</sql>
+	
+	<sql id="customerInfoJoins">
+	, sys_industry i
+	</sql>
+	<select id="get" resultType="CustomerInfo">
+		SELECT 
+			<include refid="customerInfoColumns"/>
+		FROM customer_info a
+		<include refid="customerInfoJoins"/>
+		WHERE 
+		  a.industry_type=i.industry_no(+)
+		and a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM customer_info
+	</select>
+	<select id="findList" resultType="CustomerInfo">
+		SELECT 
+			<include refid="customerInfoColumns"/>
+		FROM customer_info a
+		<include refid="customerInfoJoins"/>
+		<where>
+		 	 a.industry_type=i.industry_no(+)
+			and a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="customerNo != null and customerNo != ''">
+				AND a.customer_no = #{customerNo}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="customerType != null and customerType != ''">
+				AND a.customer_type = #{customerType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CustomerInfo">
+		SELECT 
+			<include refid="customerInfoColumns"/>
+		FROM customer_info a
+		<include refid="customerInfoJoins"/>
+		<where>
+		  	a.industry_type=i.industry_no(+)
+		and a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="customer_info_SEQ">customer_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT customer_info_SEQ.NEXTVAL FROM DUAL
+		</selectKey> 
+		INSERT INTO customer_info(
+			id,
+			customer_no,
+			customer_name,
+			customer_ename,
+			simle_name,
+			customer_type,
+			register_adress,
+			qualifications,
+			bar_no,
+			language,
+			national,
+			register_type,
+			register_money,
+			register_moneytype,
+			business_licenseno,
+			tax_registerno,
+			corporation,
+			industry_type,
+			org_type,
+			org_registerdate,
+			tel_adress,
+			orc_tel,
+			orc_email,
+			orc_fax,
+			versions,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			status,
+			create_date,
+			org_no
+		) VALUES (
+			#{id},
+			#{customerNo},
+			#{customerName},
+			#{customerEname},
+			#{simleName},
+			#{customerType},
+			#{registerAdress},
+			#{qualifications},
+			#{barNo},
+			#{language},
+			#{national},
+			#{registerType},
+			#{registerMoney},
+			#{registerMoneytype},
+			#{businessLicenseno},
+			#{taxRegisterno},
+			#{corporation},
+			#{industryType},
+			#{orgType},
+			#{orgRegisterdate},
+			#{telAdress},
+			#{orcTel},
+			#{orcEmail},
+			#{orcFax},
+			#{versions},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{status},
+			#{createDate},
+			#{orgNo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE customer_info SET 	
+			   customer_no = #{customerNo},
+			   customer_name = #{customerName},
+			   customer_ename = #{customerEname},
+			   simle_name = #{simleName},
+			   customer_type = #{customerType},
+			   register_adress = #{registerAdress},
+			   qualifications = #{qualifications},
+			   bar_no = #{barNo},
+			   language = #{language},
+			   national = #{national},
+			   register_type = #{registerType},
+			   register_money = #{registerMoney},
+			   register_moneytype = #{registerMoneytype},
+			   business_licenseno = #{businessLicenseno},
+			   tax_registerno = #{taxRegisterno},
+			   corporation = #{corporation},
+			   industry_type = #{industryType},
+			   org_type = #{orgType},
+			   org_registerdate = #{orgRegisterdate},
+			   tel_adress = #{telAdress},
+			   orc_tel = #{orcTel},
+			   orc_email = #{orcEmail},
+			   orc_fax = #{orcFax},
+			   versions = #{versions},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks},
+			   status = #{status},
+			   org_no=#{orgNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE customer_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.bas.entity.CustomerInfo">
+		SELECT 
+			<include refid="customerInfoColumns"/>
+		FROM customer_info a
+		<include refid="customerInfoJoins"/>
+		WHERE 
+		  a.industry_type=i.industry_no(+)
+		  and a.customer_no = #{customerNo}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE customer_info SET 	
+			   customer_no = #{customerNo},
+			   customer_name = #{customerName},
+			   customer_ename = #{customerEname},
+			   simle_name = #{simleName},
+			   customer_type = #{customerType},
+			   status = #{status},
+			   register_adress = #{registerAdress},
+			   qualifications = #{qualifications},
+			   bar_no = #{barNo},
+			   language = #{language},
+			   national = #{national},
+			   register_type = #{registerType},
+			   register_money = #{registerMoney},
+			   register_moneytype = #{registerMoneytype},
+			   business_licenseno = #{businessLicenseno},
+			   tax_registerno = #{taxRegisterno},
+			   corporation = #{corporation},
+			   industry_type = #{industryType},
+			   org_type = #{orgType},
+			   org_registerdate = #{orgRegisterdate},
+			   tel_adress = #{telAdress},
+			   orc_tel = #{orcTel},
+			   orc_email = #{orcEmail},
+			   orc_fax = #{orcFax},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   create_date = #{createDate},
+			   org_no=#{orgNo},
+			   del_flag=#{delFlag}
+		WHERE customer_no = #{customerNo}
+	</update>
+
+	<select id="findByReceivables" resultType="com.thinkgem.jeesite.modules.bas.entity.CustomerInfo">
+		SELECT T.CUSTOMER_NO, T.CUSTOMER_NAME
+		  FROM CUSTOMER_INFO T
+		 WHERE T.CUSTOMER_NAME =
+			   (SELECT B.PAYER_CORP_NAME
+				  FROM RMBS_RECEIVABLES_LIST B
+				 WHERE B.CODE = #{barNo}
+				   AND B.CORP_ID = #{orgNo})
+	</select>
+	
+</mapper>

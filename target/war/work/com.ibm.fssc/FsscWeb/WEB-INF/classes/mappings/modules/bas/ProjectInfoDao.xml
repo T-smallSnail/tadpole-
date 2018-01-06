@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.ProjectInfoDao">
+    
+	<sql id="projectInfoColumns">
+		a.id AS "id",
+		a.project_no AS "projectNo",
+		a.project_code AS "projectCode",
+		a.project_name AS "projectName",
+		a.project_type AS "projectType",
+		a.project_status AS "projectStatus",
+		a.build_company AS "buildCompany",
+		a.create_by AS "createBy.loginName",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.loginName",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.program_type AS "programType"
+	</sql>
+	
+	<sql id="projectInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="ProjectInfo">
+		SELECT 
+			<include refid="projectInfoColumns"/>
+		FROM project_info a
+		<include refid="projectInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM project_info
+	</select>
+	<select id="findList" resultType="ProjectInfo">
+		SELECT 
+			<include refid="projectInfoColumns"/>
+		FROM project_info a
+		<include refid="projectInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="projectNo != null and projectNo != ''">
+				AND a.project_no = #{projectNo}
+			</if>
+			<if test="projectName != null and projectName != ''">
+				AND a.project_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{projectName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{projectName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{projectName},'%')</if>
+			</if>
+			<if test="projectType != null and projectType != ''">
+				AND a.project_type = #{projectType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ProjectInfo">
+		SELECT 
+			<include refid="projectInfoColumns"/>
+		FROM project_info a
+		<include refid="projectInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="project_info_SEQ">project_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT project_info_SEQ.NEXTVAL FROM DUAL
+		</selectKey> 
+		INSERT INTO project_info(
+			id,
+			project_no,
+			project_code,
+			project_name,
+			project_type,
+			project_status,
+			build_company,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			program_type
+		) VALUES (
+			#{id},
+			#{projectNo},
+			#{projectCode},
+			#{projectName},
+			#{projectType},
+			#{projectStatus},
+			#{buildCompany},
+			#{createBy.loginName},
+			#{createDate},
+			#{updateBy.loginName},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{programType}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE project_info SET 	
+			   project_no = #{projectNo},
+			   project_code = #{projectCode},
+			   project_name = #{projectName},
+			   project_type = #{projectType},
+			   project_status = #{projectStatus},
+			   build_company = #{buildCompany},
+			   update_by = #{updateBy.loginName},
+			   update_date = #{updateDate},
+			   remarks = #{remarks},
+			   program_type = #{programType}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE project_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.bas.entity.ProjectInfo">
+		SELECT 
+			<include refid="projectInfoColumns"/>
+		FROM project_info a
+		<include refid="projectInfoJoins"/>
+		WHERE a.project_code = #{projectCode}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE project_info SET 	
+			   project_code = #{projectCode},
+			   project_no = #{projectNo},
+			   project_name = #{projectName},
+			   project_type = #{projectType},
+			   project_status = #{projectStatus},
+			   build_company = #{buildCompany},
+			   update_by = #{updateBy.loginName},
+			   update_date = #{updateDate},
+			   program_type = #{programType}
+		WHERE project_code = #{projectCode}
+	</update>
+	
+	<select id="queryProjectNum" resultType="ProjectInfo">
+		SELECT 
+			<include refid="projectInfoColumns"/>
+		FROM project_info a
+		<include refid="projectInfoJoins"/>
+		WHERE a.project_code = #{projectNum}
+	</select>
+	<select id="findByprojectNo" parameterType="string" resultType="string">
+		SELECT project_code FROM project_info WHERE project_no = #{projectNo} and rownum=1
+	</select>
+</mapper>

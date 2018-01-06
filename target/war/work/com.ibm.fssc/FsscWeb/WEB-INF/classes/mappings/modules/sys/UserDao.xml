@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.UserDao">
+
+	<!-- <resultMap id="userResult" type="User"> <id property="id" column="id" 
+		/> <result property="company.id" column="company.id" /> <result property="office.id" 
+		column="office.id" /> <result property="loginName" column="login_name" /> 
+		<result property="password" column="password" /> <result property="no" column="no" 
+		/> <result property="name" column="name" /> <result property="email" column="email" 
+		/> <result property="phone" column="phone" /> <result property="mobile" column="mobile" 
+		/> <result property="userType" column="user_type" /> <result property="loginIp" 
+		column="login_ip" /> <result property="loginDate" column="login_date" /> 
+		<result property="remarks" column="remarks" /> <result property="loginFlag" 
+		column="loginFlag" /> <result property="photo" column="photo" /> <result 
+		property="createBy.id" column="createBy.id" /> <result property="createDate" 
+		column="create_date" /> <result property="updateBy.id" column="updateBy.id" 
+		/> <result property="updateDate" column="update_date" /> <result property="company.name" 
+		column="company.name" /> <result property="company.parentId" column="company.parentId" 
+		/> <result property="company.parentIds" column="company.parentIds" /> <result 
+		property="company.area.id" column="company.area.id" /> <result property="company.area.name" 
+		column="company.area.name" /> <result property="company.area.parentId" column="company.area.parentId" 
+		/> <result property="company.area.parentIds" column="company.area.parentIds" 
+		/> <result property="company.primaryPerson.id" column="company.primaryPerson.id" 
+		/> <result property="company.primaryPerson.name" column="company.primaryPerson.name" 
+		/> <result property="company.deputyPerson.id" column="company.deputyPerson.id" 
+		/> <result property="company.deputyPerson.name" column="company.deputyPerson.name" 
+		/> <result property="office.name" column="office.name" /> <result property="office.parentId" 
+		column="office.parentId" /> <result property="office.parentIds" column="office.parentIds" 
+		/> <result property="office.area.id" column="office.area.id" /> <result property="office.area.name" 
+		column="office.area.name" /> <result property="office.area.parentId" column="office.area.parentId" 
+		/> <result property="office.area.parentIds" column="office.area.parentIds" 
+		/> <result property="office.primaryPerson.id" column="office.primaryPerson.id" 
+		/> <result property="office.primaryPerson.name" column="office.primaryPerson.name" 
+		/> <result property="office.deputyPerson.id" column="office.deputyPerson.id" 
+		/> <result property="office.deputyPerson.name" column="office.deputyPerson.name" 
+		/> <collection property="roleList" ofType="Role"> <id property="id" column="roleList.id" 
+		/> <result property="office.id" column="roleList.office.id" /> <result property="name" 
+		column="roleList.name" /> <result property="enname" column="roleList.enname" 
+		/> <result property="roleType" column="roleList.roleType" /> <result property="dataScope" 
+		column="roleList.dataScope" /> <collection property="officeList" ofType="Office"> 
+		<id property="id" column="roleList.officeList.id" /> </collection> </collection> 
+		</resultMap> -->
+
+	<sql id="userColumns">
+		a.id  as id, 
+		a.emp_no AS "employee.empNo",
+		a.emp_no AS "empNo",
+		a.login_name,
+		a.password,
+		a.user_no AS "userNo",
+		a.user_name AS "userName",
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.remarks,
+		a.login_flag,
+		a.photo,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		d.id AS "office.id",
+		d.name AS "office.name",
+		o.id AS "company.id",
+		o.name AS "company.name",
+		o.org_egn_name as "company.orgEgnName" ,
+		o.simple_name as  "company.simpleName" ,
+		o.belong_industry as  "company.belongIndustry" ,
+		o.business_nature as  "company.businessNature" ,
+		o.business_status as  "company.businessStatus",
+		o.register_type as  "company.registerType", 
+		o.market_status as  "company.marketStatus",
+		o.main_product  as  "company.mainProduct", 
+		o.parent_no     as  "company.parentNo",  
+		o.parent_name   as  "company.parentName",   
+		o.is_cost       as  "company.isCost", 
+		o.is_gain       as  "company.isGain", 
+		o.hr_orgno      as  "company.HROrgNo", 
+		o.account       as  "company.account", 
+		o.budget        as  "company.budget", 
+		o.finance       as  "company.finance", 
+		o.account_pno   as  "company.accountPNo",
+		o.budget_pno    as  "company.budgetPNo",
+		o.finance_pno   as  "company.financePNo",
+		o.cost_pno      as  "company.costPNo",
+		o.gain_pno      as  "company.gainPNo",
+		a.org_no 		AS "company.orgNo",
+		a.depart_no 	AS "office.orgNo",
+		d.org_egn_name 	as "office.orgEgnName" ,
+		d.simple_name 	as  "office.simpleName" ,
+		d.belong_industry as  "office.belongIndustry" ,
+		d.business_nature as  "office.businessNature" ,
+		d.business_status as  "office.businessStatus",
+		d.register_type as  "office.registerType", 
+		d.market_status as  "office.marketStatus",
+		d.main_product  as  "office.mainProduct", 
+		d.parent_no     as  "office.parentNo",  
+		d.parent_name   as  "office.parentName",    
+		d.is_cost       as  "office.isCost", 
+		d.is_gain       as  "office.isGain", 
+		d.pdept_no      as  "office.pdeptNo", 
+		d.pdept_name    as  "office.pdeptName", 
+		d.hr_orgno      as  "office.HROrgNo", 
+		d.account       as  "office.account", 
+		d.budget        as  "office.budget", 
+		d.finance       as  "office.finance", 
+		d.account_pno   as  "office.accountPNo",
+		d.budget_pno    as  "office.budgetPNo",
+		d.finance_pno   as  "office.financePNo",
+		d.cost_pno      as  "office.costPNo",
+		d.gain_pno      as  "office.gainPNo"
+ 
+	</sql>
+	
+		<sql id="userColumnsNotEm">
+		a.id  as id, 
+		a.depart_no AS "office.orgNo",
+		a.org_no AS
+		"company.orgNo",
+		a.emp_no
+		AS "empNo",
+		a.login_name,
+		a.password,
+		a.user_no AS "userNo",
+		a.user_name
+		AS "userName",
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.remarks,
+		a.login_flag,
+		a.photo,
+		a.create_by AS
+		"createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		o.id          AS "company.id",
+        o.org_no      AS "company.orgNo",    
+        o.name        AS "company.name"
+	</sql>
+		
+		<sql id="userColumnInfo">
+		   a.id              as id,
+	       a.emp_no          AS "empNo",
+	       a.user_no         AS "userNo",
+	       a.user_name       AS "userName",
+	       a.email,
+	       a.phone,
+	       a.mobile,
+	       a.user_type,
+	       a.del_flag,
+	       d.name            AS "office.name",
+	       o.name            AS "company.name",
+	       o.parent_no       as "company.parentNo",
+	       o.parent_name     as "company.parentName",
+	       a.org_no          AS "company.orgNo",
+	       a.depart_no       AS "office.orgNo",
+	       d.pdept_no        as "office.pdeptNo",
+	       d.pdept_name      as "office.pdeptName"
+		</sql>
+	<sql id="userRoleColumns">
+		a.id  as id, 
+		a.depart_no AS "office.orgNo",
+		a.org_no AS
+		"company.orgNo",
+		a.emp_no
+		AS "empNo",
+		a.login_name,
+		a.password,
+		a.user_no AS "userNo",
+		a.user_name
+		AS "userName",
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.remarks,
+		a.login_flag,
+		a.photo,
+		a.create_by AS
+		"createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag
+	</sql>
+
+	<sql id="userJoins">
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		LEFT JOIN sys_org
+		d ON d.org_no = a.depart_no
+		LEFT JOIN sys_employee em ON em.emp_no =
+		a.emp_no
+	</sql>
+
+
+	<!-- 根据ID获得用户 -->
+	<select id="get" resultType="User">
+		SELECT
+		<include refid="userColumns" /><!-- , ro.office_id AS "roleList.officeList.id" -->
+		FROM sys_user a
+		<include refid="userJoins" /><!-- LEFT JOIN sys_user_role ro ON 
+			ro.role_id = r.id -->
+		WHERE a.id = #{id}
+	</select>
+
+	<!-- 根据用户id获取指定信息 -->
+	<select id="findUserByUserNo"  parameterType="java.lang.String"
+		resultType="User">
+		SELECT U.USER_NO,U.USER_NAME FROM SYS_USER U WHERE U.USER_NO=#{participantId}
+	
+	</select>
+
+	<!-- 根据编号获得用户 -->
+	<select id="getUserByUserNo" resultType="User">
+		SELECT
+		<include refid="userColumns" /><!-- , ro.office_id AS "roleList.officeList.id" -->
+		FROM sys_user a
+		<include refid="userJoins" /><!-- LEFT JOIN sys_user_role ro ON 
+			ro.role_id = r.id -->
+		WHERE a.user_no = #{userNo}
+	</select>
+
+	<!-- 根据登录名查询用户 -->
+	<select id="getByLoginName" resultType="User" parameterType="User">
+		SELECT
+		<include refid="userColumns" /><!-- , ro.office_id AS "roleList.officeList.id" -->
+		FROM sys_user a
+		<include refid="userJoins" /><!-- LEFT JOIN sys_role_office ro 
+			ON ro.role_id = r.id -->
+		WHERE a.login_name = #{loginName}
+		AND a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+
+	<!-- 分页查询用户信息 -->
+	<select id="findList" resultType="User">
+		SELECT
+		<include refid="userColumns" />
+		FROM sys_user a
+		<include refid="userJoins" />
+		<if test="role != null and role.id != null and role.id != ''">
+			JOIN sys_user_role ur ON ur.user_no = a.user_no AND
+			ur.role_no= #{role.id}
+		</if>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="company != null and company.orgNo != null and company.orgNo != ''">
+			AND (o.org_no = #{company.orgNo})
+		</if>
+		
+		<!-- 如果不是超级管理员，则不显示超级管理员用户 -->
+		<if test="!currentUser.admin">
+			AND a.id != '1'
+		</if>
+		<if test="loginName != null and loginName != ''">
+			AND a.login_name like
+			<if test="dbName == 'oracle'">'%'||#{loginName}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{loginName}+'%'</if>
+			<if test="dbName == 'mysql'">CONCAT('%', #{loginName}, '%')</if>
+		</if>
+		<if test="userName != null and userName != ''">
+			AND a.user_name like
+			<if test="dbName == 'oracle'">'%'||#{userName}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{userName}+'%'</if>
+			<if test="dbName == 'mysql'">CONCAT('%', #{userName}, '%')</if>
+		</if>
+		<if test="office != null and office.orgNo != null and office.orgNo != ''">
+					AND a.depart_no =
+			<if test="dbName == 'oracle'">#{office.orgNo}</if>
+			<if test="dbName == 'mssql'">'%'+#{office.orgNo}+'%'</if>
+			<if test="dbName == 'mysql'">CONCAT('%', #{office.orgNo}, '%')</if>
+		</if>
+		
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.org_no, <!-- o.org_no, -->
+				a.user_name
+			</otherwise>
+		</choose>
+	</select>
+
+
+		<!-- 用户切换 -->
+	<select id="userSwitch" resultType="User">
+		 select
+		       eo.emp_no     as "employee.empNo",
+		       e.emp_name     as "employee.empName",
+		       get_orgnamebyno(eo.org_no) as "company.name",
+           	   eo.depart_no  as "office.orgNo",
+		       get_orgnamebyno(eo.depart_no) as "office.name",
+		       u.login_name as "loginName",
+		        j.job_name   as            "jobName"
+
+		  from sys_emp_org eo, sys_employee e, sys_user u ,sys_job j 
+		 where 
+ 			u.del_flag = #{DEL_FLAG_NORMAL}
+		   and eo.emp_no = e.emp_no
+		   and eo.emp_no = u.emp_no
+		   and eo.emp_no =  #{employee.empNo}
+		   and eo.job_no=j.job_no
+		 group by eo.depart_no,
+		          eo.job_no,
+		          eo.emp_no,
+		          e.emp_name,
+		          eo.org_no,
+		          u.login_name,
+		          eo.job_no,
+		          j.job_name,
+		          j.job_name
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY u.login_name, <!-- o.org_no, -->
+				u.login_name
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 根据OfficeId获取用户（树查询用户时用） -->
+	<select id="findUserByOfficeId" resultType="User" useCache="true">
+		SELECT
+		a.id, a.user_name, a.login_name
+		FROM sys_user a
+		WHERE a.del_flag =
+		#{DEL_FLAG_NORMAL}
+		AND a.depart_no = #{office.no}
+		ORDER BY a.user_name
+	</select>
+
+	<!-- 查询全部用户 -->
+	<select id="findAllList" resultType="User">
+		SELECT
+		<include refid="userColumns" />
+		FROM sys_user a
+		<include refid="userJoins" />
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		ORDER BY o.org_no, <!-- o.org_no, -->
+		a.user_name
+	</select>
+
+	<!-- 查询全部用户数目 -->
+	<select id="findAllCount" resultType="long">
+		SELECT
+		COUNT(1)
+		FROM sys_user
+		a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+
+	<!-- 查询相同组织相同角色的用户 -->
+	<select id="findUserByOfficeAndRole" resultType="User">
+		SELECT
+		<include refid="userColumnsNotEm" />
+		from sys_user_role ur, sys_role r,sys_user a, sys_org o
+		where ur.user_no = a.user_no
+	    AND ur.org_no=o.org_no
+	    AND ur.role_no = r.id
+		AND ur.role_no =#{role.id}
+		AND ur.org_no=#{company.orgNo}
+	</select>
+	
+		<!-- 查询某个组织完全一样角色的用户 -->
+<!-- 	<select id="findAllUserByOfficeAndRole" resultType="User">
+		SELECT
+		<include refid="userColumnsNotEm" />
+		from sys_user_role ur, sys_role r,sys_user a,  sys_org d , sys_org o
+		where ur.user_no = a.user_no
+		AND ur.depart_no = d.org_no
+	    AND ur.org_no=o.org_no(+)
+		AND ur.role_no =#{role.id}
+		AND a.org_no = #{company.orgNo}
+		
+	</select> -->
+
+	<!-- 通过角色id获取用户信息 -->
+	<select id="findUserToRole" parameterType="java.lang.String"
+		resultType="User">
+		select u.user_no,u.user_name
+		from sys_user u
+		LEFT JOIN
+		sys_user_role ur ON ur.user_no = u.user_no
+		where
+		ur.role_no=#{participantId}
+	</select>
+
+
+	<!-- 插入用户 -->
+	<insert id="insert">
+		INSERT INTO sys_user(
+		id,
+		org_no,
+		depart_no,
+		emp_no,
+		login_name,
+		password,
+		user_no,
+		user_name,
+		email,
+		phone,
+		mobile,
+		user_type,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		login_flag,
+		photo,
+		del_flag
+		) VALUES (
+		#{id},
+		#{company.orgNo},
+		#{office.orgNo},
+		#{empNo},
+		#{loginName},
+		#{password},
+		#{userNo},
+		#{userName},
+		#{email},
+		#{phone},
+		#{mobile},
+		#{userType},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{loginFlag},
+		#{photo},
+		#{delFlag}
+		)
+	</insert>
+
+	<!-- 更新用户 -->
+	<update id="update">
+		UPDATE sys_user SET
+		org_no = #{company.orgNo},
+		depart_no = #{office.orgNo},
+		emp_no = #{empNo},
+		login_name =
+		#{loginName},
+		password = #{password},
+		user_no = #{userNo},
+		user_name =
+		#{userName},
+		email = #{email},
+		phone = #{phone},
+		mobile = #{mobile},
+		user_type = #{userType},
+		update_by = #{updateBy.id},
+		update_date =
+		#{updateDate},
+		remarks = #{remarks},
+		login_flag = #{loginFlag},
+		photo = #{photo},
+		del_flag = #{delFlag}
+		WHERE user_no = #{userNo}
+	</update>
+
+	<!-- 删除用户和角色关联表数据 -->
+	<delete id="deleteUserRole">
+		DELETE FROM sys_user_role WHERE user_no = #{userNo} and start_date is null 
+	</delete>
+
+	<!-- 插入用户和角色关联表数据 -->
+	<insert id="insertUserRole">
+		INSERT INTO sys_user_role(id,user_no, role_no,org_no,depart_no)
+		<foreach collection="roleList" item="role" separator=" union all ">
+			SELECT get_seq_next('SYS_USER_ROLE_SEQ'),#{userNo}, #{role.id},
+			#{company.orgNo}, #{office.orgNo}
+			<if test="dbName != 'mssql'">
+				FROM dual
+			</if>
+		</foreach>
+	</insert>
+
+	<!-- 更新用户信息 -->
+	<update id="updateUserInfo">
+		UPDATE sys_user SET
+		email = #{email},
+		phone = #{phone},
+		mobile = #{mobile},
+		update_by = #{updateBy.id},
+		update_date =
+		#{updateDate},
+		remarks = #{remarks},
+		photo = #{photo}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 更新用户密码 -->
+	<update id="updatePasswordById">
+		UPDATE sys_user SET
+		password = #{password}
+		WHERE id =
+		#{id}
+	</update>
+
+	<!-- 更新登录信息，如登录IP、登录时间 -->
+	<update id="updateLoginInfo">
+		UPDATE sys_user SET
+		login_ip = #{loginIp},
+		login_Date =
+		#{loginDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 逻辑删除用户 -->
+	<update id="delete">
+		UPDATE sys_user SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE user_no = #{userNo}
+	</update>
+	
+	<!-- 根据empNo查询 -->
+	<select id="getUserByEmpNo" resultType="User">
+		SELECT
+		<include refid="userColumns" />
+		FROM sys_user a
+		<include refid="userJoins" />
+		WHERE  a.emp_no = #{empNo}
+	</select>
+	
+	<!-- 查询某一部门下的所有员工 -->
+<select id="findUserByOrg" resultType="User">
+   SELECT
+   <include refid="userColumns" />
+   FROM sys_user a
+   <include refid="userJoins" />
+   WHERE a.depart_no = #{office.orgNo} and a.del_flag = #{DEL_FLAG_NORMAL}
+</select>
+<!-- 根据登陆用户查询是否拥有查询角色 -->
+<select id="contractQuire" resultType="string"  parameterType="string">
+    select t.org_no
+  from sys_role t
+ where t.id in
+       (select t.role_no
+          from sys_user_role t
+         where t.user_no =  #{user_no}) and t.role_type ='contractquery'
+    
+</select>
+	<!-- 查询某部门下特定角色的用户（比如查询部门领导，比如核算经理）-->
+	<select id="findByRole" resultType="User" parameterType = "string">
+		SELECT
+		<include refid="userRoleColumns" />
+		from sys_user_role ur, sys_role r,sys_user a , sys_emp_org eo
+		where ur.user_no = a.user_no
+	    AND ur.role_no = r.id AND a.user_no = eo.emp_no and r.del_flag = '0'
+		<if test="companyNo != null and companyNo != ''">
+		    <!-- and ur.org_no = #{companyNo} -->
+		    AND eo.org_no = #{companyNo}
+		</if>
+		<if test="departNo != null and departNo != ''">
+			<!-- AND ur.depart_no=#{departNo} -->
+			AND eo.depart_no = #{departNo}
+		</if>
+		AND ur.role_no in (select id from sys_role where role_no = #{roleNo})
+	</select>
+	<select id="findByRoles" resultType="User" parameterType = "string">
+		SELECT DISTINCT
+		<include refid="userRoleColumns" />
+		from sys_user_role ur
+			LEFT JOIN sys_role r ON(ur.role_no = r.id)
+			LEFT JOIN sys_user a ON(ur.user_no = a.user_no)
+		WHERE r.del_flag = '0'
+		<if test="companyNo != null and companyNo != ''">
+		    and ur.org_no = #{companyNo}
+		    and a.org_no = #{companyNo}
+		</if>
+		<if test="departNo != null and departNo != ''">
+			AND ur.depart_no=#{departNo}
+		</if>
+		 AND r.role_no IN
+		 	<foreach collection="roleNos" item="roleNo" index="index" open="("
+				separator="," close=")">
+				#{roleNo}
+			</foreach>
+	</select>
+	
+	<!-- 查询某一部门下的所有员工 -->
+	<select id="getUserByOrgNo" resultType="User">
+		SELECT
+			 <include refid="userColumns" />
+		FROM sys_user a 
+		<include refid="userJoins" />
+		WHERE 1=1 
+		<choose>  
+            <when test="null != company">  
+                AND a.org_no=#{company.orgNo} 
+            </when>
+            <otherwise>  
+                <if test="null != office">
+					AND a.depart_no=#{office.orgNo}
+				</if>
+            </otherwise>  
+        </choose>
+       	 <if test="null != userName">
+				AND a.user_name like '%'||#{userName}||'%' 
+		</if>
+			AND a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+	<!-- 查询某一角色相同部门下的所有员工 -->
+		<select id="findUserByOrgAndRoleNo" resultType="User">
+	 SELECT
+		a.*
+		from sys_user_role ur, sys_role r,sys_user a 
+		where ur.user_no = a.user_no
+	    AND ur.role_no = r.id
+		and r.ENNAME= #{0}
+		and a.DEPART_NO=#{1}
+	</select>
+	   
+	<!-- 查询某一角色相同组织的用户 -->
+	<select id="findUserByOfficeAndRoleNo" resultType="User">
+	 SELECT
+		a.*
+		from sys_user_role ur, sys_role r,sys_user a 
+		where ur.user_no = a.user_no
+	    AND ur.role_no = r.id
+		  and r.enname = #{0}
+	   AND a.ORG_NO=#{1}
+	</select>
+	
+	
+	<!-- 获取 该用户所在部门，上下级部门 的所有同事 -->
+	<select id="findLevelDeptUsers" resultType="User">
+	 SELECT
+			 <include refid="userColumns" />
+		FROM sys_user a 
+		<include refid="userJoins" />
+		where a.DEPART_NO in  
+		(SELECT t.org_no FROM sys_org t 
+		START WITH t.org_no=#{office.orgNo} CONNECT BY prior t.parent_no=org_no  AND org_type='3' 
+		UNION ALL 
+		SELECT t.org_no FROM sys_org t 
+		START WITH t.org_no=#{office.orgNo} CONNECT BY prior t.org_no=t.parent_no AND org_type='3') 
+	</select>
+	
+	
+</mapper>

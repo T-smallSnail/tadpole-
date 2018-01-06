@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.WebserviceUrlDao">
+    
+	<sql id="WebserviceUrlColumns">
+		swu.ID AS "id",
+		swu.NAME AS "name",
+		swu.URLADDRESS AS "urladdress",
+		swu.SERVER_TYPE AS "serverType",
+		swu.NAMESPACE AS "namespace",
+		swu.REMARKS AS "remarks",
+		swu.CREATE_BY AS "createBy",
+		swu.CREATE_DATE AS "createDate",
+		swu.UPDATE_BY AS "updateBy",
+		swu.UPDATE_DATE AS "updateDate",
+		swu.DEL_FLAG AS "delFlag"
+	</sql>
+
+	<select id="get" resultType="WebserviceUrlEntity">
+		SELECT
+		<include refid="WebserviceUrlColumns"/>
+		FROM SYS_WEB_URL swu
+		WHERE swu.id = #{id}
+		AND swu.DEL_FLAG = '0'
+	</select>
+    
+	<select id="findByName" resultType="WebserviceUrlEntity">
+		SELECT 
+			<include refid="WebserviceUrlColumns"/>
+		FROM SYS_WEB_URL swu
+		WHERE swu.NAME = #{name}
+		AND swu.DEL_FLAG = '0'
+	</select>
+
+	<select id="getServerTypeList" resultType="String">
+		SELECT
+		distinct swu.SERVER_TYPE AS serverType
+		from SYS_WEB_URL swu
+		WHERE swu.DEL_FLAG = '0'
+	</select>
+
+	<select id="findList" resultType="WebserviceUrlEntity">
+		SELECT
+			<include refid="WebserviceUrlColumns"/>
+		FROM SYS_WEB_URL swu
+		WHERE swu.del_flag = '0'
+		<if test="serverType != null and serverType != ''">
+			AND swu.server_Type = #{serverType}
+		</if>
+		<if test="name != null and name != ''">
+			AND swu.name = #{name}
+		</if>
+		ORDER BY swu.CREATE_DATE DESC
+	</select>
+
+	<insert id="insert">
+		INSERT INTO SYS_WEB_URL(
+			ID,
+			NAME,
+			URLADDRESS,
+			SERVER_TYPE,
+			NAMESPACE,
+			REMARKS,
+			CREATE_BY,
+			CREATE_DATE,
+			UPDATE_BY,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{name},
+			#{urlAddress},
+			#{serverType},
+			#{namespace},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE SYS_WEB_URL SET
+			   name = #{name},
+			   urladdress = #{urlAddress},
+			   server_Type = #{serverType},
+			   namespace = #{namespace},
+			   remarks = #{remarks},
+			   UPDATE_DATE = #{updateDate},
+			   UPDATE_BY = #{updateBy.id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE SYS_WEB_URL SET
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+
+</mapper>

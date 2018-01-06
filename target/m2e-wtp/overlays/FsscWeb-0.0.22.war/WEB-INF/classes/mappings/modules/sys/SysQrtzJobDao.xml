@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.SysQrtzJobDao">
+
+	<sql id="sysQrtzJobColumns">
+		a.id AS "id",
+		a.job_name AS "jobName",
+		a.job_desc AS
+		"jobDesc",
+		a.job_cron AS "jobCron",
+		a.job_class AS "jobClass",
+		a.executor_param AS "executorParam",
+		a.beg_date AS "begDate",
+		a.end_date AS "endDate",
+		a.job_status AS "jobStatus",
+		a.alarm_email AS
+		"alarmEmail",
+		a.create_by AS "createBy.id",
+		a.create_date AS
+		"createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS
+		"updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.job_group AS "jobGroup",
+		a.job_method AS "jobMethod",
+		a.job_concurrent AS "jobConcurrent"
+	</sql>
+
+	<sql id="sysQrtzJobJoins">
+	</sql>
+
+	<select id="get" resultType="SysQrtzJob">
+		SELECT
+		<include refid="sysQrtzJobColumns" />
+		FROM sys_qrtz_job a
+		<include refid="sysQrtzJobJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="SysQrtzJob">
+		SELECT
+		<include refid="sysQrtzJobColumns" />
+		FROM sys_qrtz_job a
+		<include refid="sysQrtzJobJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="jobName != null and jobName != ''">
+				AND a.job_name = #{jobName}
+			</if>
+			<if test="begDate != null and begDate != ''">
+				AND a.beg_date = #{begDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND a.end_date = #{endDate}
+			</if>
+			<if test="jobStatus != null and jobStatus != ''">
+				AND a.job_status = #{jobStatus}
+			</if>
+			<if test="jobGroup != null and jobGroup != ''">
+				AND a.job_group = #{jobGroup}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="SysQrtzJob">
+		SELECT
+		<include refid="sysQrtzJobColumns" />
+		FROM sys_qrtz_job a
+		<include refid="sysQrtzJobJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findByStatusAndDate" resultType="SysQrtzJob">
+		SELECT
+		<include refid="sysQrtzJobColumns" />
+		FROM SYS_QRTZ_JOB a
+		WHERE SYSDATE between a.beg_date and a.end_date and
+		a.job_status='1'
+	</select>
+
+	<sql id="sys_qrtz_job_SEQ">sys_qrtz_job_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_qrtz_job(
+		id,
+		job_name,
+		job_desc,
+		job_cron,
+		job_class,
+		executor_param,
+		beg_date,
+		end_date,
+		job_status,
+		alarm_email,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag,
+		job_group,
+		job_method,
+		job_concurrent
+		) VALUES (
+		<include refid="sys_qrtz_job_SEQ" />
+		,
+		#{jobName},
+		#{jobDesc},
+		#{jobCron},
+		#{jobClass},
+		#{executorParam},
+		#{begDate},
+		#{endDate},
+		#{jobStatus},
+		#{alarmEmail},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag},
+		#{jobGroup},
+		#{jobMethod},
+		#{jobConcurrent}
+
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE sys_qrtz_job SET
+		job_name = #{jobName},
+		job_desc = #{jobDesc},
+		job_cron = #{jobCron},
+		job_class = #{jobClass},
+		executor_param = #{executorParam},
+		beg_date = #{begDate},
+		end_date =
+		#{endDate},
+		job_status = #{jobStatus},
+		alarm_email = #{alarmEmail},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks =
+		#{remarks},
+		job_group = #{jobGroup},
+		job_method = #{jobMethod},
+		job_concurrent = #{jobConcurrent}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE sys_qrtz_job SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

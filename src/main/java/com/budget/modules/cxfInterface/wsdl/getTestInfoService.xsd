@@ -1,0 +1,41 @@
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://test.cmcc.com/getTestInfoService" 
+	xmlns:pc="http://test.cmcc.com/getTestInfoService"
+	xmlns:msg="http://test.cmcc.com/MsgHeader" 
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	
+	<import namespace="http://test.cmcc.com/MsgHeader" schemaLocation="MsgHeader.xsd" />
+	<element name="getTestInfoRequest" type="pc:getTestInfoRequest" />
+	<element name="setTestInfoResponse" type="pc:setTestInfoResponse" />
+	<complexType name="getTestInfoRequest">
+		<sequence>
+			<element name="MsgHeader" type="msg:MsgHeader" />
+			<element name="claimId" type="string" nillable="true" />
+		</sequence>
+	</complexType>
+	
+
+	<complexType name="setTestInfoResponse">
+		<sequence>
+			<element name="errorFlag" type="string" nillable="true" />
+			<element name="errorMessage" type="string" nillable="true" />
+			<element name="testInfoList" type="pc:testInfoList"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="testInfoList">
+        <sequence>
+            <element name="TestInfoInputItem" type="pc:TestInfoInputItem" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="TestInfoInputItem">
+        <sequence>
+        	<element name="cliamNo" type="string" nillable="true" />
+			<element name="applyDeptName" type="string" nillable="true" />
+			<element name="applyDate" type="string" nillable="true" />
+			<element name="applyUserName" type="string" nillable="true" />			
+		</sequence>
+    </complexType>
+	
+	
+</schema>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/jms
+        http://www.springframework.org/schema/jms/spring-jms-4.0.xsd">
+
+    <bean id="amqConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+    	<property name="clientID" value ="${esb.server.clientId.portal}"></property>
+        <property name="brokerURL" value="${esb.client.url}"/>
+        <property name="userName" value="${esb.server.loginCode}"/>
+        <property name="password" value="${esb.server.loginPassword}"/>
+    </bean>
+
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" ref="amqConnectionFactory"/>
+        <property name="sessionCacheSize" value="100"/>
+    </bean>
+
+
+    <!-- Message producer -->
+    <!-- Queue -->
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="connectionFactory"/>
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+
+    <!-- Topic -->
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="connectionFactory"/>
+        <property name="pubSubDomain" value="true"/>
+    </bean>
+
+    <!-- Message consumer -->
+    <!-- Queue -->
+   <!--  <jms:listener-container destination-type="queue"
+                            container-type="default" connection-factory="connectionFactory"
+                            acknowledge="auto">
+        <jms:listener destination="Q_ACCOUNT_CREATED" ref="contractCreatedQueueConsumer"/>
+    </jms:listener-container> -->
+
+    <!-- Topic -->
+   <!--  <jms:listener-container destination-type="topic"
+                            container-type="default" connection-factory="connectionFactory"
+                            acknowledge="auto">
+        <jms:listener destination="T_ACCOUNT_CREATED" ref="contractCreatedTopicConsumer"/>
+    </jms:listener-container> -->
+    
+    
+<!--    	<jms:listener-container destination-type="durableTopic" 
+   							recovery-interval="180000" 
+                            container-type="default" 
+                            client-id="${esb.server.clientId.portal}"  
+                            connection-factory="connectionFactory" 
+                            container-class="com.thinkgem.jeesite.common.utils.CustomMessageListenerContainer"
+                            acknowledge="auto">
+        <jms:listener subscription="portalQueueConsumer" destination="com.cgdc.finbusi.gxhx.budget.sendportaltask" ref="portalQueueConsumer"/>
+    </jms:listener-container> -->
+</beans>

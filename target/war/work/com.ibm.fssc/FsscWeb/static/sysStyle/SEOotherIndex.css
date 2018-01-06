@@ -1,0 +1,383 @@
+@charset "utf-8";
+
+/*初始化css*/
+ul li{
+	list-style: none;
+}
+html{
+	font-size: 62.5% !important;
+}
+
+.overall-layoutSEO{
+	width: 95%;
+	margin: 0px auto 0px;
+	position: relative;
+}
+.layoutSEO-bgfff{
+	background: #fff;
+	border-radius: 8px;
+}
+/*报账系统的共用样式库*/
+
+/*卡片式title*/
+.suspend-title{
+	color: #636D74 ;
+	font-size: 1.8rem;
+	margin-bottom: 11px;
+}
+/*卡片式详细栏*/
+.suspend-card{
+	/*width: 100%;*/
+	background: #FFFFFF;
+	border-radius: 8px;
+	padding: 10px 0px 35px;
+	margin-bottom: 25px;
+}
+.suspend-card .suspend-cardForm{
+	margin-top: 22px;
+	position: relative;
+}
+
+.suspend-card .form-groupInfo{
+	margin-top: 0px;
+}
+.suspend-card .form-inline p{
+	display: inline-block;
+	text-align: left;
+}
+.suspend-card-top{
+	margin-bottom: 20px;
+}
+.suspend-card  .suspend-card-info{
+	width:62%;
+}
+.suspend-card .suspend-card-middle{
+	background: #F5F9FF;
+	border-radius: 4px;
+	
+} 
+.card-height80{
+	height: 80px;
+}
+/*分为两块*/
+.card-height80-twoParts{
+	width: 47%;
+	display: inline-block;
+	margin: 0 1%;
+}
+.suggestInline .card-height80-twoParts{
+	margin-left: 2%;
+}
+
+
+.card-height80-twoParts .card-height80-twoDiv{
+	width: 41%;
+	float: left;
+	margin-left: 12px;
+	margin-top: 18px;
+}
+.suspend-card-middle i{
+	float: left;
+	margin-left: 19%;
+	margin-right: 4%;
+}
+.suspend-card-middle .card-height80-twoDivPart i{
+	float: left;
+	margin-left: 28%;
+	margin-right: 4%;
+}
+
+.suspend-card-middle strong{
+	font-size: 1.8rem;
+}
+.suspend-card-middle span{
+	font-size: 1.4rem;
+	color: #999;
+}
+
+.suspend-card .suspend-card-bottom,.suspend-card .suspend-margin{
+	margin: 10px 2% 20px;
+}
+/*80下面的4个div*/
+.card-height80-parts .card-height80-fourDiv{
+	width: 23.3%;
+	float: left;
+	margin-left: 12px;
+	margin-top: 18px;
+}
+/*80下面的2个没有分开的div*/
+.card-height80-parts  .card-height80-twoDivPart{
+	width: 49%;
+	float: left;
+	margin-top: 18px;
+}
+.suspend-card-sm{
+	width: 65%;
+}
+/*height：60px*/
+.card-height60{
+	height: 60px;
+}
+
+.card-height60 .card-height60-twoDiv{
+	width: 48%;
+	float: left;
+	margin-left: 13px;
+	margin-top: 10px;
+}
+
+.suspend-card-sm  .suspend-card-bottom .step{
+	margin: 0px 25px;
+}
+
+
+/*card-suggest 意见 start*/
+
+.card-heSuggest{
+	/*height: 175px;
+	background: #fff;*/
+}
+.suspend-card  .form-inline .card-suggest{
+	border: 1px solid #e2e2e2;
+	border-radius: 4px;
+	width: 100%;
+	text-align: left;
+	margin: 0px;
+	min-height: 30px;
+	padding: 8px 0px;
+	line-height: 20px;
+	height: 66px;
+}
+
+
+.suspend-card  .form-inline .card-suggest .card-suggestOption{
+	width: 100%;
+	margin: 0px;
+	overflow-y: auto;
+	height: 70px;
+}
+.suspend-card  .form-inline .card-suggest .card-suggestOption div.suggestList{
+	cursor: default;
+	height: 36px;
+}
+.suspend-card  .form-inline .card-suggest .card-suggestOption i{
+	float: right;
+	margin-right: 15px;
+	margin-top: 11px;
+}
+.suspend-card  .form-inline .card-suggest .card-suggestOption div.suggestList:hover{
+	background: #E3EAF2;
+}
+.defined-suggest-selected{
+	background: #E3EAF2;
+}
+
+
+.suspend-card .card-heSuggest p{
+	color: #636D74;
+	font-size: 1.3rem;
+	width: 100%;
+}
+
+.suspend-card .card-heSuggest .card-suggest .form-suggestLi{
+	
+}
+.suspend-card .card-heSuggest .card-suggest .form-suggestInput{
+	height: 28px;
+	color: #B6B6B6;
+}
+
+.suspend-card .card-heSuggest .card-suggest .form-suggestSure{
+	position: absolute;
+	top: 7px;
+	right: 11px;
+	color: #B6B6B6;
+	cursor: pointer;
+}
+.suspend-card .card-heSuggest .card-suggest .form-control{
+	border: none;
+	box-shadow: none;
+	float: left;
+	height: 27px;
+	background: transparent;
+	padding-left: 10px;
+}
+.suspend-card .card-heSuggest .card-suggest .form-suggestText{
+	width: 97.4%;
+	resize: none;
+	height: auto;
+}
+
+
+/*卡片式分开的两个*/
+.cardInline .suspend-card{
+	padding: 7px 0px;
+	position:relative;
+}
+.cardInline .suspend-cardInline {
+	width: 48.1%;
+	display: inline-block;
+}
+.cardInline .suspend-cardInline .card-height80-twoParts{
+	width: 100%;
+	margin: 0px;
+}
+.cardInline .suspend-cardInline:last-child {
+	margin-left: 3%;
+	
+}
+/*card-suggest 意见 end*/
+
+
+
+
+.suspend-title:first-child{}
+
+
+/*popup-info 弹出信息框 start*/
+.popup-info{
+	background: #FFFFFF;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.15);
+	border-radius: 4px;
+	width: 75%;
+	margin: 0 auto;
+}
+
+.popup-info .popup-info-title{
+	height: 50px;
+	background: #fafcff;
+	line-height: 50px;
+	padding-left: 17px;
+	font-size: 1.9rem;
+}
+.popup-info .popup-info-title i{
+	float: right;
+	margin-top: 15px;
+	margin-right: 15px;
+}
+
+.popup-info .popup-info-title i:hover{
+	background: url(../../sysImages/icon-popupClose.png) no-repeat;
+}
+.popup-info .popupInfo-middle-top{
+	text-align: center;
+}
+.popup-info .popup-info-middle .popupInfo-middle-name{
+	font-size: 2rem;
+	color: #404953;
+	line-height: 20px;
+	margin: 30px 0 20px;
+}
+.popupInfo-middle-content .form-inline {
+	text-align: center;
+}
+
+.form-inline .form-popupInfo{
+	text-align: left;
+	margin-left: 0px;
+	width: 30%;
+}
+.form-inline .form-popupInfo span{
+	color:#404953;
+	font-size:1.6rem ;
+}
+.form-inline .form-popupInfo span:first-child{
+	color:#69798C;
+}
+
+
+.popupInfo-middle-footer{
+	width: 96%;
+	margin: 15px auto;
+	padding-bottom: 10px;
+}
+
+.popup-info-footer{
+	background: #FAFCFF;
+	text-align: right;
+	padding-top: 20px;
+	padding-right: 2%;
+}
+/*popup-info 弹出信息框 end*/
+
+
+/*footerSEO start*/
+
+.footerSEO{
+	width: 100%;
+	height: 70px;
+	margin-top: 20px;
+	margin-bottom: 0px;
+	background-image: url(../sysImages/bg-footer.png);
+	box-shadow: 0 -2px 4px 0 rgba(0,0,0,0.10);
+	position:relative;
+}
+.footerSEO .footerSEO-left{
+	width: 100%;
+	height: 70px;
+	float: left;
+}
+.footerSEO .footerSEO-right{
+	position: absolute;
+	right: 1%;
+	top: 15px;
+}
+
+.footerSEO .footerSEO-leftUl li{
+	float: left;
+	line-height: 70px;
+	margin-right: 2%;
+	margin-left: 1%;
+	color: #93989E;
+	font-size: 1.6rem;
+}
+.footerSEO .footerSEO-leftUl li span{
+	font-size: 2.8rem;
+	padding: 0 10px;
+}
+/*footerSEO end*/
+
+
+
+
+
+
+/*公共的color颜色*/
+
+.colorF6A734 {
+    color: #F6A734;
+}
+.color2EA1F8 {
+    color: #2EA1F8;
+}
+.color0A509F {
+    color: #0A509F;
+}
+
+.color75D873 {
+    color: #75D873;
+}
+.color00B4A0{
+	 color: #00B4A0 ;
+}
+
+.pr{
+	position: relative;
+}
+
+
+
+/*添加.nav-tabs*/
+.nav-tabs{
+	padding-left:15px;
+}
+.tab-content{
+	
+	margin-bottom: 90px;
+}
+@media screen and (max-width: 1500px) {
+	html{
+	font-size: 58.5% !important;
+	}
+
+}

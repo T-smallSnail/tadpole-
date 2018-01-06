@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.BudgetAccountMappingDao">
+                   
+	<sql id="budgetAccountMappingColumns">
+		a.id AS "id",
+		a.account_code AS "accountCode",
+		a.budget_code AS "budgetCode",
+		a.budget_name AS "budgetName",
+		a.type AS "type"
+	</sql>
+	
+	<sql id="budgetAccountMappingJoins">
+	</sql>
+    
+	<select id="get" resultType="BudgetAccountMapping">
+		SELECT 
+			<include refid="budgetAccountMappingColumns"/>
+		FROM budget_account_mapping a
+		<include refid="budgetAccountMappingJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BudgetAccountMapping">
+		SELECT 
+			<include refid="budgetAccountMappingColumns"/>
+		FROM budget_account_mapping a
+		<include refid="budgetAccountMappingJoins"/>
+		<where>
+			<include refid="budgetAccountMappingIf"/>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BudgetAccountMapping">
+		SELECT 
+			<include refid="budgetAccountMappingColumns"/>
+		FROM budget_account_mapping a
+		<include refid="budgetAccountMappingJoins"/>
+		<where>
+			<include refid="budgetAccountMappingIf"/>
+		</where>	
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<sql id="budget_account_mapping_SEQ">budget_account_mapping_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO budget_account_mapping(
+			id,
+			account_code,
+			budget_code,
+			budget_name,
+			type
+		) VALUES (
+		<include refid="budget_account_mapping_SEQ"/>,
+			#{accountCode},
+			#{budgetCode},
+			#{budgetName},
+			#{type}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE budget_account_mapping SET 	
+			   account_code = #{accountCode},
+			   budget_code = #{budgetCode},
+			   budget_name = #{budgetName},
+			   type = #{type}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM budget_account_mapping
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByBudgetCode">
+		DELETE FROM budget_account_mapping
+		WHERE budget_code = #{budgetCode}
+	</update>
+	
+	<select id="getByCode" resultType="BudgetAccountMapping">
+		SELECT 
+			<include refid="budgetAccountMappingColumns"/>
+		FROM budget_account_mapping a
+		<include refid="budgetAccountMappingJoins"/>
+		WHERE a.BUDGET_CODE = #{code}
+	</select>
+	
+	    <sql id="budgetAccountMappingIf">
+		<if test="id != null and id !=''"><!--id-->
+			and a.id=#{id}
+		</if>
+		<if test="accountCode != null and accountCode !=''"><!--会记科目编号-->
+			and a.account_code=#{accountCode}
+		</if>
+		<if test="budgetCode != null and budgetCode !=''"><!--预算科目编号-->
+			and a.budget_code=#{budgetCode}
+		</if>
+		<if test="budgetName != null and budgetName !=''"><!--预算科目名称-->
+			and a.budget_name like '%${budgetName}%'
+		</if>
+		<if test="type != null and type !=''"><!--控制类型-->
+			and a.type=#{type}
+		</if>
+    </sql>
+    
+    
+    <select id="getBudgetAccountMappingBySubcate" resultType="BudgetAccountMapping">
+		SELECT 
+			<include refid="budgetAccountMappingColumns"/>
+		FROM budget_account_mapping t
+		  where  t.account_code in(
+			select m.cr_seq_code from claim_account_mapping m where sub_cate_id=#{subCateId} ) and rowNum=1
+		
+	</select>
+	
+</mapper>

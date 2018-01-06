@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="getTestInfoService"
+	targetNamespace="http://test.cmcc.com/getTestInfoService"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:pa="http://test.cmcc.com/getTestInfoService"
+	xmlns:tns="http://test.cmcc.com/getTestInfoService"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" >
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://test.cmcc.com/getTestInfoService" schemaLocation="getTestInfoService.xsd" />
+		</schema>
+	</types>
+	<!-- 影像状态同步 -->
+	<message name="getTestInfoRequestMessage">
+		<part name="parameters" element="pa:getTestInfoRequest" />
+	</message>
+	<message name="setTestInfoResponseMessage">
+		<part name="parameters" element="pa:setTestInfoResponse" />
+	</message>
+
+	
+	
+	
+	<portType name="getTestInfoService">
+		<operation name="getTestInfo">
+			<input message="tns:getTestInfoRequestMessage" />
+			<output message="tns:setTestInfoResponseMessage" />
+		</operation>
+	</portType>
+	
+	<binding name="getTestInfoServiceBinding" type="tns:getTestInfoService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="getTestInfo">
+			<soap:operation style="document" soapAction="getTestInfo" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="getTestInfoService">
+		<port name="getTestInfoServicePort" binding="tns:getTestInfoServiceBinding">
+			<soap:address location="http://localhost:8289/FsscAccount/cxf/services/getTestInfoService" />
+		</port>
+	</service>
+</definitions>

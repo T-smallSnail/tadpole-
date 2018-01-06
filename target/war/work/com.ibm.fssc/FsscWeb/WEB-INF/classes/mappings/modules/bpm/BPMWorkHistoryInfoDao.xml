@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bpm.dao.BPMWorkHistoryInfoDao">
+
+    <select id="getWorkHistoryInfosByProcessId" resultType="BPMWorkHistoryInfo">
+        SELECT whwi.*
+        FROM WF_HIS_WORK_INFO whwi
+        WHERE del_flag = #{delFlag}
+        START WITH whwi.PROCESS_INS_ID = #{processInsId}
+        CONNECT  BY  PRIOR whwi.PROCESS_INS_ID =  whwi.PARENT_PROCESS_ID
+        ORDER BY whwi.CREATE_DATE ASC;
+    </select>
+
+    <select id="get" resultType="BPMExpenseInfo">
+        SELECT whwi.* FROM WF_HIS_WORK_INFO whwi WHERE whwi.id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO WF_HIS_WORK_INFO(
+        id,
+
+        PROCESS_INS_ID,
+        IS_CHILD_PROCESS,
+        PARENT_PROCESS_ID,
+        PARTICIPANT_ID,
+        PARTICIPANT_NAME,
+        PARTICIPANT_DEP,
+        WORK_INFO,
+        OPERATION,
+
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag
+
+        ) VALUES (
+        #{id},
+
+        #{processInsId},
+        #{isChildProcess},
+        #{parentProcessId},
+        #{participantId},
+        #{participantName},
+        #{participantDep},
+        #{workInfo},
+        #{operation},
+
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE WF_HIS_WORK_INFO SET
+        PROCESS_INS_ID = #{processInsId}
+        IS_CHILD_PROCESS = #{isChildProcess},
+        PARENT_PROCESS_ID= #{parentProcessId},
+        PARTICIPANT_ID = #{participantId},
+        PARTICIPANT_NAME= #{participantName},
+        PARTICIPANT_DEP= #{participantDep},
+        WORK_INFO= #{workInfo},
+        OPERATION=#{operation},
+
+        update_by = #{updateBy.id},
+        update_date = #{updateDate},
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE WF_HIS_WORK_INFO SET
+        del_flag = #{DEL_FLAG_DELETE}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

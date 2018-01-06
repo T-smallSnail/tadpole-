@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.budget.modules.budget.dao.LmtBudgetControlStrategyChDao">
+    
+	<sql id="lmtBudgetControlStrategyChColumns">
+		a.id AS "id",
+		a.strategy_id AS "strategyId",
+		a.budget_subject_code AS "budgetSubjectCode",
+		a.budget_subject_name AS "budgetSubjectName",
+		a.account_code AS "accountCode",
+		a.account_name AS "accountName",
+		a.comp_id AS "compId",
+		a.comp_name AS "compName",
+		a.control_strategy AS "controlStrategy",
+		a.start_time AS "startTime",
+		a.end_time AS "endTime",
+		a.remark AS "remark",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="lmtBudgetControlStrategyChJoins">
+	</sql>
+    
+	<select id="get" resultType="LmtBudgetControlStrategyCh">
+		SELECT 
+			<include refid="lmtBudgetControlStrategyChColumns"/>
+		FROM lmt_budget_control_strategy_ch a
+		<include refid="lmtBudgetControlStrategyChJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LmtBudgetControlStrategyCh">
+		SELECT 
+			<include refid="lmtBudgetControlStrategyChColumns"/>
+		FROM lmt_budget_control_strategy_ch a
+		<include refid="lmtBudgetControlStrategyChJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LmtBudgetControlStrategyCh">
+		SELECT 
+			<include refid="lmtBudgetControlStrategyChColumns"/>
+		FROM lmt_budget_control_strategy_ch a
+		<include refid="lmtBudgetControlStrategyChJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="lmt_budget_control_strategy_ch_SEQ">lmt_budget_control_strategy_ch_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO lmt_budget_control_strategy_ch(
+			id,
+			strategy_id,
+			budget_subject_code,
+			budget_subject_name,
+			account_code,
+			account_name,
+			comp_id,
+			comp_name,
+			control_strategy,
+			start_time,
+			end_time,
+			remark,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+		<include refid="lmt_budget_control_strategy_ch_SEQ"/>,
+			#{strategyId},
+			#{budgetSubjectCode},
+			#{budgetSubjectName},
+			#{accountCode},
+			#{accountName},
+			#{compId},
+			#{compName},
+			#{controlStrategy},
+			#{startTime},
+			#{endTime},
+			#{remark},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lmt_budget_control_strategy_ch SET 	
+			   strategy_id = #{strategyId},
+			   budget_subject_code = #{budgetSubjectCode},
+			   budget_subject_name = #{budgetSubjectName},
+			   account_code = #{accountCode},
+			   account_name = #{accountName},
+			   comp_id = #{compId},
+			   comp_name = #{compName},
+			   control_strategy = #{controlStrategy},
+			   start_time = #{startTime},
+			   end_time = #{endTime},
+			   remark = #{remark},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE lmt_budget_control_strategy_ch SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

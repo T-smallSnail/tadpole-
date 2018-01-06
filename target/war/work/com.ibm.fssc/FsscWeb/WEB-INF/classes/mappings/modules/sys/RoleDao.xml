@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.RoleDao">
+
+	<resultMap id="roleResult" type="Role">
+		<id property="id" column="id" />
+		<result property="roleName" column="roleName" />
+		<result property="roleNo" column="roleno" />
+		<result property="enname" column="enname" />
+		<result property="roleType" column="roleType" />
+		<result property="dataScope" column="datascope" />
+		<result property="remarks" column="remarks" />
+		<result property="useAble" column="useAble" />
+		<result property="sysData" column="sysData" />
+		<collection property="menuList" ofType="Menu">
+			<id property="id" column="menuList.id" />
+		</collection>
+		<collection property="officeList" ofType="org">
+			<id property="id" column="org.id" />
+		</collection>
+
+	</resultMap>
+	
+		<resultMap id="roleTemResult" type="Role">
+		<id property="id" column="id" />
+		<result property="roleName" column="roleName" />
+		<result property="roleNo" column="roleno" />
+		<result property="enname" column="enname" />
+		<result property="roleType" column="roleType" />
+		<result property="dataScope" column="datascope" />
+		<result property="remarks" column="remarks" />
+		<result property="useAble" column="useAble" />
+		<result property="sysData" column="sysData" />
+		<collection property="menuList" ofType="Menu">
+			<id property="id" column="menuList.id" />
+		</collection>
+		<collection property="officeList" ofType="org">
+			<id property="id" column="org.id" />
+		</collection>
+
+	</resultMap>
+	
+	<resultMap id="roleGetResult" type="Role">
+		<id property="id" column="id" />
+		<result property="roleName" column="roleName" />
+		<result property="roleNo" column="roleno" />
+		<result property="enname" column="enname" />
+		<result property="roleType" column="roleType" />
+		<result property="dataScope" column="datascope" />
+		<result property="remarks" column="remarks" />
+		<result property="useAble" column="useAble" />
+		<result property="sysData" column="sysData" />
+		<result property="org.orgNo" column="org.orgNo" />
+		<result property="org.name" column="org.name" />
+		<collection property="menuList" ofType="Menu">
+			<id property="id" column="menuList.id" />
+		</collection>
+
+	</resultMap>
+	<sql id="roleColumns">
+
+		a.id,
+		a.org_no AS "org.orgNo",
+		get_orgnamebyno(a.org_no) AS "org.name",
+		<!-- a.depart_no AS "depart_no", -->
+		a.role_name AS roleName,
+		a.role_no AS "roleNo",
+		a.enname AS enname,
+		a.role_type AS roleType,
+		a.data_scope AS dataScope,
+		a.remarks,
+		a.create_by AS
+		"createBy.id",
+		a.create_date,
+		a.update_by AS
+		"updateBy.id",
+		a.update_date,
+		a.del_flag,
+		<!-- o.name AS "org.name", o.org_no AS "org.orgNo", d.name AS "depart.name", 
+			d.org_no AS "depart.orgNo", -->
+		a.useable AS useAble,
+		a.is_sys AS sysData
+	</sql>
+	
+	
+	<select id="getRoleListByRoleNo" resultType="Role"  parameterType="java.util.List">
+		SELECT
+		<include refid="roleColumns" />
+		from sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		<!-- LEFT JOIN sys_org d ON o.depart_no = a.depaet_no -->
+		 where a.role_no in
+		 <choose>
+		 	<when test="null != list and list.size > 0">
+		 	 <foreach collection="list" item="id"  index="index" open="(" separator="," close=")">#{list} </foreach>
+		 	</when>
+		  	<otherwise>
+				('-100')
+            </otherwise>
+		 </choose>
+		
+	</select>
+	
+	<select id="findById" resultType="Role">
+		SELECT
+		<include refid="roleColumns" />
+		from sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		<!-- LEFT JOIN sys_org d ON o.depart_no = a.depaet_no -->
+		where a.id = #{id}
+	</select>
+	<select id="findId" resultType="Role">
+		SELECT
+		a.id,
+		a.role_name AS
+		roleName,
+		a.enname AS enname,
+		a.role_no AS roleNo,
+		a.org_no AS
+		"org.orgNo",
+		o.name AS "org.name",
+		o.org_no "org.orgNo"
+		from
+		sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		where a.id = #{id}
+	</select>
+
+
+
+	<!-- 根据角色id获取角色名称 -->
+	<select id="getRoleById" parameterType="String" resultType="Role">
+		SELECT R.ID , R.ROLE_NAME FROM SYS_ROLE R WHERE R.ID =#{participantId
+		}
+	</select>
+
+	<select id="get" resultMap="roleGetResult">
+		SELECT
+		<include refid="roleColumns" />
+		,
+		rm.menu_id AS "menuList.id",
+		ro.org_no AS "org.orgNo"
+		FROM sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		<!-- LEFT JOIN sys_org d ON d.depart_no = a.depart_no -->
+		LEFT JOIN sys_role_menu rm ON rm.role_id = a.id
+		LEFT JOIN sys_user_role
+		ro ON ro.role_no = a.role_no
+		WHERE a.id = #{id}
+	</select>
+
+
+	<select id="getByName" resultType="Role">
+		SELECT
+		<include refid="roleColumns" />
+		FROM sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		<!-- LEFT JOIN sys_org d ON d.depart_no = a.depart_no -->
+		WHERE a.role_name =
+		#{roleName} AND a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+
+	<select id="getByEnname" resultType="Role">
+		SELECT
+		<include refid="roleColumns" />
+		FROM sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		<!-- LEFT JOIN sys_org d ON d.depart_no = a.depart_no -->
+		WHERE a.enname =
+		#{enname} AND a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+
+	<select id="findTemList" resultMap="roleTemResult">
+	
+		SELECT DISTINCT
+		<include refid="roleColumns" />
+		,
+		ro.org_no AS "officeList.no"
+		FROM sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.depart_no
+		LEFT JOIN sys_user_role ro ON ro.role_no = a.id
+		LEFT JOIN sys_user u ON u.user_no = ro.user_no
+		WHERE a.del_flag =
+		#{DEL_FLAG_NORMAL}
+		AND a.useable = #{useAble}
+		AND ro.user_no =
+		#{user.userNo}
+		and ro.start_date &lt;= sysdate
+		and ro.end_date &gt;=sysdate
+	</select>
+
+	<select id="findList" resultMap="roleResult">
+		SELECT DISTINCT
+		<include refid="roleColumns" />
+		,
+		ur.org_no AS "officeList.no"
+		FROM sys_role a
+		LEFT JOIN sys_org o ON
+		o.org_no = a.id
+		<!-- LEFT JOIN sys_org d ON d.org_no = a.depart_no -->
+		LEFT JOIN sys_user_role ur ON ur.role_no = a.id
+		LEFT JOIN sys_user u ON u.user_no = ur.user_no
+		
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		AND a.useable=#{useAble}
+		AND ur.start_date is null
+        AND ur.end_date is null
+		<if test="user != null and user.id != null and user.id != ''">
+			AND u.id = #{user.id}
+		</if>
+		<if test="user != null and user.loginName != null and user.loginName != ''">
+			AND u.login_name = #{user.loginName}
+		</if>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+   		 order by a.role_name
+	</select>
+
+
+	<select id="findAllList" resultType="Role">
+		SELECT
+		<include refid="roleColumns" />
+		FROM sys_role a
+		LEFT JOIN sys_org o ON o.org_no = a.org_no
+		<!-- LEFT JOIN sys_org d ON d.org_no = a.depart_no -->
+		WHERE
+		a.del_flag = #{DEL_FLAG_NORMAL}
+		ORDER BY a.role_name desc
+	</select>
+
+	<!-- 根据用户编码获取所有的角色 -->
+	<select id="findRoleAllParenticipants"  parameterType="java.lang.String" resultType="Role">
+		SELECT r.id,r.role_name
+	    FROM SYS_ROLE r
+	    WHERE r.id in
+	    (select ur.role_no
+			from sys_user u
+			LEFT JOIN
+			sys_user_role ur ON ur.user_no = u.user_no
+			where
+			u.user_no =#{participantId})
+	</select>
+
+	<!-- 查询所有的角色id和name -->
+	<select id="findRoleList" resultType="Role">
+		select r.id,r.role_name from sys_role r 
+	</select>
+	<insert id="insert">
+		<selectKey resultType="String" keyProperty="id" order="BEFORE">
+			select SYS_ROLE_SEQ.nextVal from dual
+		</selectKey>
+
+		INSERT INTO sys_role(
+		id,
+		org_no,
+		<!-- depart_no, -->
+		role_name,
+		role_NO,
+		enname,
+		role_type,
+		data_scope,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag,
+		is_sys,
+		useAble
+		) VALUES (
+		#{id},
+		#{org.orgNo},
+		#{roleName},
+		#{roleNo},
+		#{enname},
+		#{roleType},
+		#{dataScope},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag},
+		#{sysData},
+		#{useAble}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE sys_role SET
+		org_no = #{org.orgNo},
+		<!-- depart_no = #{depart.orgNo}, -->
+		role_name = #{roleName},
+		role_no = #{roleNo},
+		enname = #{enname},
+		role_type = #{roleType},
+		data_scope = #{dataScope},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks},
+		is_sys = #{sysData},
+		useAble = #{useAble}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteRoleMenu">
+		DELETE FROM sys_role_menu WHERE role_id = #{id}
+	</delete>
+
+	<insert id="insertRoleMenu">
+		INSERT INTO sys_role_menu(id,role_id, menu_id)
+		<foreach collection="menuList" item="menu" separator=" union all ">
+			SELECT get_seq_next('SYS_ROLE_MENU_SEQ'),#{id}, #{menu.id}
+			<if test="dbName != 'mssql'">
+				FROM dual
+			</if>
+		</foreach>
+	</insert>
+
+	<delete id="deleteRoleOffice">
+		DELETE FROM sys_user_role WHERE role_no = #{roleNo}
+	</delete>
+
+	<insert id="insertRoleOffice">
+		INSERT INTO sys_user_role(id,role_no,user_no, org_no)
+		<foreach collection="officeList" item="office" separator=" union all ">
+			SELECT get_seq_next('SYS_ROLE_MENU_SEQ'), #{role.no}, #{user.no},
+			#{org.no}
+			<if test="dbName != 'mssql'">
+				FROM dual
+			</if>
+		</foreach>
+	</insert>
+
+	<select id="getTmpRole" resultType="Role">
+		select
+		ur.id as id,
+		u.login_name  as "user.loginName",
+		ur.role_no
+		as roleNO,
+		r.role_name as roleName,
+		ur.user_no as "user.userNo",
+		u.user_name as "user.userName",
+		ur.org_no as "org.orgNo",
+		o.name as
+		"org.name",
+		ur.depart_no as "depart.orgNo",
+		o.name as "depart.name",
+		ur.begin_date as beginDate,
+		ur.end_date as endDate
+		from
+		sys_user_role_temp ur, sys_role r, sys_user u, sys_org o, sys_org d
+		where ur.role_no = r.id
+		and ur.user_no = u.user_no
+		and ur.org_no =
+		o.org_no(+)
+		and ur.depart_no = d.org_no(+)
+		and ur.id = #{id}
+	</select>
+
+	<select id="findAllTmpListRole" resultType="Role">
+		select
+		ur.id as id,
+		ur.role_no as roleNO,
+		r.role_name as roleName,
+		u.login_name as
+		"user.loginName",
+		ur.user_no as "user.userNo",
+		u.user_name as
+		"user.userName",
+		ur.org_no as "org.orgNo",
+		o.name as "org.name",
+		ur.depart_no as "depart.orgNo",
+		o.name as "depart.name",
+		ur.begin_date
+		as beginDate,
+		ur.end_date as endDate
+		from sys_user_role_temp ur,
+		sys_role r, sys_user u, sys_org o, sys_org d
+		where ur.role_no = r.id
+		and ur.user_no = u.user_no
+		and ur.org_no = o.org_no(+)
+		and ur.depart_no
+		= d.org_no(+)
+	</select>
+
+	<!-- 插入用户和角色关联表数据临时角色 -->
+	<insert id="saveTempUserRole">
+		<selectKey resultType="String" keyProperty="id" order="BEFORE">
+			select SYS_USER_ROLE_TMP.nextVal from dual
+		</selectKey>
+
+		INSERT INTO sys_user_role_temp (
+		id,
+		user_no,
+		role_no,
+		org_no,
+		depart_no,
+		begin_date,
+		end_date
+		) VALUES (
+		#{id},
+		#{user.userNo},
+		#{roleNo},
+		#{org.orgNo},
+		#{depart.orgNo},
+		#{beginDate},
+		#{endDate}
+		)
+	</insert>
+
+	<!-- 更新用户和角色关联表数据临时角色 -->
+	<update id="updateTempUserRole">
+		UPDATE sys_user_role_temp SET
+		user_no =
+		#{user.userNo},
+		role_no = #{roleNo},
+		org_no = #{org.orgNo},
+		depart_no =
+		#{depart.orgNo},
+		begin_date = #{beginDate},
+		end_date = #{endDate}
+		WHERE
+		id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE sys_role SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteTmptRole">
+		delete sys_user_role_temp
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByRoleNo" resultType="Role" parameterType = "string">
+		SELECT
+		<include refid="roleColumns" />
+		from sys_role a
+		where a.del_flag = '0' and a.role_no = #{roleNo}
+	</select>
+	<select id="findByUserNo" resultType="Role" parameterType = "string">
+		SELECT
+		<include refid="roleColumns" />
+		from sys_role a
+		where a.del_flag = '0' and a.id in (
+		select ur.role_no  from sys_user_role   ur where ur.user_no=#{userNo} and  ur.start_date is null and ur.end_date is null
+				)
+	</select>
+	
+	<select id="findTmpByUserNo" resultType="Role" parameterType = "string">
+		SELECT
+		<include refid="roleColumns" />
+		from sys_role a
+		where a.del_flag = '0' and a.id in (
+		select ur.role_no  from sys_user_role   ur where ur.user_no=#{userNo} and  ur.start_date  <![CDATA[<=]]> sysdate and ur.end_date<![CDATA[>=]]>sysdate
+		)
+	</select>
+	
+	<!-- 临时授权start -->
+		<sql id="temporaryAuthorizationParams">
+			   ur.id,
+		       r.role_name  as "roleName",
+		       o.name        as "org.name",
+		       d.name        as "depart.name",
+		       ur.start_date as "beginDate",
+		       ur.end_date as "endDate"
+		</sql>
+	
+		<sql id="temporaryAuthorizationLeft">
+		 	sys_user_role ur, sys_role r, sys_org o, sys_org d
+		</sql>
+		<sql id="temporaryAuthorizationWhere">
+			where 
+			   ur.del_flag = #{userRoleTemp.DEL_FLAG_NORMAL}
+			   and r.del_flag = #{role.DEL_FLAG_NORMAL}
+			   and o.del_flag = #{org.DEL_FLAG_NORMAL}
+	 		   and d.del_flag = #{org.DEL_FLAG_NORMAL}
+			   and ur.role_no = r.id
+			   and ur.org_no = o.org_no
+			   and ur.depart_no = d.org_no(+)
+		   	   and ur.org_no = #{user.company.orgNo}
+		   	   and ur.user_no = #{user.userNo}
+		       and sysdate between ur.start_date and ur.end_date
+		</sql>
+	
+	<select id="temporaryAuthorization" resultType="Role">
+		SELECT 
+			<include refid="temporaryAuthorizationParams" />
+		from 	
+			<include refid="temporaryAuthorizationLeft" />
+			<include refid="temporaryAuthorizationWhere" />
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY ur.id
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findListByUserDepartNo"  resultType="Role" parameterType = "string" >
+		SELECT
+		<include refid="roleColumns" />
+			from sys_role a,sys_user_role ur 
+			where ur.del_flag='0' 
+			and  ur.depart_no=a.depart_no
+			and  ur.user_no =#{user.userNo}
+			and  a.depart_no=#{departNo}
+	</select>
+	
+	<!-- 根据组织编码查询组织下所有的角色 -->
+	<select id="getRoleListByOrgNo"  resultType="Role" parameterType = "string" >
+		SELECT
+		<include refid="roleColumns" />
+			from sys_role a
+			where a.org_no=#{orgNo}
+	</select>
+	<!-- 临时授权end -->
+	
+</mapper>

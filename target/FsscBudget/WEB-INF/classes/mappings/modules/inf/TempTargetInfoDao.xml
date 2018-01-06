@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempTargetInfoDao">
+
+	<sql id="tempTargetInfoColumns">
+		a.id AS "id",
+		a.code AS "targetNo",
+		a.targettype AS "targetType",
+		a.targetname AS "targetName",
+		a.unit AS "unit",
+		a.decimals AS "decimals",
+		a.dutycompany AS "dutyCompany",
+		a.sharecompany AS "shareCompany",
+		a.source AS "source",
+		a.sign AS "sign",
+		a.isused AS "isUsed",
+		a.remark AS "remark",
+		a.uuid AS "uuid",
+		
+		a.create_date AS "createDate"
+	</sql>
+
+	<sql id="tempTargetInfoJoins">
+	</sql>
+
+	<select id="get" resultType="TempTargetInfo">
+		SELECT
+		<include refid="tempTargetInfoColumns" />
+		FROM temp_target_info a
+		<include refid="tempTargetInfoJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_target_info
+	</select>
+	<select id="findList" resultType="TempTargetInfo">
+		SELECT
+		<include refid="tempTargetInfoColumns" />
+		FROM temp_target_info a
+		<include refid="tempTargetInfoJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="TempTargetInfo">
+		SELECT
+		<include refid="tempTargetInfoColumns" />
+		FROM temp_target_info a
+		<include refid="tempTargetInfoJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<sql id="temp_target_info_SEQ">temp_target_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_target_info(
+		id,
+		code,
+		targettype,
+		targetname,
+		unit,
+		decimals,
+		dutycompany,
+		sharecompany,
+		source,
+		sign,
+		isused,
+		remark,
+		uuid,
+		create_date
+		) VALUES (
+		<include refid="temp_target_info_SEQ" />
+		,
+		#{targetNo},
+		#{targetType},
+		#{targetName},
+		#{unit},
+		#{decimals},
+		#{dutyCompany},
+		#{shareCompany},
+		#{source},
+		#{sign},
+		#{isUsed},
+		#{remark},
+		#{uuid},
+		#{createDate}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE temp_target_info SET
+		code = #{targetNo},
+		targettype = #{targetType},
+		targetname = #{targetName},
+		unit = #{unit},
+		decimals = #{decimals},
+		dutycompany = #{dutyCompany},
+		sharecompany = #{shareCompany},
+		source = #{source},
+		sign = #{sign},
+		isused = #{isUsed},
+		remark = #{remark},
+		uuid = #{uuid}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM temp_target_info
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_target_info
+		WHERE code = #{targetNo}
+	</update>
+
+</mapper>

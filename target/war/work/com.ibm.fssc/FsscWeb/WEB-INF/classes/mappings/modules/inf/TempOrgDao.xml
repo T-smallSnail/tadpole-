@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.inf.dao.TempOrgDao">
+
+	<sql id="tempOrgColumns">
+		a.id AS "id",
+		a.code AS "orgNo",
+		a.orgname AS "name",
+		a.simplename AS "simpleName",
+		a.belongindustry AS "belongIndustry",
+		a.businessnature AS "businessNature",
+		a.businessstatus AS "businessStatus",
+		a.registertype AS "registerType",
+		a.marketstatus AS "marketStatus",
+		a.mainproduct AS "mainProduct",
+		a.parentno AS "parentNo",
+		a.parentname AS "parentName",
+		a.countryarearegister AS "countryArearegister",
+		a.registeradrss AS "registerAdrss",
+		a.manageadress AS "manageAdress",
+		a.adminmanage AS "adminManage",
+		a.account AS "account",
+		a.budget AS "budget",
+		a.finance AS "finance",
+		
+		a.account_pno AS "accountPNo",
+		a.budget_pno AS "budgetPNo",
+		a.finance_pno AS "financePNo",
+		a.cost_pno AS "isCost",
+		a.gain_pno AS "costPNo",
+		a.is_cost AS "isGain",
+		a.is_gain AS "gainPNo",
+		a.legalrepresentative AS "legalRepresentative",
+		a.org_code AS "orgCode",
+		
+		a.org_sts AS "orgSts",
+		a.check_Sts AS "checkSts",
+		a.budget_Sts AS "budgetSts",
+		a.financial_Sts AS "financialSts",
+		a.cost_Sts AS "costSts",
+		a.profit_Sts AS "profitSts",
+		a.fbelong_industry  AS "fBelongIndustry",
+		
+		a.Is_bottom_gain as "IsBottomGain",
+		a.Is_bottom_unit as "IsBottomUnit",
+		a.Belong_profit_centre as "BelongProfitCentre",
+		a.Belong_Financial_org_cost as "BelongFinancialOrgCost",
+		a.Belong_Financial_org_profit as "BelongFinancialOrgProfit",
+		a.Account_org_name as "AccountOrgName",
+		
+		a.compar_adminno as "comparAdminNo",
+		
+		a.uuid AS "uuid",
+		
+		a.create_date AS "createDate"
+	</sql>
+
+	<sql id="tempOrgJoins">
+	</sql>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM temp_org
+	</select>
+	<select id="get" resultType="TempOrg">
+		SELECT
+		<include refid="tempOrgColumns" />
+		FROM temp_org a
+		<include refid="tempOrgJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findList" resultType="TempOrg">
+		SELECT
+		<include refid="tempOrgColumns" />
+		FROM temp_org a
+		<include refid="tempOrgJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="TempOrg">
+		SELECT
+		<include refid="tempOrgColumns" />
+		FROM temp_org a
+		<include refid="tempOrgJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<sql id="temp_org_SEQ">temp_org_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO temp_org(
+		id,
+		code,
+		orgname,
+		simplename,
+		belongindustry,
+		businessnature,
+		businessstatus,
+		registertype,
+		marketstatus,
+		mainproduct,
+		parentno,
+		parentname,
+		countryarearegister,
+		registeradrss,
+		manageadress,
+		adminmanage,
+		account, 
+		budget, 
+		finance, 
+		account_pno, 
+		budget_pno, 
+		finance_pno, 
+		cost_pno,  
+		gain_pno, 
+		is_cost, 
+		is_gain,
+		legalrepresentative,
+		org_code,
+		org_sts,
+		check_Sts,
+		budget_Sts,
+		financial_Sts,
+		cost_Sts,
+		profit_Sts,
+		fbelong_industry,
+		Is_bottom_gain,
+		Is_bottom_unit,
+		Belong_profit_centre,
+		Belong_Financial_org_cost,
+		Belong_Financial_org_profit,
+		Account_org_name,
+		compar_adminno, 
+		uuid,
+		
+		create_date
+		) VALUES (
+		<include refid="temp_org_SEQ" />
+		,
+		#{orgNo},
+		#{name},
+		#{simpleName},
+		#{belongIndustry},
+		#{businessNature},
+		#{businessStatus},
+		#{registerType},
+		#{marketStatus},
+		#{mainProduct},
+		#{parentNo},
+		#{parentName},
+		#{countryArearegister},
+		#{registerAdrss},
+		#{manageAdress},
+		#{adminManage},
+		#{account},
+		#{budget},
+		#{finance},
+		#{accountPNo},
+		#{budgetPNo},
+		#{financePNo},
+		#{costPNo},
+		#{gainPNo},
+		#{isCost},
+		#{isGain},
+		#{legalRepresentative},
+		#{orgCode},
+		#{orgSts},
+		#{checkSts},
+		#{budgetSts},
+		#{financialSts},
+		#{costSts},
+		#{profitSts},
+		#{fBelongIndustry},
+		#{IsBottomGain},
+		#{IsBottomUnit},
+		#{BelongProfitCentre},
+		#{BelongFinancialOrgCost},
+		#{BelongFinancialOrgProfit},
+		#{AccountOrgName},
+		#{comparAdminNo},
+		#{uuid},
+		#{createDate}
+		)
+	</insert>
+	<update id="update">
+		UPDATE temp_org SET
+		code = #{orgNo},
+		orgname = #{name},
+		simplename = #{simpleName},
+		belongindustry = #{belongIndustry},
+		businessnature = #{businessNature},
+		businessstatus = #{businessStatus},
+		registertype = #{registerType},
+		marketstatus = #{marketStatus},
+		mainproduct = #{mainProduct},
+		parentno = #{parentNo},
+		parentname = #{parentName},
+		countryarearegister = #{countryArearegister},
+		registeradrss = #{registerAdrss},
+		manageadress = #{manageAdress},
+		adminmanage = #{adminManage},
+		account = #{account},
+		budget = #{budget},
+		finance = #{finance},
+		account_pno = #{accountPNo},
+		budget_pno = #{budgetPNo},
+		finance_pno = #{financePNo},
+		cost_pno = #{costPNo},
+		gain_pno = #{gainPNo},
+		is_cost = #{isCost},
+		is_gain = #{isGain},
+		legalrepresentative = #{legalRepresentative},
+		org_code = #{orgCode},
+		
+		org_sts = #{orgSts},
+		check_Sts = #{checkSts},
+		budget_Sts = #{budgetSts},
+		financial_Sts = #{financialSts},
+		cost_Sts = #{costSts},
+		profit_Sts = #{profitSts},
+		fbelong_industry = #{fBelongIndustry},
+		
+		Is_bottom_gain=#{IsBottomGain},
+		Is_bottom_unit=#{IsBottomUnit},
+		Belong_profit_centre=#{BelongProfitCentre},
+		Belong_Financial_org_cost=#{BelongFinancialOrgCost},
+		Belong_Financial_org_profit=#{BelongFinancialOrgProfit},
+		Account_org_name=#{AccountOrgName},
+		
+		compar_adminno=#{comparAdminNo},
+		
+		uuid = #{uuid},
+		
+		create_date = #{createDate}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM temp_org
+		WHERE id = #{id}
+	</update>
+	<update id="deleteTemp">
+		DELETE FROM temp_org
+		WHERE code = #{orgNo}
+	</update>
+
+</mapper>

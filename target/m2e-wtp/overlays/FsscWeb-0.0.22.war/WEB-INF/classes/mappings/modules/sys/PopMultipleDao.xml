@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.PopMultipleDao">
+
+	<sql id="popMultipleColumns">
+		a.id AS "id",
+		a.scene_id AS "sceneId",
+		a.scene_desc AS "sceneDesc",
+		a.col_name AS "colName",
+		a.sql AS "sql",
+		a.db_bean_rel AS "dbBeanRel",
+		a.dyn_or AS "dynOr",
+		a.dyn_and AS "dynAnd",
+		a.orderby AS "orderby",
+		a.if_checkbox AS "ifCheckbox"
+	</sql>
+	
+	<sql id="popMultipleJoins">
+	</sql>
+    
+	<select id="get" resultType="PopMultiple">
+		SELECT 
+			<include refid="popMultipleColumns"/>
+		FROM sys_pop_multiple a
+		<include refid="popMultipleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PopMultiple">
+		SELECT 
+			<include refid="popMultipleColumns"/>
+		FROM sys_pop_multiple a
+		<include refid="popMultipleJoins"/>
+		<where>
+			
+			<if test="sceneId != null and sceneId != ''">
+				AND a.scene_id = #{sceneId}
+			</if>
+			<if test="sceneDesc != null and sceneDesc != ''">
+				AND a.scene_desc = #{sceneDesc}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PopMultiple">
+		SELECT 
+			<include refid="popMultipleColumns"/>
+		FROM sys_pop_multiple a
+		<include refid="popMultipleJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="sys_pop_multiple_SEQ">sys_pop_multiple_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_pop_multiple(
+			id,
+			scene_id,
+			scene_desc,
+			col_name,
+			sql,
+			db_bean_rel,
+			dyn_or,
+			dyn_and,
+			orderby,
+			if_checkbox
+		) VALUES (
+		<include refid="sys_pop_multiple_SEQ"/>,
+			#{sceneId},
+			#{sceneDesc},
+			#{colName},
+			#{sql},
+			#{dbBeanRel},
+			#{dynOr},
+			#{dynAnd},
+			#{orderby},
+			#{ifCheckbox}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_pop_multiple SET 	
+			   scene_id = #{sceneId},
+			   scene_desc = #{sceneDesc},
+			   col_name = #{colName},
+			   sql = #{sql},
+			   db_bean_rel = #{dbBeanRel},
+			   dyn_or = #{dynOr},
+			   dyn_and = #{dynAnd},
+			   orderby = #{orderby},
+			   if_checkbox = #{ifCheckbox}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_pop_multiple
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getBySceneId" resultType="PopMultiple">
+		SELECT 
+			<include refid="popMultipleColumns"/>
+		FROM sys_pop_multiple a
+		<include refid="popMultipleJoins"/>
+		WHERE a.scene_id = #{sceneId}
+	</select>
+	
+	<select id="getObjList" resultType="java.util.HashMap">
+		${value}
+	</select>
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.LogDao">
+
+	<sql id="sysLogColumns">
+		a.id AS "id",
+		a.title AS "title",
+		a.pro_code AS
+		"proCode",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.remote_ip AS "remoteIp",
+		a.user_agent AS "userAgent",
+		a.request_uri AS
+		"requestUri",
+		a.operation AS "operation",
+		a.opt_param AS "optParam",
+		a.aft_data AS "aftData"
+	</sql>
+
+
+	<sql id="sysLogJoins">
+	</sql>
+	<select id="findList" resultType="Log">
+		SELECT
+		a.*,
+		u.id AS "createBy.id",
+		u.user_name AS "createBy.userName",
+		o.name AS "createBy.office.name"
+		FROM sys_log a
+		JOIN sys_user u ON u.id =
+		a.create_by
+		JOIN sys_org o
+		ON o.org_no = u.org_no
+		WHERE a.create_date
+		BETWEEN #{beginDate} AND
+		#{endDate}
+		<if test="title != null and title != ''">
+			AND a.title LIKE
+			<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+			<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>
+		</if>
+		<if test="createBy != null and createBy.id != null and createBy.id != ''">
+			AND a.create_by = #{createBy.id}
+		</if>
+		<if test="requestUri != null and requestUri != ''">
+			AND a.request_uri LIKE
+			<if test="dbName == 'oracle'">'%'||#{requestUri}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{requestUri}+'%'</if>
+			<if test="dbName == 'mysql'">CONCAT('%', #{requestUri}, '%')</if>
+		</if>
+		ORDER BY a.create_date DESC
+	</select>
+
+	<update id="update">
+		UPDATE sys_log SET
+		id = #{id},
+		title = #{title},
+		pro_code = #{proCode},
+		remote_ip = #{remoteIp},
+		user_agent
+		=#{userAgent},
+		request_uri = #{requestUri},
+		operation = #{operation},
+		opt_param = #{optParam},
+		aft_data = #{aftData}
+		opt_id=#{optId}
+		WHERE id = #{id}
+	</update>
+
+	<select id="get" resultType="Log">
+		SELECT
+		<include refid="sysLogColumns" />
+		FROM sys_log a
+		<include refid="sysLogJoins" />
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findListByOptId" resultType="Log">
+		SELECT
+		<include refid="sysLogColumns" />
+		FROM sys_log a
+		<include refid="sysLogJoins" />
+		WHERE a.opt_id = #{iptId}
+		ORDER BY a.create_date DESC
+	</select>
+	
+	
+	<sql id="sys_log_SEQ">sys_log_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO sys_log(
+		id,
+		title,
+		pro_code,
+		create_by,
+		create_date,
+		remote_ip,
+		user_agent,
+		request_uri,
+		operation,
+		opt_param,
+		aft_data,
+		opt_id
+		) VALUES (
+		<include refid="sys_log_SEQ"/>,
+		#{title},
+		#{proCode},
+		#{createBy.id},
+		#{createDate},
+		#{remoteIp},
+		#{userAgent},
+		#{requestUri},
+		#{operation},
+		#{optParam},
+		#{aftData},
+		#{optId}
+		)
+	</insert>
+
+</mapper>

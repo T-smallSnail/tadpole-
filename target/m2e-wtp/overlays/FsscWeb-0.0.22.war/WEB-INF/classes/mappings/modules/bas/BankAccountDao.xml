@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.BankAccountDao">
+    
+	<sql id="bankAccountColumns">
+		a.id AS "id",
+		a.customer_no AS "customerNo",
+		a.supplier_no AS "supplierNo",
+		a.account AS "account",
+		a.account_no AS "accountNo",
+		a.account_name AS "accountName",
+		a.account_unit AS "accountUnit",
+		a.money_type AS "moneyType",
+		a.bank_account AS "bankAccount",
+		a.bank_name AS "bankName",
+		a.country AS "country",
+		a.province AS "province",
+		a.bank_type AS "bankType",
+		a.account_property AS "accountProperty",
+		a.account_type AS "accountType",
+		a.account_nature AS "accountNature",
+		a.parent_account AS "parentAccount",
+		a.is_grentfd AS "isGrentfd",
+		a.account_status AS "accountStatus",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.user_no AS "userNo",
+		a.self_parent_account as "selfParentAccount",
+		a.isDirect AS "isDirect",
+		a.is_default AS "isDefault",
+		a.business_personnel_flag AS "businessPersonnelFlag",
+		a.city AS "city"
+	</sql>
+	
+	<sql id="bankAccountJoins">
+	</sql>
+	<select id="get" resultType="BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findByUserNo" resultType="BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE  a.del_flag=0 AND
+		a.user_no = #{userNo}
+		AND a.IS_DEFAULT='1'
+	</select>
+	<select id="findByUserNoOne" resultType="BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE  a.del_flag=0 AND
+		a.user_no = #{userNo}
+		AND a.IS_DEFAULT='1' AND rownum = 1
+	</select>
+	<select id="findAllBankListByUserNo" resultType="BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE  a.del_flag=0 AND
+		a.user_no = #{userNo}
+		ORDER BY a.is_default DESC
+	</select>
+	
+	
+	<select id="findCountDefaultAccountByUserNo" resultType="String" parameterType="String">
+		SELECT 
+      		a.id
+   		FROM bank_account a
+    	WHERE  a.del_flag=0 AND
+    	a.user_no = #{userNo} AND a.is_default ='1'
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM bank_account
+	</select>
+	<select id="findList" resultType="BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="accountNo != null and accountNo != ''">
+				AND a.account_no = #{accountNo}
+			</if>
+			<if test="accountName != null and accountName != ''">
+				AND a.account_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{accountName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{accountName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{accountName},'%')</if>
+			</if>
+			<if test="accountType != null and accountType != ''">
+				AND a.account_type = #{accountType}
+			</if>
+			<if test="supplierNo != null and supplierNo != ''">
+			    AND a.supplier_no = #{supplierNo}
+			</if>
+			<if test="customerNo != null and customerNo != ''">
+			    AND a.customer_no = #{customerNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="bank_account_SEQ">bank_account_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT bank_account_SEQ.NEXTVAL FROM DUAL
+		</selectKey> 
+		INSERT INTO bank_account(
+			id,
+			customer_no,
+			supplier_no,
+			account,
+			account_no,
+			account_name,
+			account_unit,
+			money_type,
+			bank_account,
+			bank_name,
+			country,
+			province,
+			bank_type,
+			account_property,
+			account_type,
+			account_nature,
+			parent_account,
+			is_grentfd,
+			account_status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			user_no,
+			isDirect,
+			is_default,
+			city,
+			business_personnel_flag
+		) VALUES (
+			#{id},
+			#{customerNo},
+			#{supplierNo},
+			#{account},
+			#{accountNo},
+			#{accountName},
+			#{accountUnit},
+			#{moneyType},
+			#{bankAccount},
+			#{bankName},
+			#{country},
+			#{province},
+			#{bankType},
+			#{accountProperty},
+			#{accountType},
+			#{accountNature},
+			#{parentAccount},
+			#{isGrentfd},
+			#{accountStatus},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{userNo},
+			#{isDirect},
+			#{isDefault},
+			#{city},
+			#{businessPersonnelFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bank_account SET 	
+			   customer_no = #{customerNo},
+			   supplier_no = #{supplierNo},
+			   account = #{account},
+			   account_no = #{accountNo},
+			   account_name = #{accountName},
+			   account_unit = #{accountUnit},
+			   money_type = #{moneyType},
+			   bank_account = #{bankAccount},
+			   bank_name = #{bankName},
+			   country = #{country},
+			   province = #{province},
+			   bank_type = #{bankType},
+			   account_property = #{accountProperty},
+			   account_type = #{accountType},
+			   account_nature = #{accountNature},
+			   parent_account = #{parentAccount},
+			   is_grentfd = #{isGrentfd},
+			   account_status = #{accountStatus},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   remarks = #{remarks},
+			   user_no=#{userNo},
+			   isDirect=#{isDirect},
+			   is_default=#{isDefault},
+			   city=#{city},
+			   business_personnel_flag=#{businessPersonnelFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE bank_account SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.bas.entity.BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE a.account = #{account}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE bank_account SET 
+			   account = #{account},
+			   account_no = #{accountNo},
+			   account_name = #{accountName},
+			   account_unit = #{accountUnit},
+			   money_type = #{moneyType},
+			   bank_account = #{bankAccount},
+			   bank_name = #{bankName},
+			   country = #{country},
+			   province = #{province},
+			   bank_type = #{bankType},
+			   account_property = #{accountProperty},
+			   account_type = #{accountType},
+			   account_nature = #{accountNature},
+			   parent_account = #{parentAccount},
+			   is_grentfd = #{isGrentfd},
+			   account_status = #{accountStatus},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   isDirect=#{isDirect},
+			   business_personnel_flag=#{businessPersonnelFlag}
+		WHERE account = #{account}
+	</update>
+	<select id="findWhenCustomer" resultType="com.thinkgem.jeesite.modules.bas.entity.BankAccount">
+		SELECT 
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE a.account_no = #{accountNo} AND (a.customer_no is null or a.customer_no='')
+	</select>
+	
+	<select id="findWhenSupplier" resultType="com.thinkgem.jeesite.modules.bas.entity.BankAccount">
+		SELECT
+			<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE a.account_no = #{accountNo} AND (a.supplier_no is null or a.supplier_no='')
+	</select>
+    <!--通过银行账号查询-->
+	<select id="findByAccountNo" resultType="com.thinkgem.jeesite.modules.bas.entity.BankAccount" >
+		SELECT
+		<include refid="bankAccountColumns"/>
+		FROM bank_account a
+		<include refid="bankAccountJoins"/>
+		WHERE
+		(a.account_status = 'N' or a.account_status = 'A' or a.account_status = 'P' or a.account_status = 'S' or a.account_status = 'E')
+			and a.del_flag = 0
+			and a.account_no = #{accountNo}
+			and a.account is not null
+	</select>
+	<update id="updateByAccountAndCustomer">
+		UPDATE bank_account a SET 	
+			   customer_no = #{customerNo} 
+		WHERE a.account_no = #{accountNo} AND (a.customer_no is null or a.customer_no='')
+	</update>
+	<update id="updateByAccountAndSupplier">
+		UPDATE bank_account a SET 	
+			   supplier_no = #{supplierNo},
+			   bank_name = #{bankName},
+			   bank_account = #{bankAccount}
+		WHERE a.account_no = #{accountNo} AND (a.supplier_no is null or a.supplier_no='')
+	</update>
+	
+	<delete id="deleteBySupplierNo">
+		delete from bank_account 	
+		WHERE supplier_no = #{supplierNo}
+	</delete>
+	<delete id="deleteByCustomerNo">
+		delete from bank_account 	
+		WHERE customer_no = #{customerNo}
+	</delete>
+	
+	<select id="getBankAccountByPayee" resultType="com.thinkgem.jeesite.modules.bas.entity.BankAccount">
+		<if test="accountType == 1">
+			select 
+				e.emp_name as "parentAccount",
+		    	e.emp_no   as "supplierNo",
+		    	b.account_no  as "accountNo",
+		    	b.account_name as "accountName",
+		    	b.bank_name   as "bankName"
+			from sys_employee e
+				left join bank_account b
+				on b.user_no = e.emp_no
+			where 1 = 1
+			 and b.account_no is not null
+			 and b.del_flag=0
+ 			 and (b.account_status = 'N' or b.account_status is null)
+			   <if test="customerNo!=null and customerNo!=''">
+			   AND b.user_no = #{customerNo}
+			   </if>
+			   <if test="accountNature!=null and accountNature!=''">
+			    AND e.emp_no=#{accountNature}
+			   </if>
+				<if test="null != parentAccount and parentAccount != ''">
+					AND e.emp_name like '%'||#{parentAccount}||'%'
+				</if>
+				 <if test="supplierNo!=null and supplierNo!=''">
+				   AND e.emp_no = #{supplierNo}
+				  </if>
+				 <!-- <if test="moneyType!=null and moneyType!=''">
+                 	AND e.org_no=#{moneyType}
+				</if> -->
+		</if>
+		<if test="accountType==2">
+			select 
+					a.customer_name as "parentAccount",
+			    	a.customer_no  as "supplierNo",
+			    	b.account_no  as "accountNo",
+			    	b.account_name as "accountName",
+			    	b.bank_name  as "bankName"
+				from customer_info a
+					left join bank_account b
+					on b.customer_no = a.customer_no
+				where 1 = 1
+			        and b.del_flag=0
+					and (b.account_status = 'N' or b.account_status is null)
+				    <if test="accountNature!=null and accountNature!=''">
+			           AND a.customer_no=#{accountNature}
+			        </if>
+					<if test="null != parentAccount and parentAccount != ''">
+						AND a.customer_name like '%'||#{parentAccount}||'%'
+					</if>
+					<!-- <if test="moneyType!=null and moneyType!=''">
+                 	   AND a.org_no=#{moneyType}
+				    </if> -->
+		</if>
+		<if test="accountType == 3">
+		  <if test="accountStatus==null or accountStatus==''">
+			select 
+			   a.supplier_name as "parentAccount",
+		       a.supplier_no as "supplierNo",
+		       b.account_no as "accountNo",
+		       b.account_name as "accountName",
+		       b.bank_name as "bankName"
+			from supplier_info a
+			left join bank_account b
+				on b.supplier_no = a.supplier_no
+			where  a.supplier_type='0'
+			       and b.del_flag=0
+			 	   and (b.account_status = 'N' or b.account_status is null)
+			   <if test="accountNature!=null and accountNature!=''">
+			           AND a.supplier_no=#{accountNature}
+			    </if> 
+				<if test="null != parentAccount and parentAccount != ''">
+					AND a.supplier_name like '%'||#{parentAccount}||'%'
+				</if>
+			
+				
+			order by supplier_name
+			</if>
+		</if>
+		<if test="accountType == 4">
+		<if test="accountStatus==null or accountStatus==''">
+		  select 
+			   a.supplier_name as parentAccount,
+		       a.supplier_no as supplierNo,
+		       b.account_no as accountNo,
+		       b.account_name accountName,
+		       b.bank_name as bankName
+			from supplier_info a
+			left join bank_account b
+				on (a.org_no = b.account_unit or b.supplier_no = a.supplier_no)
+			where 1=1 
+				AND a.supplier_type='1'
+			    and b.del_flag=0
+				and (b.account_status = 'N' or b.account_status is null)
+				<if test="accountNature!=null and accountNature!=''">
+			           AND a.supplier_no=#{accountNature}
+			    </if>
+				<if test="null != parentAccount and parentAccount != ''">
+					   AND a.supplier_name like '%'||#{parentAccount}||'%'
+				</if>
+/*
+			order by a.supplier_name*/
+			</if>
+		</if>
+		<if test="accountType ==3 and accountStatus!=null and accountStatus!=''">
+			select 
+			c.party_name as parentAccount,
+			c.party_code as supplierNo,
+			c.PARTY_BANK_NAME as accountName,
+			c.bank_account as accountNo,
+			c.bank_name as bankName
+			 from  rmbs_contract_party c 
+			 where c.party_type=Lower('OPP')
+			 and c.contract_num=#{accountStatus}
+			  and c.OPPTYPE='外部'
+			  <if test="accountNature!=null and accountNature!=''">
+			           AND c.party_code=#{accountNature}
+			    </if>
+			 <if test="null != parentAccount and parentAccount != ''">
+			 and c.party_name like '%'||#{parentAccount}||'%'
+			 </if>
+		</if>
+		<if test="accountType ==4 and accountStatus!=null and accountStatus!=''">
+			select 
+			c.party_name as parentAccount,
+			c.party_code as supplierNo,
+			c.PARTY_BANK_NAME as accountName,
+			c.bank_account as accountNo,
+			c.bank_name as bankName
+			 from  rmbs_contract_party c 
+			 where c.party_type=Lower('OPP')
+			 and c.contract_num=#{accountStatus}
+			 and c.OPPTYPE='内部'
+			 <if test="accountNature!=null and accountNature!=''">
+			       AND c.party_code=#{accountNature}
+			   </if>
+			 <if test="null != parentAccount and parentAccount != ''">
+			 and c.party_name like '%'||#{parentAccount}||'%'
+			 </if>
+		</if>
+	</select>
+
+	<select id="getBankAccountByCurrentUnit" resultType="com.thinkgem.jeesite.modules.bas.entity.BankAccount">
+		<if test="null != customerNo and customerNo != '' and accountType == 1">
+			select
+			a.user_name as parentAccount,
+			a.user_no   as supplierNo
+			from sys_user a
+			left join bank_account b
+			on b.user_no = a.user_no
+			where 1 = 1
+			AND b.user_no = #{customerNo}
+			<if test="null != parentAccount and parentAccount != ''">
+				AND a.user_name like '%'||#{parentAccount}||'%'
+			</if>
+		</if>
+		<if test="accountType == 2">
+			select
+			a.supplier_name as parentAccount,
+			a.supplier_no as supplierNo
+			from supplier_info a
+			left join bank_account b
+			on b.supplier_no = a.supplier_no
+			where 1=1
+			AND b.bank_name !='0'
+			<if test="null != parentAccount and parentAccount != ''">
+				AND a.supplier_name like '%'||#{parentAccount}||'%'
+			</if>
+			order by supplier_name
+		</if>
+	</select>
+	
+		<!-- 省市联动 -->
+	<!-- 获取所有省份 -->
+	<select id="selectProvince" resultType="BankAccount">
+   		   select province from bank_account where province is not null GROUP BY province
+  	</select>
+  	
+  	<!-- 根据省份获取所有市 -->
+	<select id="selectCity" resultType="BankAccount" parameterType="String">
+   		   select city from bank_account where  province=#{_parameter}  and city is not null GROUP BY city
+  	</select>
+
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bas.dao.BudgetSubDao">
+    
+	<sql id="budgetSubColumns">
+		a.id AS "id",
+		a.budget_no AS "budgetNo",
+		a.budget_name AS "budgetName",
+		a.is_used AS "isUsed",
+		a.budget_level AS "budgetLevel",
+		a.parent_no AS "parentNo",
+		a.parent_name AS "parentName",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.ref_id AS "refId"
+	</sql>
+	
+	<sql id="budgetSubJoins">
+	</sql>
+	<select id="get" resultType="BudgetSub">
+		SELECT 
+			<include refid="budgetSubColumns"/>
+		FROM budget_sub a
+		<include refid="budgetSubJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findNum" resultType="int">
+		SELECT COUNT(*) FROM budget_sub
+	</select>
+	<select id="findList" resultType="BudgetSub">
+		SELECT 
+			<include refid="budgetSubColumns"/>
+		FROM budget_sub a
+		<include refid="budgetSubJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="budgetNo != null and budgetNo != ''">
+				AND a.budget_no  like '%'||#{budgetNo}||'%' 
+			</if>
+			<if test="budgetName != null and budgetName != ''">
+				AND a.budget_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{budgetName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{budgetName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{budgetName},'%')</if>
+			</if>
+			<if test="budgetLevel != null and budgetLevel != ''">
+				AND a.budget_level = #{budgetLevel}
+			</if>
+			<if test="isUsed != null and isUsed != ''">
+				AND a.IS_USED = #{isUsed}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BudgetSub">
+		SELECT 
+			<include refid="budgetSubColumns"/>
+		FROM budget_sub a
+		<include refid="budgetSubJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="budget_sub_SEQ">budget_sub_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		<selectKey resultType="String" order="BEFORE" keyProperty="id">
+			SELECT budget_sub_SEQ.NEXTVAL FROM DUAL
+		</selectKey> 
+		INSERT INTO budget_sub(
+			id,
+			budget_no,
+			budget_name,
+			is_used,
+			budget_level,
+			parent_no,
+			parent_name,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			ref_id
+		) VALUES (
+			#{id},
+			#{budgetNo},
+			#{budgetName},
+			#{isUsed},
+			#{budgetLevel},
+			#{parentNo},
+			#{parentName},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{refId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE budget_sub SET 	
+			   budget_no = #{budgetNo},
+			   budget_name = #{budgetName},
+			   is_used = #{isUsed},
+			   budget_level = #{budgetLevel},
+			   parent_no = #{parentNo},
+			   parent_name = #{parentName},
+			   remarks = #{remarks},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   ref_id = #{refId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE budget_sub SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findByCode" resultType="com.thinkgem.jeesite.modules.bas.entity.BudgetSub">
+		SELECT 
+			<include refid="budgetSubColumns"/>
+		FROM budget_sub a
+		<include refid="budgetSubJoins"/>
+		WHERE a.budget_no = #{budgetNo}
+	</select>
+	
+	<update id="updateMDM">
+		UPDATE budget_sub SET 	
+			   budget_no = #{budgetNo},
+			   budget_name = #{budgetName},
+			   is_used = #{isUsed},
+			   budget_level = #{budgetLevel},
+			   parent_no = #{parentNo},
+			   parent_name = #{parentName},
+			   remarks = #{remarks},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate} 
+		WHERE budget_no = #{budgetNo}
+	</update>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.WebServiceLogDao">
+
+    <select id="getLogByReqId" resultType="WebServiceLog">
+            SELECT *
+            FROM SYS_WEB_LOG swl
+            WHERE swl.REQID = #{reqId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO SYS_WEB_LOG(
+          id,
+          log_date,
+          reqId,
+          rev_content,
+          req_content,
+          create_by,
+		  create_date,
+		  update_by,
+		  update_date,
+		  remarks,
+		  del_flag
+		) VALUES (
+		  #{id},
+		  #{log_date},
+          #{reqId},
+          #{rev_content},
+          #{sed_content},
+		  'system',
+		  #{createDate},
+		  'system',
+		  #{updateDate},
+		  #{remarks},
+		  #{delFlag}
+		)
+    </insert>
+
+    <update id="update">
+        UPDATE SYS_WEB_LOG
+        SET
+        rev_content = #{rev_content}
+        WHERE
+        reqId = #{reqId}
+    </update>
+
+</mapper>

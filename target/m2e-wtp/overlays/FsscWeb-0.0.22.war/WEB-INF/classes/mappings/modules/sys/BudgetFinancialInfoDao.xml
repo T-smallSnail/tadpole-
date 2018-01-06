@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.BudgetFinancialInfoDao">
+    
+	<sql id="budgetFinancialInfoColumns">
+		a.id AS "id",
+		a.financial_no AS "financialNo",
+		a.budget_no AS "budgetNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.budget_name AS "budgetName"
+	</sql>
+	
+	<sql id="budgetFinancialInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="BudgetFinancialInfo">
+		SELECT 
+			<include refid="budgetFinancialInfoColumns"/>
+		FROM budget_financial_info a
+		<include refid="budgetFinancialInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BudgetFinancialInfo">
+		SELECT 
+			<include refid="budgetFinancialInfoColumns"/>
+		FROM budget_financial_info a
+		<include refid="budgetFinancialInfoJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BudgetFinancialInfo">
+		SELECT 
+			<include refid="budgetFinancialInfoColumns"/>
+		FROM budget_financial_info a
+		<include refid="budgetFinancialInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<sql id="budget_financial_info_SEQ">budget_financial_info_SEQ.NEXTVAL</sql>
+	<insert id="insert">
+		INSERT INTO budget_financial_info(
+			id,
+			financial_no,
+			budget_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			budget_name
+		) VALUES (
+		<include refid="budget_financial_info_SEQ"/>,
+			#{financialNo},
+			#{budgetNo},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{budgetName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE budget_financial_info SET 	
+			   financial_no = #{financialNo},
+			   budget_no = #{budgetNo},
+			   update_by = #{updateBy.id},
+			   update_date = #{updateDate},
+			   budget_name = #{budgetName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM budget_financial_info
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByBudgetCode">
+		DELETE FROM budget_financial_info
+		WHERE budget_no = #{budgetNo}
+	</update>
+	
+</mapper>
